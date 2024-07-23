@@ -21,7 +21,6 @@ public class Window {
     private long glfwWindow;
     private static Window window = null;
 
-    //private static int currentSceneIndex = -1;
     private static Scene currentScene = null;
 
     public float r, g, b, a;
@@ -80,12 +79,13 @@ public class Window {
     public void loop() {
         float startTime = Time.getTime();
         float endTime;
-        float dt = -0.1f;
+        float dt = -1.0f;
 
         while (!glfwWindowShouldClose(glfwWindow)) {
             glfwPollEvents();
-            //glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+            glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
+
 
             if (dt >= 0) { currentScene.update(dt); }
 
