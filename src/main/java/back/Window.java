@@ -25,10 +25,14 @@ public class Window {
 
     public float r, g, b, a;
 
+
+
     private Window() {
-        width = 640;
-        height = 480;
+        width = 1280 ;
+        height = 800 ;
         title = "Test";
+        g = 0.1f;
+        a = 1.0f;
     }
     public static Window get(){
         if (Window.window == null){
@@ -54,6 +58,7 @@ public class Window {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
         glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         //glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
@@ -102,11 +107,12 @@ public class Window {
         switch (newScene) {
             case 0:
                 currentScene = new MenuScene();
-                //currentScene.
+                currentScene.init();
                 break;
 
             case 1:
                 currentScene = new MazeScene();
+                currentScene.init();
                 break;
 
             default:
