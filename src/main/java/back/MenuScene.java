@@ -22,21 +22,17 @@ public class MenuScene extends Scene{
     }
 
     private float[] vertexArray = {
-            0.5f, -0.5f, 0.0f,
-            1.0f, 0.0f, 0.0f, 1.0f,
+            0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f, 1.0f,
 
-            -0.5f, 0.5f, 0.0f,
-            0.0f, 1.0f, 0.0f, 1.0f,
+            -0.5f, 0.5f, 0.0f,     0.0f, 1.0f, 0.0f, 1.0f,
 
-            0.5f, 0.5f, 0.0f,
-            0.0f, 0.0f, 1.0f, 1.0f,
+            0.5f, 0.5f, 0.0f,      0.0f, 0.0f, 1.0f, 1.0f,
 
-            -0.5f, -0.5f, 0.0f,
-            1.0f, 1.0f, 0.0f, 1.0f
+            -0.5f, -0.5f, 0.0f,    1.0f, 1.0f, 0.0f, 1.0f
     };
     private int[] elementArray = {
-            0, 1, 3,  // First Triangle
-            1, 2, 3   // Second Triangle
+            2, 1, 0,  // First Triangle
+            0, 1, 3   // Second Triangle
     };
 //    private int height = 480;
 //    private int width = 640;

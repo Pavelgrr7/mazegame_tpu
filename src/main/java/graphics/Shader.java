@@ -44,13 +44,14 @@ public class Shader {
             e.printStackTrace();
             assert false : "Could not open file for shader";
         }
-        System.out.println(vertexSource);
-        System.out.println(fragmentSource);
+//        System.out.println(vertexSource);
+//        System.out.println(fragmentSource);
 
     }
 
     public void complie() {
         int vertexID, fragmentID;
+
         vertexID = glCreateShader(GL_VERTEX_SHADER); //LOAD and compile shader
         glShaderSource(vertexID, vertexSource);
         glCompileShader(vertexID);
