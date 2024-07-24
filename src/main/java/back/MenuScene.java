@@ -61,7 +61,7 @@ public class MenuScene extends Scene{
         glBindVertexArray(vaoID);
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.length);
         vertexBuffer.put(vertexArray).flip();
-
+//
 
         vboID = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
