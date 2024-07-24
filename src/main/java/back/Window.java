@@ -28,7 +28,7 @@ public class Window {
 
 
     private Window() {
-        width = 1280 ;
+        width = 1400 ;
         height = 800 ;
         title = "Test";
         g = 0.1f;
