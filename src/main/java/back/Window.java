@@ -31,8 +31,10 @@ public class Window {
         width = 1400 ;
         height = 800 ;
         title = "Test";
-        g = 0.1f;
-        a = 1.0f;
+        r = 1;
+        g = 1;
+        b = 1;
+        a = 1;
     }
     public static Window get(){
         if (Window.window == null){
@@ -82,6 +84,8 @@ public class Window {
 
         glfwShowWindow(glfwWindow);
         GL.createCapabilities();
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
         Window.changeScene(0);
     }
