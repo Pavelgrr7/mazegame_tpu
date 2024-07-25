@@ -6,7 +6,6 @@ import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 
 import java.io.IOException;
-import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -59,7 +58,7 @@ public class Shader {
 
     }
 
-    public void complie() {
+    public void compile() {
         int vertexID, fragmentID;
 
         vertexID = glCreateShader(GL_VERTEX_SHADER); //LOAD and compile shader
@@ -164,5 +163,11 @@ public class Shader {
         int varLocation = glGetUniformLocation(shaderProgramId, varName);
         use();
         glUniform1i(varLocation, val);
+    }
+
+    public void uploadTexture(String varName, int slot) {
+        int varLocation = glGetUniformLocation(shaderProgramId, varName);
+        use();
+        glUniform1i(varLocation, slot);
     }
 }
