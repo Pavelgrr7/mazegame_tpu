@@ -3,6 +3,7 @@ package graphics;
 import back.Window;
 import components.SpriteRenderer;
 import org.joml.Vector4f;
+import util.AssetPool;
 
 import java.util.Vector;
 
@@ -24,18 +25,18 @@ public class RenderBatch {
     private final int VERTEX_SIZE = 6;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
-    private final SpriteRenderer[] sprites;
+    private SpriteRenderer[] sprites;
     private int numberSprites;
     private boolean hasRoom;
-    private final float[] vertices;
+    private float[] vertices;
 
     private int vaoID, vboID;
-    private final int maxBatchSize;
-    private final Shader shader;
+    private int maxBatchSize;
+    private Shader shader;
 
     public RenderBatch(int maxBatchSize) {
-        shader = new Shader("assets/shaders/default.glsl");
-        shader.compile();
+//        System.out.println("Creating new render batch");
+        shader = AssetPool.getShader("assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
 
@@ -52,7 +53,8 @@ public class RenderBatch {
         // allocate space for the vertices
         vboID = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
-        glBufferData(GL_ARRAY_BUFFER, (long) vertices.length * Float.BYTES, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertices.length *
+                Float.BYTES, GL_DYNAMIC_DRAW);
         int eboID = glGenBuffers();
         int[] indices = generateIndices();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID);

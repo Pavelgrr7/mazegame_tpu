@@ -17,7 +17,7 @@ public class SpriteRenderer extends Component {
 
     @Override
     public void start() {
-        System.out.println("Starting gameobjs");
+//        System.out.println("Starting gameobjs");
     }
 
     @Override

@@ -10,6 +10,8 @@ public class Renderer {
     private final int MAX_BATCH_SIZE = 1000;
     private List<RenderBatch> batches;
 
+
+
     public Renderer() {
         this.batches = new ArrayList<>();
     }
