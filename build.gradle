@@ -11,6 +11,9 @@ repositories {
 }
 
 dependencies {
+
+    implementation fileTree('libs') { include '*.jar'}
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
@@ -26,6 +29,7 @@ project.ext.lwjglNatives = "natives-windows"
 
 dependencies {
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+    implementation "io.github.spair:imgui-java-app:${version}"
 
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-assimp"

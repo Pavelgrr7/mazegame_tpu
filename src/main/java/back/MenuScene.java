@@ -30,16 +30,23 @@ public class MenuScene extends Scene {
         obj1 = new GameObject("Obj - 1",
                 new Transform(
                         new Vector2f(100, 100),
-                        new Vector2f(64, 64))
+                        new Vector2f(100, 100)),
+                0
         );
-        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
+        //obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
+        obj1.addComponent(new SpriteRenderer(new Sprite(
+                AssetPool.getTexture("assets/images/col1.png")
+        )));
         this.addGameObjectToScene(obj1);
         GameObject obj2 = new GameObject("Obj - 2",
                 new Transform(
-                        new Vector2f(400, 100),
-                        new Vector2f(64, 64))
+                        new Vector2f(140, 100),
+                        new Vector2f(150, 150)),
+                -1
         );
-        obj2.addComponent(new SpriteRenderer(sprites.getSprite(1)));
+        obj2.addComponent(new SpriteRenderer(new Sprite(
+                AssetPool.getTexture("assets/images/col2.png")
+        )));
         this.addGameObjectToScene(obj2);
     }
 
@@ -52,23 +59,23 @@ public class MenuScene extends Scene {
         );
     }
 
-    private int spriteIndex = 0;
-    private float spriteFlipTime = 0.2f;
-    private float spriteFlipTimeLeft = 0.0f;
+//    private int spriteIndex = 0;
+//    private float spriteFlipTime = 0.2f;
+//    private float spriteFlipTimeLeft = 0.0f;
     @Override
     public void update(float dt) {
         //obj1.transform.position.x += 10 * dt;
         System.out.println("FPS: " + 1.0f / dt);
-        spriteFlipTimeLeft -= dt;
-        if (spriteFlipTimeLeft <= 0) {
-            spriteFlipTimeLeft = spriteFlipTime;
-            spriteIndex++;
-            if (spriteIndex > 4) {
-                spriteIndex = 0;
-            }
-            obj1.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
-
-        }
+//        spriteFlipTimeLeft -= dt;
+//        if (spriteFlipTimeLeft <= 0) {
+//            spriteFlipTimeLeft = spriteFlipTime;
+//            spriteIndex++;
+//            if (spriteIndex > 4) {
+//                spriteIndex = 0;
+//            }
+//            obj1.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
+//
+//        }
 
         for (GameObject go : this.gameObjects) {
             go.update(dt);
