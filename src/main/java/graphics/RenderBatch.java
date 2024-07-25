@@ -68,6 +68,32 @@ public class RenderBatch {
         glEnableVertexAttribArray(1);
     }
 
+    private int[] generateIndices() {
+        // 6 indices for quad
+        int[] elements = new int[6 * maxBatchSize];
+        for (int i = 0; i < maxBatchSize; i++) {
+            loadElementIndices(elements, i);
+        }
+
+        return elements;
+    }
+
+
+    private void loadElementIndices(int[] elements, int index) {
+        int offsetArrayIndex = 6 * index;
+        int offset = 4 * index;
+
+        //Trinagle 1
+        elements[offsetArrayIndex] = offset + 3;
+        elements[offsetArrayIndex + 1] = offset + 2;
+        elements[offsetArrayIndex + 2] = offset + 0;
+
+        //Trinagle 2
+        elements[offsetArrayIndex + 3] = offset + 0;
+        elements[offsetArrayIndex + 4] = offset + 2;
+        elements[offsetArrayIndex + 5] = offset + 1;
+    }
+
     public void render() {
         // rebuffer all data every frame
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
@@ -76,8 +102,12 @@ public class RenderBatch {
         // use shader
 
         shader.use();
-        shader.uploadMat4f("uProjection", Window.getScene().camera().getProjectionMatrix());
-        shader.uploadMat4f("uView", Window.getScene().camera().getViewMatrix());
+        shader.uploadMat4f("uProjection",
+                Window.getScene().camera().getProjectionMatrix()
+        );
+        shader.uploadMat4f("uView",
+                Window.getScene().camera().getViewMatrix()
+        );
 
         glBindVertexArray(vaoID);
         glEnableVertexAttribArray(0);
@@ -91,7 +121,7 @@ public class RenderBatch {
     }
 
     public void addSprite(SpriteRenderer spr) {
-        // index
+        // index + add render object
         int index = this.numberSprites;
         this.sprites[index] = spr;
         this.numberSprites++;
@@ -120,9 +150,9 @@ public class RenderBatch {
             }
 
             vertices[offset] = sprite.gameObject.transform.position.x
-                    + (xAdd) + sprite.gameObject.transform.scale.x;
+                    + (xAdd * sprite.gameObject.transform.scale.x);
             vertices[offset + 1] = sprite.gameObject.transform.position.y
-                    + (yAdd) + sprite.gameObject.transform.scale.y;
+                    + (yAdd * sprite.gameObject.transform.scale.y);
 
             vertices[offset + 2] = color.x;
             vertices[offset + 3] = color.y;
@@ -137,28 +167,5 @@ public class RenderBatch {
         return this.hasRoom;
     }
 
-
-    private int[] generateIndices() {
-        // 6 indices for quad
-        int[] elements = new int[6 * maxBatchSize];
-        for (int i = 0; i < maxBatchSize; i++) {
-            loadElementIndices(elements, i);
-        }
-
-        return elements;
-    }
-
-    private void loadElementIndices(int[] elements, int index) {
-        int offsetArrayIndex = 6 * index;
-        int offset = 4 * index;
-
-        elements[offsetArrayIndex] = offset + 3;
-        elements[offsetArrayIndex + 1] = offset + 2;
-        elements[offsetArrayIndex + 2] = offset + 0;
-
-        elements[offsetArrayIndex + 3] = offset + 0;
-        elements[offsetArrayIndex + 4] = offset + 1;
-        elements[offsetArrayIndex + 5] = offset + 1;
-    }
 
 }

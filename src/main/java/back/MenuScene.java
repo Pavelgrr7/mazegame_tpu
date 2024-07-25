@@ -30,7 +30,7 @@ public class MenuScene extends Scene{
                 float xPos = xOffset + (x * sizeX);
                 float yPos = yOffset + (y * sizeY);
 
-                GameObject go = new GameObject("ObjtEST" + x + " " + y,
+                GameObject go = new GameObject("Obj" + x + " " + y,
                         new Transform(
                                 new Vector2f(xPos, yPos),
                                 new Vector2f(sizeX, sizeY)
