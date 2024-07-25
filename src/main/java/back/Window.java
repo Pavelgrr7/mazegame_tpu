@@ -87,7 +87,7 @@ public class Window {
     }
 
     public void loop() {
-        float startTime = Time.getTime();
+        float startTime =(float)glfwGetTime();
         float endTime;
         float dt = -1.0f;
 
@@ -102,7 +102,7 @@ public class Window {
             if (KeyboardListener.isKeyPressed(GLFW_KEY_E)) {System.out.println("E IS PRESSED");}
             glfwSwapBuffers(glfwWindow);
 
-            endTime = Time.getTime();
+            endTime = (float)glfwGetTime();
             dt = endTime - startTime;
             startTime = endTime;
         }
