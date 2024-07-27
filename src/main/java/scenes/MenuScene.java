@@ -3,9 +3,11 @@ package scenes;
 
 import back.*;
 import components.*;
+import graphics.DebugDraw;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 import util.AssetPool;
 
@@ -62,12 +64,14 @@ public class MenuScene extends Scene {
                         16, 16, 9, 0));
         AssetPool.getTexture("assets/images/blend1.png");
     }
-
+    float x = 0.0f;
+    float y = 0.0f;
     @Override
     public void update(float dt) {
-        MouseListener.getOrthoX();
         levelEditorStuff.update(dt);
-
+        DebugDraw.addCircle(new Vector2f(x, y),64, new Vector3f(0, 1, 0), 1);
+        x += 50f * dt;
+        y += 50f * dt;
         for (GameObject go : this.gameObjects) {
             go.update(dt);
         }
