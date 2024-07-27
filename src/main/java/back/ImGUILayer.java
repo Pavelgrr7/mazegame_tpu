@@ -158,8 +158,8 @@ public class ImGUILayer {
 
 
         fontConfig.setPixelSnapH(true);
-        fontAtlas.addFontFromFileTTF("assets/fonts/times.ttf",
-                12, fontConfig
+        fontAtlas.addFontFromFileTTF("assets/fonts/HomeVideo.ttf",
+                16, fontConfig
         );
 
         fontConfig.destroy(); // After all fonts were added we don't need this config more

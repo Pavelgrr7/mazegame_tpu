@@ -13,7 +13,9 @@ public class Texture {
     private int textureID;
     private int width, height;
 
-    public Texture(String filepath) {
+    public Texture() {}
+
+    public void init(String filepath) {
         this.filepath = filepath;
 
         textureID = glGenTextures();
@@ -47,7 +49,6 @@ public class Texture {
 
         //free memory, as long as I sent img to the GPU
         stbi_image_free(image);
-
     }
 
     public void bind() {
