@@ -4,6 +4,7 @@ package back;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.SpriteSheet;
+import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import util.AssetPool;
@@ -19,7 +20,6 @@ public class MenuScene extends Scene {
 
         System.out.println("MenuScene");
     }
-
     @Override
     public void init() {
         loadResources();
@@ -59,13 +59,13 @@ public class MenuScene extends Scene {
         );
     }
 
-//    private int spriteIndex = 0;
+    //    private int spriteIndex = 0;
 //    private float spriteFlipTime = 0.2f;
 //    private float spriteFlipTimeLeft = 0.0f;
     @Override
     public void update(float dt) {
         //obj1.transform.position.x += 10 * dt;
-        System.out.println("FPS: " + 1.0f / dt);
+//        System.out.println("FPS: " + 1.0f / dt);
 //        spriteFlipTimeLeft -= dt;
 //        if (spriteFlipTimeLeft <= 0) {
 //            spriteFlipTimeLeft = spriteFlipTime;
@@ -81,5 +81,12 @@ public class MenuScene extends Scene {
             go.update(dt);
         }
         this.renderer.render();
+    }
+
+    @Override
+    public void imgui(){
+        ImGui.begin("Тест");
+        ImGui.text("bla bla");
+        ImGui.end();
     }
 }

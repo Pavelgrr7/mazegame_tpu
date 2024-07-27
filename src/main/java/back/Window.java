@@ -20,6 +20,7 @@ public class Window {
     private String title;
     private long glfwWindow;
     private static Window window = null;
+    private ImGUILayer imGUILayer;
 
     private static Scene currentScene = null;
 
@@ -45,6 +46,13 @@ public class Window {
 
     public static Scene getScene() {
         return get().currentScene;
+    }
+
+    public static float getWidth() {
+        return get().width;
+    }
+    public static float getHeight() {
+        return get().height;
     }
 
     public void run(){
@@ -78,16 +86,30 @@ public class Window {
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseBtnCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::scrollCallback);
         glfwSetKeyCallback(glfwWindow, KeyboardListener::keyCallBack);
+        glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) ->{
+            Window.setWidth(newWidth);
+            Window.setHeigth(newHeight);
+        });
 
         glfwMakeContextCurrent(glfwWindow);
         glfwSwapInterval(1); //v-sync
 
         glfwShowWindow(glfwWindow);
         GL.createCapabilities();
+        System.out.println("Debug #2");
+        this.imGUILayer = new ImGUILayer(glfwWindow);
+        this.imGUILayer.initImGui();
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
         Window.changeScene(0);
+    }
+
+    private static void setHeigth(int newHeight) {
+        get().height = newHeight;
+    }
+    private static void setWidth(int newWidth) {
+        get().width = newWidth;
     }
 
     public void loop() {
@@ -102,6 +124,7 @@ public class Window {
 
 
             if (dt >= 0) { currentScene.update(dt); }
+            this.imGUILayer.update(dt, currentScene);
 
             if (KeyboardListener.isKeyPressed(GLFW_KEY_E)) {System.out.println("E IS PRESSED");}
             glfwSwapBuffers(glfwWindow);
