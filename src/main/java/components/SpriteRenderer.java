@@ -1,14 +1,14 @@
 package components;
 
-import back.Component;
 import back.Transform;
 import graphics.Texture;
+import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 public class SpriteRenderer extends Component {
 
-    private Vector4f color = new Vector4f(1,1,1,1);
+    private Vector4f color = new Vector4f(1, 1, 1, 1);
     private Sprite sprite = new Sprite();
 
     private transient Transform lastTransform;
@@ -22,36 +22,42 @@ public class SpriteRenderer extends Component {
 //
 //    public SpriteRenderer(Sprite sprite) {
 //        this.sprite = sprite;
-//        this.color = new  Vector4f(1,1,1,1);
+//        this.color = new Vector4f(1, 1, 1, 1);
 //        this.isDirty = true;
 //    }
-
-
-    public Vector4f getColor() {
-        return this.color;
-    }
 
     @Override
     public void start() {
         this.lastTransform = gameObject.transform.copy();
-
     }
 
     @Override
     public void update(float dt) {
         if (!this.lastTransform.equals(this.gameObject.transform)) {
             this.gameObject.transform.copy(this.lastTransform);
-            this.isDirty = true;
-
+            isDirty = true;
         }
     }
 
-    public Texture getTexture(){
+    @Override
+    public void imgui() {
+        float[] imColor = {color.x, color.y, color.z, color.w};
+        if (ImGui.colorPicker4("Color Picker: ", imColor)) {
+            this.color.set(imColor[0], imColor[1], imColor[2], imColor[3]);
+            this.isDirty = true;
+        }
+    }
+
+    public Vector4f getColor() {
+        return this.color;
+    }
+
+    public Texture getTexture() {
         return sprite.getTexture();
     }
 
     public Vector2f[] getTexCords() {
-        return sprite.getCords();
+        return sprite.getTexCords();
     }
 
     public void setSprite(Sprite sprite) {
@@ -66,15 +72,13 @@ public class SpriteRenderer extends Component {
         }
     }
 
-    public boolean isDirty(){
+    public boolean isDirty() {
         return this.isDirty;
     }
-    public void setClean(){
+
+    public void setClean() {
         this.isDirty = false;
     }
 
-    public void imgui() {
-
-    }
 }
 

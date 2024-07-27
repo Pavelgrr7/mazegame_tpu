@@ -1,8 +1,13 @@
-package back;
+package scenes;
 
 
+import back.Camera;
+import components.ComponentDeserializer;
+import back.GameObject;
+import back.GameObjectDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import components.Component;
 import graphics.Renderer;
 import imgui.ImGui;
 import org.joml.Vector3f;
@@ -31,10 +36,8 @@ public abstract class Scene {
     }
 
     public void init() {
+
     }
-
-
-    public abstract void update(float dt);
 
     public void start() {
         for (GameObject go : gameObjects) {
@@ -54,6 +57,8 @@ public abstract class Scene {
         }
     }
 
+    public abstract void update(float dt);
+
     public Camera camera() {
         return this.camera;
     }
@@ -61,65 +66,15 @@ public abstract class Scene {
     public void sceneImgui() {
         if (activeGameObject != null) {
             ImGui.begin("Inspector");
-            activeGameObject.imGui();
+            activeGameObject.imgui();
             ImGui.end();
         }
+
         imgui();
     }
 
     public void imgui() {
-        try {
-            Field[] fields = this.getClass().getFields();
-            for (Field field : fields) {
-                boolean isTransient = Modifier.isTransient(field.getModifiers());
-                if (isTransient) continue;
-                boolean isPrivate = Modifier.isPrivate(field.getModifiers());
-                if (isPrivate) {
-                    field.setAccessible(true);
-                }
 
-                Class type = field.getType();
-                Object value = field.get(this);
-                String name = field.getName();
-
-                if (type == int.class) {
-                    int val = (int) value;
-                    int[] imInt = {val};
-                    if (ImGui.dragInt(name + ":", imInt)){
-                        field.set(this, imInt[0]);
-                    }
-                } else if (type == float.class) {
-                    float val = (float) value;
-                    float[] imFloat = {val};
-                    if (ImGui.dragFloat(name + ":", imFloat)){
-                        field.set(this, imFloat[0]);
-                    }
-                } else if (type == boolean.class) {
-                    boolean val = (boolean) value;
-                    if (ImGui.checkbox(name + ":", val)) {
-                        val = !val;
-                        field.set(this,val);
-                    }
-                } else if (type == Vector3f.class) {
-                    Vector3f val = (Vector3f) value;
-                    float[] imVec = {val.x, val.y, val.z};
-                    if (ImGui.dragFloat3(name + ":", imVec)) {
-                        val.set(imVec[0], imVec[1], imVec[2]);
-                    }
-                } else if (type == Vector4f.class) {
-                    Vector4f val = (Vector4f) value;
-                    float[] imVec = {val.x, val.y, val.z, val.w};
-                    if (ImGui.dragFloat4(name + ":", imVec)) {
-                        val.set(imVec[0], imVec[1], imVec[2], imVec[3]);
-                    }
-                }
-                if (isPrivate) {
-                    field.setAccessible(false);
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 
     public void saveExit() {
@@ -153,10 +108,26 @@ public abstract class Scene {
         }
 
         if (!inFile.equals("")) {
+            int maxGoId = -1;
+            int maxCompId = -1;
             GameObject[] objs = gson.fromJson(inFile, GameObject[].class);
             for (int i=0; i < objs.length; i++) {
                 addGameObjectToScene(objs[i]);
+
+                for (Component c : objs[i].getAllComponents()) {
+                    if (c.getUid() > maxCompId) {
+                        maxCompId = c.getUid();
+                    }
+                }
+                if (objs[i].getUid() > maxGoId) {
+                    maxGoId = objs[i].getUid();
+                }
             }
+
+            maxGoId++;
+            maxCompId++;
+            GameObject.init(maxGoId);
+            Component.init(maxCompId);
             this.loadedLevel = true;
         }
     }

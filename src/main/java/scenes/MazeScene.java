@@ -1,8 +1,8 @@
-package back;
+package scenes;
 
-import java.awt.event.KeyEvent;
+import back.Window;
 
-public class MazeScene extends Scene{
+public class MazeScene extends Scene {
 
 //    private boolean isSceneChanging = false;
 //    private float sceneChangeTime = 1.5f;

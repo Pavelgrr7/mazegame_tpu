@@ -4,18 +4,19 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 public class KeyboardListener {
-    private static KeyboardListener inst;
-    private boolean[] keyPressed = new boolean[180];
+    private static KeyboardListener instance;
+    private boolean keyPressed[] = new boolean[350];
 
     private KeyboardListener() {
 
     }
 
     public static KeyboardListener get() {
-        if (inst == null) {
-            inst = new KeyboardListener();
+        if (KeyboardListener.instance == null) {
+            KeyboardListener.instance = new KeyboardListener();
         }
-        return inst;
+
+        return KeyboardListener.instance;
     }
 
     public static void keyCallBack(long window, int key, int scancode, int action, int mods) {
@@ -27,8 +28,6 @@ public class KeyboardListener {
     }
 
     public static boolean isKeyPressed(int keyCode) {
-        if (keyCode < get().keyPressed.length) {
-            return get().keyPressed[keyCode];
-        } else { return false; }
+        return get().keyPressed[keyCode];
     }
 }

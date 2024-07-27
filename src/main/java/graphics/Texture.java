@@ -10,23 +10,27 @@ import static org.lwjgl.stb.STBImage.*;
 
 public class Texture {
     private String filepath;
-    private int textureID;
+    private int texID;
     private int width, height;
 
-    public Texture() {}
+//    public Texture(String filepath) {
+//
+//    }
 
     public void init(String filepath) {
         this.filepath = filepath;
 
-        textureID = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        // Generate texture on GPU
+        texID = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, texID);
 
-        // set params for texture
+        // Set texture parameters
+        // Repeat image in both directions
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        /* pixilization while stretching */
+        // When stretching the image, pixelate
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        // shrinking
+        // When shrinking an image, pixelate
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         IntBuffer width = BufferUtils.createIntBuffer(1);
@@ -38,34 +42,40 @@ public class Texture {
         if (image != null) {
             this.width = width.get(0);
             this.height = height.get(0);
+
             if (channels.get(0) == 3) {
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width.get(0), height.get(0),
                         0, GL_RGB, GL_UNSIGNED_BYTE, image);
             } else if (channels.get(0) == 4) {
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0), height.get(0),
                         0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-            } else { assert false : "Unknown channels type:" + channels.get(0); }
-        } else { assert false : "Could not get image from file" + filepath + ":("; }
+            } else {
+                assert false : "Error: (Texture) Unknown number of channesl '" + channels.get(0) + "'";
+            }
+        } else {
+            assert false : "Error: (Texture) Could not load image '" + filepath + "'";
+        }
 
-        //free memory, as long as I sent img to the GPU
         stbi_image_free(image);
     }
 
     public void bind() {
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        glBindTexture(GL_TEXTURE_2D, texID);
     }
 
     public void unbind() {
-        glBindTexture(GL_TEXTURE_2D,0);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     public int getWidth() {
         return this.width;
     }
+
     public int getHeight() {
         return this.height;
     }
+
     public int getId() {
-        return textureID;
+        return texID;
     }
 }

@@ -1,17 +1,13 @@
 package back;
 import imgui.*;
-//import imgui.callbacks.ImStrConsumer;
-//import imgui.callbacks.ImStrSupplier;
-//import imgui.enums.ImGuiBackendFlags;
-//import imgui.enums.ImGuiConfigFlags;
-//import imgui.enums.ImGuiKey;
-//import imgui.enums.ImGuiMouseCursor;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
 import imgui.gl3.ImGuiImplGl3;
+import scenes.Scene;
 
 import static org.lwjgl.glfw.GLFW.*;
+
 
 public class ImGUILayer {
 
@@ -37,9 +33,7 @@ public class ImGUILayer {
         // Initialize ImGuiIO config
         final ImGuiIO io = ImGui.getIO();
 
-        io.setIniFilename("gui.ini");
-        System.out.println("debug");
-//        io.setLogFilename("imgui.ini");// We don't want to save .ini file
+        io.setIniFilename("imgui.ini"); // We don't want to save .ini file
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
@@ -97,6 +91,10 @@ public class ImGUILayer {
             io.setKeyShift(io.getKeysDown(GLFW_KEY_LEFT_SHIFT) || io.getKeysDown(GLFW_KEY_RIGHT_SHIFT));
             io.setKeyAlt(io.getKeysDown(GLFW_KEY_LEFT_ALT) || io.getKeysDown(GLFW_KEY_RIGHT_ALT));
             io.setKeySuper(io.getKeysDown(GLFW_KEY_LEFT_SUPER) || io.getKeysDown(GLFW_KEY_RIGHT_SUPER));
+
+            if (!io.getWantCaptureKeyboard()) {
+                KeyboardListener.keyCallBack(w, key, scancode, action, mods);
+            }
         });
 
         glfwSetCharCallback(glfwWindow, (w, c) -> {
@@ -118,6 +116,10 @@ public class ImGUILayer {
 
             if (!io.getWantCaptureMouse() && mouseDown[1]) {
                 ImGui.setWindowFocus(null);
+            }
+
+            if (!io.getWantCaptureMouse()) {
+                MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
 
@@ -153,29 +155,22 @@ public class ImGUILayer {
         final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
 
         // Glyphs could be added per-font as well as per config used globally like here
-        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
-//        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
+        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
 
-
+        // Fonts merge example
         fontConfig.setPixelSnapH(true);
-        fontAtlas.addFontFromFileTTF("assets/fonts/HomeVideo.ttf",
-                16, fontConfig
-        );
+        fontAtlas.addFontFromFileTTF("assets/fonts/HomeVideo.ttf", 12, fontConfig);
 
         fontConfig.destroy(); // After all fonts were added we don't need this config more
 
         // ------------------------------------------------------------
         // Use freetype instead of stb_truetype to build a fonts texture
-        //ImGui.buildFontAtlas(fontAtlas, ImGuiFreeType.RasterizerFlags.LightHinting);
+        //ImGuiFreeType.buildFontAtlas(fontAtlas, ImGuiFreeType.RasterizerFlags.LightHinting);
 
         // Method initializes LWJGL3 renderer.
         // This method SHOULD be called after you've initialized your ImGui configuration (fonts and so on).
         // ImGui context should be created as well.
         imGuiGl3.init("#version 330 core");
-    }
-
-    private byte[] loadFromResources(String s) {
-        return null;
     }
 
     public void update(float dt, Scene currentScene) {
@@ -184,7 +179,7 @@ public class ImGUILayer {
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
         currentScene.sceneImgui();
-        ImGui.showDemoWindow();
+        //ImGui.showDemoWindow();
         ImGui.render();
 
         endFrame();
