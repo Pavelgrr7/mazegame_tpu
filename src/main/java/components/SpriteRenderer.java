@@ -1,6 +1,5 @@
 package components;
 
-import back.Component;
 import back.Transform;
 import graphics.Texture;
 import org.joml.Vector2f;

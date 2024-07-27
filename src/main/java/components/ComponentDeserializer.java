@@ -1,4 +1,4 @@
-package back;
+package components;
 
 import com.google.gson.*;
 
@@ -10,7 +10,7 @@ public class ComponentDeserializer implements JsonDeserializer<Component>, JsonS
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");
-        System.out.println("deserializing");
+        //System.out.println("deserializing");
         try {
             return context.deserialize(element, Class.forName(type));
         } catch (ClassNotFoundException e) {

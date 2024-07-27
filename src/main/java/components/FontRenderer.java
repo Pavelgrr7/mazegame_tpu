@@ -1,7 +1,5 @@
 package components;
 
-import back.Component;
-
 public class FontRenderer extends Component {
 
     public FontRenderer() {

@@ -10,6 +10,7 @@ import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
 import imgui.gl3.ImGuiImplGl3;
+import scenes.Scene;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -38,7 +39,7 @@ public class ImGUILayer {
         final ImGuiIO io = ImGui.getIO();
 
         io.setIniFilename("gui.ini");
-        System.out.println("debug");
+        //System.out.println("debug");
 //        io.setLogFilename("imgui.ini");// We don't want to save .ini file
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
@@ -159,7 +160,7 @@ public class ImGUILayer {
 
         fontConfig.setPixelSnapH(true);
         fontAtlas.addFontFromFileTTF("assets/fonts/HomeVideo.ttf",
-                16, fontConfig
+                12, fontConfig
         );
 
         fontConfig.destroy(); // After all fonts were added we don't need this config more

@@ -1,8 +1,13 @@
-package back;
+package scenes;
 
 
+import back.Camera;
+import back.GameObject;
+import back.GameObjectDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import components.Component;
+import components.ComponentDeserializer;
 import graphics.Renderer;
 import imgui.ImGui;
 import org.joml.Vector3f;

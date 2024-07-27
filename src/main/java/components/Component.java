@@ -1,4 +1,6 @@
-package back;
+package components;
+
+import back.GameObject;
 
 public abstract class Component {
 

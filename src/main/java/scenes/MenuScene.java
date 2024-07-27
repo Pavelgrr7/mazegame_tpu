@@ -1,8 +1,7 @@
-package back;
+package scenes;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import back.*;
 import components.Rigidbody;
 import components.Sprite;
 import components.SpriteRenderer;
@@ -12,8 +11,6 @@ import imgui.ImVec2;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import util.AssetPool;
-
-import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 public class MenuScene extends Scene {
 
@@ -28,7 +25,7 @@ public class MenuScene extends Scene {
     public void init() {
         loadResources();
 
-        this.camera = new Camera(new Vector2f());
+        this.camera = new Camera(new Vector2f(-250, 0));
         sprites = AssetPool.getSpriteSheet("assets/images/blocksheet.png");
 
         if (loadedLevel) {
@@ -84,6 +81,7 @@ public class MenuScene extends Scene {
 //    private float spriteFlipTimeLeft = 0.0f;
     @Override
     public void update(float dt) {
+        MouseListener.getOrthoX();
 
 //        System.out.println(gson.toJson(obj2sr));
         //String serialized = gson.toJson();

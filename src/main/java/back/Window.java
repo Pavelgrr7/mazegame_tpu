@@ -3,8 +3,9 @@ package back;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.system.CallbackI;
-import util.Time;
+import scenes.MazeScene;
+import scenes.MenuScene;
+import scenes.Scene;
 
 import java.util.Objects;
 
@@ -48,10 +49,10 @@ public class Window {
         return get().currentScene;
     }
 
-    public static float getWidth() {
+    public static int getWidth() {
         return get().width;
     }
-    public static float getHeight() {
+    public static int getHeight() {
         return get().height;
     }
 
@@ -96,7 +97,7 @@ public class Window {
 
         glfwShowWindow(glfwWindow);
         GL.createCapabilities();
-        System.out.println("Debug #2");
+        //System.out.println("Debug #2");
         this.imGUILayer = new ImGUILayer(glfwWindow);
         this.imGUILayer.initImGui();
         glEnable(GL_BLEND);
