@@ -133,26 +133,25 @@ public class Window {
             dt = endTime - startTime;
             startTime = endTime;
         }
+        currentScene.saveExit();
     }
 
     public static void changeScene(int newScene) {
         switch (newScene) {
             case 0:
                 currentScene = new MenuScene();
-                currentScene.init();
-                currentScene.start();
                 break;
 
             case 1:
                 currentScene = new MazeScene();
-                currentScene.init();
-                currentScene.start();
                 break;
 
             default:
                 assert false: "Unknown scene " + newScene;
                 break;
         }
-
+        currentScene.load();
+        currentScene.init();
+        currentScene.start();
     }
 }

@@ -3,10 +3,12 @@ package back;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import components.Rigidbody;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.SpriteSheet;
 import imgui.ImGui;
+import imgui.ImVec2;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import util.AssetPool;
@@ -27,8 +29,13 @@ public class MenuScene extends Scene {
         loadResources();
 
         this.camera = new Camera(new Vector2f());
+        sprites = AssetPool.getSpriteSheet("assets/images/blocksheet.png");
 
-        sprites = AssetPool.getSpriteSheet("assets/images/sheet_shroom.png");
+        if (loadedLevel) {
+            this.activeGameObject = gameObjects.get(0);
+            return;
+        }
+
         obj1 = new GameObject("Obj 1",
                 new Transform(
                         new Vector2f(100, 100),
@@ -42,6 +49,7 @@ public class MenuScene extends Scene {
         obj1Sprite.setColor(new Vector4f(1,0,0,1));
         //obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
         obj1.addComponent((obj1Sprite));
+        obj1.addComponent(new Rigidbody());
         this.addGameObjectToScene(obj1);
         this.activeGameObject = obj1;
         GameObject obj2 = new GameObject("Obj 2",
@@ -57,23 +65,18 @@ public class MenuScene extends Scene {
         );
         obj2.addComponent(obj2sr);
         this.addGameObjectToScene(obj2);
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(Component.class, new ComponentDeserializer())
-                .registerTypeAdapter(Component.class, new GameObjectDeserializer())
-                .create();
-        String serialized = gson.toJson(obj1);
-        System.out.println(serialized);
 
     }
 
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
+
         AssetPool.getTexture("assets/images/test.jpg");
-        AssetPool.addSpriteSheet("assets/images/sheet_shroom.png",
-                new SpriteSheet(AssetPool.getTexture("assets/images/sheet_shroom.png"),
-                        16, 16, 5, 0)
+        AssetPool.addSpriteSheet("assets/images/blocksheet.png",
+                new SpriteSheet(AssetPool.getTexture("assets/images/blocksheet.png"),
+                        16, 16, 9, 0)
         );
+        AssetPool.getTexture("assets/images/col2.png");
     }
 
     //    private int spriteIndex = 0;
@@ -107,9 +110,39 @@ public class MenuScene extends Scene {
     }
 
     @Override
-    public void imgui(){
+    public void imgui() {
         ImGui.begin("Тест");
-        ImGui.text("bla bla");
+        ImVec2 windowPos = new ImVec2();
+        ImGui.getWindowPos(windowPos);
+        ImVec2 windowSize = new ImVec2();
+        ImGui.getWindowSize(windowSize);
+        ImVec2 itemSpacing = new ImVec2();
+        ImGui.getStyle().getItemSpacing(itemSpacing);
+
+        float windowX2 = windowPos.x + windowSize.x;
+        for (int i = 0; i < sprites.size(); i++) {
+            Sprite sprite = sprites.getSprite(i);
+            float spriteWidth = sprite.getWidth() * 4;
+            float spriteHeight = sprite.getHeight() * 4;
+            int id = sprite.getTexId();
+            Vector2f[] texCords = sprite.getCords();
+
+            ImGui.pushID(i);
+            if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCords[0].x, texCords[0].y, texCords[2].x, texCords[2].y)) {
+                System.out.println("Button " + i + " clicked");
+            }
+            ImGui.popID();
+            ImVec2 lastBtnPos = new ImVec2();
+            ImGui.getItemRectMax(lastBtnPos);
+            float lastBtnX2 = lastBtnPos.x;
+            float nextBtnX2 = lastBtnX2 + itemSpacing.x + spriteWidth;
+            if (i + 1 < sprites.size() && nextBtnX2 < windowX2) {
+                ImGui.sameLine();
+            }
+//        ImGui.text("bla bla");
+
+        }
         ImGui.end();
     }
+
 }
