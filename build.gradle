@@ -24,6 +24,8 @@ test {
 project.ext.lwjglVersion = "3.2.3"
 project.ext.jomlVersion = "1.10.7"
 project.ext.lwjglNatives = "natives-windows"
+project.ext.imguiVersion = "1.77-0.17.1"
+
 
 
 dependencies {

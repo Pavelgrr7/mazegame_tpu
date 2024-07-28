@@ -32,7 +32,8 @@ public class MenuScene extends Scene {
         this.camera = new Camera(new Vector2f(-100, 0));
         sprites = AssetPool.getSpriteSheet("assets/images/blocksheet.png");
         if (loadedLevel) {
-            this.activeGameObject = gameObjects.get(0);
+            if (!gameObjects.isEmpty())
+                this.activeGameObject = gameObjects.get(0);
             return;
         }
 
@@ -63,6 +64,15 @@ public class MenuScene extends Scene {
                 new SpriteSheet(AssetPool.getTexture("assets/images/blocksheet.png"),
                         16, 16, 9, 0));
         AssetPool.getTexture("assets/images/blend1.png");
+
+        for (GameObject g : gameObjects) {
+            if (g.getComponent(SpriteRenderer.class) != null) {
+                SpriteRenderer spr = g.getComponent(SpriteRenderer.class);
+                if (spr.getTexture() != null) {
+                    spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilepath()));
+                }
+            }
+        }
     }
     float x = 0.0f;
     float y = 0.0f;

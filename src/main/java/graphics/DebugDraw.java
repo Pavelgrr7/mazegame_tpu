@@ -174,4 +174,14 @@ public class DebugDraw {
         }
         addLine2D(points[points.length - 1], points[0], color, lifetime);
     }
+    public static void addCircle(Vector2f center, float radius) {
+        // TODO: ADD CONSTANTS FOR COMMON COLORS
+        addCircle(center, radius, new Vector3f(0, 1, 0), 1);
+    }
+
+    public static void addCircle(Vector2f center, float radius, Vector3f color) {
+        addCircle(center, radius, color, 1);
+    }
+
+
 }

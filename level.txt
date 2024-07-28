@@ -17,7 +17,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -74,7 +73,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -131,7 +129,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -188,7 +185,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -245,7 +241,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -302,7 +297,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -359,7 +353,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -416,7 +409,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -473,7 +465,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -530,7 +521,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -587,7 +577,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -644,7 +633,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -701,7 +689,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -758,7 +745,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -815,7 +801,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
@@ -872,7 +857,6 @@
             "height": 16.0,
             "texture": {
               "filepath": "assets/images/blocksheet.png",
-              "texID": 2,
               "width": 64,
               "height": 64
             },
