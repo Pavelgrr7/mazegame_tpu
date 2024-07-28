@@ -34,12 +34,13 @@ public class Window {
     private Window() {
         this.width = 1400;
         this.height = 800;
-        this.title = "Mario";
-        r = 0.6f;
-        b = 0.6f;
-        g = 0.6f;
+        this.title = "Test";
+        r = 1;
+        b = 1;
+        g = 1;
         a = 1;
     }
+
 
     public static void changeScene(int newScene) {
         switch (newScene) {
@@ -58,6 +59,7 @@ public class Window {
         currentScene.init();
         currentScene.start();
     }
+
 
     public static Window get() {
         if (Window.window == null) {
@@ -99,8 +101,7 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
-        //glfwFocusWindow();
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
         // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
@@ -137,34 +138,50 @@ public class Window {
         this.imguiLayer = new ImGUILayer(glfwWindow);
         this.imguiLayer.initImGui();
 
-        this.frameBuffer = new FrameBuffer(1400, 800);
-        this.pickingTexture = new PickingTexture(1400, 800);
+        this.frameBuffer = new FrameBuffer(1920, 1080);
+        this.pickingTexture = new PickingTexture(1080, 1920);
+        glViewport(0, 0, 1920, 1080);
 
         Window.changeScene(0);
     }
+
 
     public void loop() {
         float beginTime = (float)glfwGetTime();
         float endTime;
         float dt = -1.0f;
+
         Shader defaultShader = AssetPool.getShader("assets/shaders/default.glsl");
-        //Shader pickingShader = AssetPool.getShader("assets/shaders/pickingShader.glsl");
+        Shader pickingShader = AssetPool.getShader("assets/shaders/pickingShader.glsl");
+
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
             glfwPollEvents();
 
+            // Render pass 1. Render to picking texture
             glDisable(GL_BLEND);
             pickingTexture.enableWriting();
+
+            glViewport(0, 0, 1920, 1080);
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            Renderer.bindShader(defaultShader);
+            Renderer.bindShader(pickingShader);
             currentScene.render();
+
+            if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
+                int x = (int)MouseListener.getScreenX();
+                int y = (int)MouseListener.getScreenY();
+                System.out.println(pickingTexture.readPixel(x, y));
+            }
+
             pickingTexture.disableWriting();
             glEnable(GL_BLEND);
+
+            // Render pass 2. Render actual game
             DebugDraw.beginFrame();
-//
-//            this.frameBuffer.bind();
+
+            //this.frameBuffer.bind();
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -175,6 +192,7 @@ public class Window {
                 currentScene.render();
             }
             //this.frameBuffer.unbind();
+
             this.imguiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow);
 
@@ -200,5 +218,13 @@ public class Window {
 
     public static void setHeight(int newHeight) {
         get().height = newHeight;
+    }
+
+    public static FrameBuffer getFramebuffer() {
+        return get().frameBuffer;
+    }
+
+    public static float getTargetAspectRatio() {
+        return 16.0f / 9.0f;
     }
 }

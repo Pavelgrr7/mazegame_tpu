@@ -9,15 +9,18 @@ import imgui.ImVec2;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import physics2d.PhysicsSystem2D;
+import physics2d.rigidbody.Rigidbody2D;
 import util.AssetPool;
 
 public class MenuScene extends Scene {
 
-    private GameObject obj1;
     private SpriteSheet sprites;
-    SpriteRenderer obj1Sprite;
 
-    GameObject levelEditorStuff = new GameObject("LevelEditor", new Transform(new Vector2f()), 0);
+    GameObject levelEditorStuff = new GameObject("MenuScene", new Transform(new Vector2f()), 0);
+    PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 60.0f, new Vector2f(0, -10));
+    Transform obj1, obj2;
+    Rigidbody2D rb1, rb2;
 
     public MenuScene() {
 
@@ -28,41 +31,35 @@ public class MenuScene extends Scene {
         levelEditorStuff.addComponent(new MouseControls());
         levelEditorStuff.addComponent(new GridLines());
 
+//        obj1 = new Transform(new Vector2f(100, 500));
+//        obj2 = new Transform(new Vector2f(200, 500));
+//        rb1 = new Rigidbody2D();
+//        rb2 = new Rigidbody2D();
+//        rb1.setRawTransform(obj1);
+//        rb2.setRawTransform(obj2);
+//        rb1.setMass(100.0f);
+//        rb2.setMass(200.0f);
+//
+//        physics.addRigidbody(rb1);
+//        physics.addRigidbody(rb2);
+
         loadResources();
         this.camera = new Camera(new Vector2f(-100, 0));
         sprites = AssetPool.getSpriteSheet("assets/images/blocksheet.png");
         if (loadedLevel) {
-            if (!gameObjects.isEmpty())
+            if (gameObjects.size() > 0) {
                 this.activeGameObject = gameObjects.get(0);
+            }
             return;
         }
-
-//        obj1 = new GameObject("Object 1", new Transform(new Vector2f(200, 100),
-//                new Vector2f(256, 256)), 2);
-//        obj1Sprite = new SpriteRenderer();
-//        obj1Sprite.setColor(new Vector4f(1, 0, 0, 1));
-//        obj1.addComponent(obj1Sprite);
-//        obj1.addComponent(new Rigidbody());
-//        this.addGameObjectToScene(obj1);
-//        this.activeGameObject = obj1;
-//
-//        GameObject obj2 = new GameObject("Object 2",
-//                new Transform(new Vector2f(400, 100), new Vector2f(256, 256)), 3);
-//        SpriteRenderer obj2SpriteRenderer = new SpriteRenderer();
-//        Sprite obj2Sprite = new Sprite();
-//        obj2Sprite.setTexture(AssetPool.getTexture("assets/images/blendImage2.png"));
-//        obj2SpriteRenderer.setSprite(obj2Sprite);
-//        obj2.addComponent(obj2SpriteRenderer);
-//        this.addGameObjectToScene(obj2);
     }
 
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
 
-        // TODO: FIX TEXTURE SAVE SYSTEM TO USE PATH INSTEAD OF ID
         AssetPool.addSpriteSheet("assets/images/blocksheet.png",
                 new SpriteSheet(AssetPool.getTexture("assets/images/blocksheet.png"),
-                        16, 16, 9, 0));
+                        16, 16, 8, 0));
         AssetPool.getTexture("assets/images/blend1.png");
 
         for (GameObject g : gameObjects) {
@@ -74,25 +71,24 @@ public class MenuScene extends Scene {
             }
         }
     }
-    float x = 0.0f;
-    float y = 0.0f;
+
     @Override
     public void update(float dt) {
         levelEditorStuff.update(dt);
-        DebugDraw.addCircle(new Vector2f(x, y),64, new Vector3f(0, 1, 0), 1);
-        x += 50f * dt;
-        y += 50f * dt;
+
         for (GameObject go : this.gameObjects) {
             go.update(dt);
         }
 
-
+//        DebugDraw.addBox2D(obj1.position, new Vector2f(32, 32), 0.0f, new Vector3f(1, 0, 0));
+//        DebugDraw.addBox2D(obj2.position, new Vector2f(32, 32), 0.0f, new Vector3f(0.2f, 0.8f, 0.1f));
+//        physics.update(dt);
     }
+
     @Override
     public void render() {
         this.renderer.render();
     }
-
 
     @Override
     public void imgui() {

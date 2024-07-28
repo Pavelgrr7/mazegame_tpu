@@ -1,9 +1,11 @@
 package back;
+//import editor.GameViewWindow;
 import imgui.*;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
 import imgui.gl3.ImGuiImplGl3;
+import imgui.type.ImBoolean;
 import scenes.Scene;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -35,8 +37,10 @@ public class ImGUILayer {
 
         io.setIniFilename("imgui.ini"); // We don't want to save .ini file
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
+        //io.setConfigFlags(ImGuiConfigFlags.DockingEnable);
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
+        //io.setConfigFlags(ImGuiConfigFlags.ViewportsEnable);
 
         // ------------------------------------------------------------
         // Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
@@ -118,7 +122,7 @@ public class ImGUILayer {
                 ImGui.setWindowFocus(null);
             }
 
-            if (!io.getWantCaptureMouse()) {
+            if (!io.getWantCaptureMouse() /*|| GameViewWindow.getWantCaptureMouse()*/) {
                 MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
@@ -174,14 +178,18 @@ public class ImGUILayer {
     }
 
     public void update(float dt, Scene currentScene) {
+        //glfwPollEvents();
         startFrame(dt);
-
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
+        //setupDockspace();
         currentScene.sceneImgui();
         //ImGui.showDemoWindow();
+        //GameViewWindow.imgui();
+        //ImGui.end();
         ImGui.render();
-
+        //imGuiGl3.renderDrawData(ImGui.getDrawData());
+        //glfwSwapBuffers();
         endFrame();
     }
 
@@ -217,4 +225,22 @@ public class ImGUILayer {
         imGuiGl3.dispose();
         ImGui.destroyContext();
     }
+
+//    private void setupDockspace() {
+//        int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
+//
+//        ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
+//        ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
+//        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+//        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+//        windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
+//                ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
+//                ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+//
+//        ImGui.begin("Dockspace Demo", new ImBoolean(true), windowFlags);
+//        ImGui.popStyleVar(2);
+//
+//        // Dockspace
+//        ImGui.dockSpace(ImGui.getID("Dockspace"));
+//    }
 }
