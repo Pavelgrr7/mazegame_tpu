@@ -34,4 +34,8 @@ public class MazeScene extends Scene {
 //        }
 
     }
+    @Override
+    public void render() {
+        this.renderer.render();
+    }
 }
