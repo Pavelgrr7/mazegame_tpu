@@ -59,7 +59,7 @@ public class MenuScene extends Scene {
 
         AssetPool.addSpriteSheet("assets/images/blocksheet.png",
                 new SpriteSheet(AssetPool.getTexture("assets/images/blocksheet.png"),
-                        16, 16, 8, 0));
+                        16, 16, 9, 0));
         AssetPool.getTexture("assets/images/blend1.png");
 
         for (GameObject g : gameObjects) {

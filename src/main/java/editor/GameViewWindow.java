@@ -29,8 +29,8 @@ public class GameViewWindow {
         int textureId = Window.getFramebuffer().getTextureId();
         ImGui.image(textureId, windowSize.x, windowSize.y, 0, 1, 1, 0);
 
-        MouseListener.setGameViewportPos(new Vector2f(topLeft.x, topLeft.y));
-        MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
+//        MouseListener.setGameViewportPos(new Vector2f(topLeft.x, topLeft.y));
+//        MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
 
         ImGui.end();
     }

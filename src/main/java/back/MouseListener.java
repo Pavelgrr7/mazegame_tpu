@@ -104,50 +104,51 @@ public class MouseListener {
     }
 
     public static float getScreenX() {
-        float currentX = getX() - get().gameViewportPos.x;
+        float currentX = getX() /*- get().gameViewportPos.x*/;
         currentX = (currentX / get().gameViewportSize.x) * 3840.0f;
         return currentX;
     }
 
     public static float getScreenY() {
-        float currentY = getY() - get().gameViewportPos.y;
+        float currentY = getY()  /*- get().gameViewportPos.y*/;
         currentY = 2160.0f - ((currentY / get().gameViewportSize.y) * 2160.0f);
         return currentY;
     }
 
     public static float getOrthoX() {
-        float currentX = getX() - get().gameViewportPos.x;
-        currentX = (currentX / get().gameViewportSize.x) * 2.0f - 1.0f;
+        float currentX = getX();
+        currentX = (currentX / (float)Window.getWidth()) * 2.0f - 1.0f;
         Vector4f tmp = new Vector4f(currentX, 0, 0, 1);
-
         Camera camera = Window.getScene().camera();
         Matrix4f viewProjection = new Matrix4f();
-        camera.getInverseView().mul(camera.getInverseProjection(), viewProjection);
+        camera.getInverseView()
+                .mul(camera.getInverseProjection(), viewProjection);
         tmp.mul(viewProjection);
         currentX = tmp.x;
+        //System.out.println(currentX);
 
         return currentX;
     }
 
     public static float getOrthoY() {
-        float currentY = getY() - get().gameViewportPos.y;
-        currentY = -((currentY / get().gameViewportSize.y) * 2.0f - 1.0f);
+        float currentY = Window.getHeight() - getY();
+        currentY = (currentY / (float)Window.getHeight()) * 2.0f - 1.0f;
         Vector4f tmp = new Vector4f(0, currentY, 0, 1);
-
         Camera camera = Window.getScene().camera();
         Matrix4f viewProjection = new Matrix4f();
-        camera.getInverseView().mul(camera.getInverseProjection(), viewProjection);
+        camera.getInverseView()
+                .mul(camera.getInverseProjection(), viewProjection);
         tmp.mul(viewProjection);
         currentY = tmp.y;
 
         return currentY;
     }
 
-    public static void setGameViewportPos(Vector2f gameViewportPos) {
-        get().gameViewportPos.set(gameViewportPos);
-    }
-
-    public static void setGameViewportSize(Vector2f gameViewportSize) {
-        get().gameViewportSize.set(gameViewportSize);
-    }
+//    public static void setGameViewportPos(Vector2f gameViewportPos) {
+//        get().gameViewportPos.set(gameViewportPos);
+//    }
+//
+//    public static void setGameViewportSize(Vector2f gameViewportSize) {
+//        get().gameViewportSize.set(gameViewportSize);
+//    }
 }
