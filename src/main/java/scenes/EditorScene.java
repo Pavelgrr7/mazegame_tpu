@@ -17,7 +17,7 @@ public class EditorScene extends Scene {
 
     private SpriteSheet sprites;
 
-    GameObject levelEditorStuff = new GameObject("MenuScene", new Transform(new Vector2f()), 0);
+    GameObject levelEditorStuff = new GameObject("EditorScene", new Transform(new Vector2f()), 0);
     PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 60.0f, new Vector2f(0, -10));
     Transform obj1, obj2;
     Rigidbody2D rb1, rb2;

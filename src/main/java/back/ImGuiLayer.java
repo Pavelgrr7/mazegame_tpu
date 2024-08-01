@@ -167,11 +167,13 @@ public class ImGuiLayer {
         final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
 
         // Glyphs could be added per-font as well as per config used globally like here
-        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
+        //fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
+        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
 
         // Fonts merge example
         fontConfig.setPixelSnapH(true);
         fontAtlas.addFontFromFileTTF("assets/fonts/HomeVideo.ttf", 10, fontConfig);
+        //fontAtlas.addFontFromFileTTF("assets/fonts/times.ttf", 10, fontConfig);
 
         fontConfig.destroy(); // After all fonts were added we don't need this config more
 
