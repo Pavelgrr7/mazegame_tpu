@@ -1,90 +1,136 @@
-//package back;
+package scenes;
+
+
+import back.*;
+import components.*;
+import graphics.DebugDraw;
+import imgui.ImGui;
+import imgui.ImVec2;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+import physics2d.PhysicsSystem2D;
+import physics2d.rigidbody.Rigidbody2D;
+import util.AssetPool;
+
+public class EditorScene extends Scene {
+
+    private SpriteSheet sprites;
+
+    GameObject levelEditorStuff = new GameObject("MenuScene", new Transform(new Vector2f()), 0);
+    PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 60.0f, new Vector2f(0, -10));
+    Transform obj1, obj2;
+    Rigidbody2D rb1, rb2;
+
+    public EditorScene() {
+
+    }
+
+    @Override
+    public void init() {
+        this.camera = new Camera(new Vector2f(-250, 0));
+        levelEditorStuff.addComponent(new MouseControls());
+        levelEditorStuff.addComponent(new GridLines());
+        //levelEditorStuff.addComponent(new EditorCamera(this.camera));
+
+//        obj1 = new Transform(new Vector2f(100, 500));
+//        obj2 = new Transform(new Vector2f(100, 300));
 //
+//        rb1 = new Rigidbody2D();
+//        rb2 = new Rigidbody2D();
+//        rb1.setRawTransform(obj1);
+//        rb2.setRawTransform(obj2);
+//        rb1.setMass(100.0f);
+//        rb2.setMass(200.0f);
 //
-//import components.Sprite;
-//import components.SpriteRenderer;
-//import components.SpriteSheet;
-//import imgui.ImGui;
-//import org.joml.Vector2f;
-//import util.AssetPool;
+//        Circle c1 = new Circle();
+//        c1.setRadius(10.0f);
+//        c1.setRigidbody(rb1);
+//        Circle c2 = new Circle();
+//        c2.setRadius(20.0f);
+//        c2.setRigidbody(rb2);
+//        rb1.setCollider(c1);
+//        rb2.setCollider(c2);
 //
-//public class EditorScene extends Scene {
-//
-//    private GameObject obj1;
-//    private SpriteSheet sprites;
-//
-//    public EditorScene() {
-//
-//        System.out.println("EdScene");
-//    }
-//
-//    @Override
-//    public void init() {
-//        loadResources();
-//
-//        this.camera = new Camera(new Vector2f());
-//
-//        sprites = AssetPool.getSpriteSheet("assets/images/sheet_shroom.png");
-//        obj1 = new GameObject("Obj - 1",
-//                new Transform(
-//                        new Vector2f(100, 100),
-//                        new Vector2f(100, 100)),
-//                0
-//        );
-//        //obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
-//        //obj1.addComponent(new SpriteRenderer(new Sprite(
-//                AssetPool.getTexture("assets/images/col1.png")
-//        )));
-//        this.addGameObjectToScene(obj1);
-//        GameObject obj2 = new GameObject("Obj - 2",
-//                new Transform(
-//                        new Vector2f(140, 100),
-//                        new Vector2f(150, 150)),
-//                -1
-//        );
-//        //obj2.addComponent(new SpriteRenderer(new Sprite(
-//                AssetPool.getTexture("assets/images/col2.png")
-//        )));
-//        this.addGameObjectToScene(obj2);
-//    }
-//
-//    private void loadResources() {
-//        AssetPool.getShader("assets/shaders/default.glsl");
-//        AssetPool.getTexture("assets/images/test.jpg");
-//        AssetPool.addSpriteSheet("assets/images/sheet_shroom.png",
-//                new SpriteSheet(AssetPool.getTexture("assets/images/sheet_shroom.png"),
-//                        16, 16, 5, 0)
-//        );
-//    }
-//
-////    private int spriteIndex = 0;
-////    private float spriteFlipTime = 0.2f;
-////    private float spriteFlipTimeLeft = 0.0f;
-//    @Override
-//    public void update(float dt) {
-//        //obj1.transform.position.x += 10 * dt;
-//        System.out.println("FPS: " + 1.0f / dt);
-////        spriteFlipTimeLeft -= dt;
-////        if (spriteFlipTimeLeft <= 0) {
-////            spriteFlipTimeLeft = spriteFlipTime;
-////            spriteIndex++;
-////            if (spriteIndex > 4) {
-////                spriteIndex = 0;
-////            }
-////            obj1.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
-////
-////        }
-//
-//        for (GameObject go : this.gameObjects) {
-//            go.update(dt);
-//        }
-//        this.renderer.render();
-//    }
-//
-//    @Override
-//    public void imgui(){
-//        ImGui.begin("A DDD");
-//        ImGui.text("bla bla");
-//        ImGui.end();
-//    }
-//}
+//        physics.addRigidbody(rb1, true);
+//        physics.addRigidbody(rb2, false);
+
+        loadResources();
+        sprites = AssetPool.getSpriteSheet("assets/images/blocksheet.png");
+    }
+
+    private void loadResources() {
+        AssetPool.getShader("assets/shaders/default.glsl");
+
+        AssetPool.addSpriteSheet("assets/images/blocksheet.png",
+                new SpriteSheet(AssetPool.getTexture("assets/images/blocksheet.png"),
+                        16, 16, 9, 0));
+        AssetPool.getTexture("assets/images/blend1.png");
+
+        for (GameObject g : gameObjects) {
+            if (g.getComponent(SpriteRenderer.class) != null) {
+                SpriteRenderer spr = g.getComponent(SpriteRenderer.class);
+                if (spr.getTexture() != null) {
+                    spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilepath()));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void update(float dt) {
+        levelEditorStuff.update(dt);
+        this.camera.adjustProjection();
+
+        for (GameObject go : this.gameObjects) {
+            go.update(dt);
+        }
+
+//        DebugDraw.addCircle(obj1.position, 10.0f, new Vector3f(1, 0, 0));
+//        DebugDraw.addCircle(obj2.position, 20.0f, new Vector3f(0.2f, 0.8f, 0.1f));
+//        physics.update(dt);
+    }
+
+    @Override
+    public void render() {
+        this.renderer.render();
+    }
+
+    @Override
+    public void imgui() {
+        ImGui.begin("Test window");
+
+        ImVec2 windowPos = new ImVec2();
+        ImGui.getWindowPos(windowPos);
+        ImVec2 windowSize = new ImVec2();
+        ImGui.getWindowSize(windowSize);
+        ImVec2 itemSpacing = new ImVec2();
+        ImGui.getStyle().getItemSpacing(itemSpacing);
+
+        float windowX2 = windowPos.x + windowSize.x;
+        for (int i=0; i < sprites.size(); i++) {
+            Sprite sprite = sprites.getSprite(i);
+            float spriteWidth = sprite.getWidth() * 4;
+            float spriteHeight = sprite.getHeight() * 4;
+            int id = sprite.getTexId();
+            Vector2f[] texCoords = sprite.getTexCords();
+
+            ImGui.pushID(i);
+            if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
+                GameObject object = Prefabs.generateSpriteObject(sprite, 32, 32);
+                levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
+            }
+            ImGui.popID();
+
+            ImVec2 lastButtonPos = new ImVec2();
+            ImGui.getItemRectMax(lastButtonPos);
+            float lastButtonX2 = lastButtonPos.x;
+            float nextButtonX2 = lastButtonX2 + itemSpacing.x + spriteWidth;
+            if (i + 1 < sprites.size() && nextButtonX2 < windowX2) {
+                ImGui.sameLine();
+            }
+        }
+
+        ImGui.end();
+    }
+}

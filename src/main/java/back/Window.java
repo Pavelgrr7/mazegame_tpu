@@ -4,6 +4,7 @@ import graphics.*;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import scenes.EditorScene;
 import scenes.MazeScene;
 import scenes.MenuScene;
 import scenes.Scene;
@@ -16,12 +17,11 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
-
     private int width, height;
     private String title;
     private long glfwWindow;
-    private ImGUILayer imguiLayer;
-    private FrameBuffer frameBuffer;
+    private ImGuiLayer imguiLayer;
+    private FrameBuffer framebuffer;
     private PickingTexture pickingTexture;
 
     public float r, g, b, a;
@@ -32,8 +32,8 @@ public class Window {
     private static Scene currentScene;
 
     private Window() {
-        this.width = 1400;
-        this.height = 800;
+        this.width = 1280;
+        this.height = 720;
         this.title = "Test";
         r = 1;
         b = 1;
@@ -41,11 +41,10 @@ public class Window {
         a = 1;
     }
 
-
     public static void changeScene(int newScene) {
         switch (newScene) {
             case 0:
-                currentScene = new MenuScene();
+                currentScene = new EditorScene();
                 break;
             case 1:
                 currentScene = new MazeScene();
@@ -59,7 +58,6 @@ public class Window {
         currentScene.init();
         currentScene.start();
     }
-
 
     public static Window get() {
         if (Window.window == null) {
@@ -101,7 +99,7 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
 
         // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
@@ -112,7 +110,7 @@ public class Window {
         glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
-        glfwSetKeyCallback(glfwWindow, KeyboardListener::keyCallBack);
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
         glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) -> {
             Window.setWidth(newWidth);
             Window.setHeight(newHeight);
@@ -135,16 +133,16 @@ public class Window {
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        this.imguiLayer = new ImGUILayer(glfwWindow);
-        this.imguiLayer.initImGui();
 
-        this.frameBuffer = new FrameBuffer(1400, 800);
-        this.pickingTexture = new PickingTexture(1400, 800);
-        glViewport(0, 0, 1400, 800);
+        this.framebuffer = new FrameBuffer(1280 , 720);
+        this.pickingTexture = new PickingTexture(1280, 720);
+        glViewport(0, 0, 1280, 720);
+
+        this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
+        this.imguiLayer.initImGui();
 
         Window.changeScene(0);
     }
-
 
     public void loop() {
         float beginTime = (float)glfwGetTime();
@@ -162,18 +160,12 @@ public class Window {
             glDisable(GL_BLEND);
             pickingTexture.enableWriting();
 
-            glViewport(0, 0, 1400, 800);
+            glViewport(0, 0, 1280, 720);
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             Renderer.bindShader(pickingShader);
             currentScene.render();
-
-            if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
-                int x = (int)MouseListener.getScreenX();
-                int y = (int)MouseListener.getScreenY();
-                System.out.println(pickingTexture.readPixel(x, y));
-            }
 
             pickingTexture.disableWriting();
             glEnable(GL_BLEND);
@@ -181,7 +173,7 @@ public class Window {
             // Render pass 2. Render actual game
             DebugDraw.beginFrame();
 
-            //this.frameBuffer.bind();
+            this.framebuffer.bind();
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -191,10 +183,11 @@ public class Window {
                 currentScene.update(dt);
                 currentScene.render();
             }
-            //this.frameBuffer.unbind();
+            this.framebuffer.unbind();
 
             this.imguiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow);
+            MouseListener.endFrame();
 
             endTime = (float)glfwGetTime();
             dt = endTime - beginTime;
@@ -221,7 +214,7 @@ public class Window {
     }
 
     public static FrameBuffer getFramebuffer() {
-        return get().frameBuffer;
+        return get().framebuffer;
     }
 
     public static float getTargetAspectRatio() {

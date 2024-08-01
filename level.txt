@@ -22,20 +22,20 @@
             },
             "texCords": [
               {
-                "x": 1.0,
-                "y": 1.0
-              },
-              {
-                "x": 1.0,
+                "x": 0.25,
                 "y": 0.75
               },
               {
-                "x": 0.75,
-                "y": 0.75
+                "x": 0.25,
+                "y": 0.5
               },
               {
-                "x": 0.75,
-                "y": 1.0
+                "x": 0.0,
+                "y": 0.5
+              },
+              {
+                "x": 0.0,
+                "y": 0.75
               }
             ]
           },
@@ -45,8 +45,8 @@
     ],
     "transform": {
       "position": {
-        "x": 384.0,
-        "y": 288.0
+        "x": -32.0,
+        "y": 0.0
       },
       "scale": {
         "x": 32.0,
@@ -57,6 +57,118 @@
   },
   {
     "uid": 2,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "width": 16.0,
+            "height": 16.0,
+            "texture": {
+              "filepath": "assets/images/blocksheet.png",
+              "width": 64,
+              "height": 64
+            },
+            "texCords": [
+              {
+                "x": 0.25,
+                "y": 0.75
+              },
+              {
+                "x": 0.25,
+                "y": 0.5
+              },
+              {
+                "x": 0.0,
+                "y": 0.5
+              },
+              {
+                "x": 0.0,
+                "y": 0.75
+              }
+            ]
+          },
+          "uid": 3
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": -32.0,
+        "y": 0.0
+      },
+      "scale": {
+        "x": 32.0,
+        "y": 32.0
+      }
+    },
+    "zIndex": 0
+  },
+  {
+    "uid": 3,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "width": 16.0,
+            "height": 16.0,
+            "texture": {
+              "filepath": "assets/images/blocksheet.png",
+              "width": 64,
+              "height": 64
+            },
+            "texCords": [
+              {
+                "x": 0.75,
+                "y": 1.0
+              },
+              {
+                "x": 0.75,
+                "y": 0.75
+              },
+              {
+                "x": 0.5,
+                "y": 0.75
+              },
+              {
+                "x": 0.5,
+                "y": 1.0
+              }
+            ]
+          },
+          "uid": 4
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": -32.0,
+        "y": 0.0
+      },
+      "scale": {
+        "x": 32.0,
+        "y": 32.0
+      }
+    },
+    "zIndex": 0
+  },
+  {
+    "uid": 4,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -101,120 +213,8 @@
     ],
     "transform": {
       "position": {
-        "x": 384.0,
-        "y": 320.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 3,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 6
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 416.0,
-        "y": 288.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 4,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 7
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 416.0,
-        "y": 320.0
+        "x": -32.0,
+        "y": 0.0
       },
       "scale": {
         "x": 32.0,
@@ -269,8 +269,8 @@
     ],
     "transform": {
       "position": {
-        "x": 416.0,
-        "y": 352.0
+        "x": -32.0,
+        "y": 0.0
       },
       "scale": {
         "x": 32.0,
@@ -302,19 +302,19 @@
             },
             "texCords": [
               {
-                "x": 0.25,
+                "x": 1.0,
                 "y": 1.0
               },
               {
-                "x": 0.25,
+                "x": 1.0,
                 "y": 0.75
               },
               {
-                "x": 0.0,
+                "x": 0.75,
                 "y": 0.75
               },
               {
-                "x": 0.0,
+                "x": 0.75,
                 "y": 1.0
               }
             ]
@@ -325,8 +325,8 @@
     ],
     "transform": {
       "position": {
-        "x": 384.0,
-        "y": 352.0
+        "x": -32.0,
+        "y": 0.0
       },
       "scale": {
         "x": 32.0,
@@ -359,19 +359,19 @@
             "texCords": [
               {
                 "x": 0.25,
-                "y": 1.0
+                "y": 0.75
               },
               {
                 "x": 0.25,
-                "y": 0.75
+                "y": 0.5
+              },
+              {
+                "x": 0.0,
+                "y": 0.5
               },
               {
                 "x": 0.0,
                 "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
               }
             ]
           },
@@ -381,8 +381,8 @@
     ],
     "transform": {
       "position": {
-        "x": 352.0,
-        "y": 352.0
+        "x": -32.0,
+        "y": 0.0
       },
       "scale": {
         "x": 32.0,
@@ -414,19 +414,19 @@
             },
             "texCords": [
               {
-                "x": 0.25,
+                "x": 0.5,
                 "y": 1.0
               },
               {
+                "x": 0.5,
+                "y": 0.75
+              },
+              {
                 "x": 0.25,
                 "y": 0.75
               },
               {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
+                "x": 0.25,
                 "y": 1.0
               }
             ]
@@ -437,8 +437,8 @@
     ],
     "transform": {
       "position": {
-        "x": 320.0,
-        "y": 352.0
+        "x": -32.0,
+        "y": 0.0
       },
       "scale": {
         "x": 32.0,
@@ -470,31 +470,31 @@
             },
             "texCords": [
               {
-                "x": 0.25,
-                "y": 0.5
+                "x": 1.0,
+                "y": 1.0
               },
               {
-                "x": 0.25,
-                "y": 0.25
+                "x": 1.0,
+                "y": 0.75
               },
               {
-                "x": 0.0,
-                "y": 0.25
+                "x": 0.75,
+                "y": 0.75
               },
               {
-                "x": 0.0,
-                "y": 0.5
+                "x": 0.75,
+                "y": 1.0
               }
             ]
           },
-          "uid": 12
+          "uid": 14
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 416.0,
-        "y": 352.0
+        "x": 128.0,
+        "y": 224.0
       },
       "scale": {
         "x": 32.0,
@@ -527,30 +527,30 @@
             "texCords": [
               {
                 "x": 0.25,
-                "y": 0.75
+                "y": 1.0
               },
               {
                 "x": 0.25,
-                "y": 0.5
-              },
-              {
-                "x": 0.0,
-                "y": 0.5
+                "y": 0.75
               },
               {
                 "x": 0.0,
                 "y": 0.75
+              },
+              {
+                "x": 0.0,
+                "y": 1.0
               }
             ]
           },
-          "uid": 13
+          "uid": 15
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 416.0,
-        "y": 384.0
+        "x": 128.0,
+        "y": 256.0
       },
       "scale": {
         "x": 32.0,
@@ -582,31 +582,31 @@
             },
             "texCords": [
               {
-                "x": 0.75,
+                "x": 0.25,
                 "y": 1.0
               },
               {
-                "x": 0.75,
+                "x": 0.25,
                 "y": 0.75
               },
               {
-                "x": 0.5,
+                "x": 0.0,
                 "y": 0.75
               },
               {
-                "x": 0.5,
+                "x": 0.0,
                 "y": 1.0
               }
             ]
           },
-          "uid": 14
+          "uid": 16
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 288.0,
-        "y": 352.0
+        "x": 160.0,
+        "y": 256.0
       },
       "scale": {
         "x": 32.0,
@@ -655,14 +655,14 @@
               }
             ]
           },
-          "uid": 15
+          "uid": 17
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 256.0,
-        "y": 352.0
+        "x": 160.0,
+        "y": 224.0
       },
       "scale": {
         "x": 32.0,
@@ -694,31 +694,31 @@
             },
             "texCords": [
               {
-                "x": 0.25,
+                "x": 0.5,
                 "y": 1.0
               },
               {
+                "x": 0.5,
+                "y": 0.75
+              },
+              {
                 "x": 0.25,
                 "y": 0.75
               },
               {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
+                "x": 0.25,
                 "y": 1.0
               }
             ]
           },
-          "uid": 16
+          "uid": 18
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 288.0,
-        "y": 320.0
+        "x": 192.0,
+        "y": 256.0
       },
       "scale": {
         "x": 32.0,
@@ -767,14 +767,14 @@
               }
             ]
           },
-          "uid": 17
+          "uid": 19
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 256.0,
-        "y": 320.0
+        "x": 192.0,
+        "y": 224.0
       },
       "scale": {
         "x": 32.0,
@@ -806,30 +806,30 @@
             },
             "texCords": [
               {
-                "x": 0.25,
+                "x": 0.75,
                 "y": 1.0
               },
               {
-                "x": 0.25,
+                "x": 0.75,
                 "y": 0.75
               },
               {
-                "x": 0.0,
+                "x": 0.5,
                 "y": 0.75
               },
               {
-                "x": 0.0,
+                "x": 0.5,
                 "y": 1.0
               }
             ]
           },
-          "uid": 18
+          "uid": 20
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 256.0,
+        "x": 160.0,
         "y": 288.0
       },
       "scale": {
@@ -879,13 +879,13 @@
               }
             ]
           },
-          "uid": 19
+          "uid": 21
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 288.0,
+        "x": 128.0,
         "y": 288.0
       },
       "scale": {
@@ -918,19 +918,19 @@
             },
             "texCords": [
               {
-                "x": 1.0,
+                "x": 0.25,
                 "y": 1.0
               },
               {
-                "x": 1.0,
+                "x": 0.25,
                 "y": 0.75
               },
               {
-                "x": 0.75,
+                "x": 0.0,
                 "y": 0.75
               },
               {
-                "x": 0.75,
+                "x": 0.0,
                 "y": 1.0
               }
             ]
@@ -941,8 +941,8 @@
     ],
     "transform": {
       "position": {
-        "x": 1120.0,
-        "y": 672.0
+        "x": 192.0,
+        "y": 256.0
       },
       "scale": {
         "x": 32.0,
@@ -974,31 +974,31 @@
             },
             "texCords": [
               {
-                "x": 0.75,
+                "x": 0.5,
                 "y": 1.0
               },
               {
-                "x": 0.75,
-                "y": 0.75
-              },
-              {
                 "x": 0.5,
                 "y": 0.75
               },
               {
-                "x": 0.5,
+                "x": 0.25,
+                "y": 0.75
+              },
+              {
+                "x": 0.25,
                 "y": 1.0
               }
             ]
           },
-          "uid": 25
+          "uid": 23
         }
       }
     ],
     "transform": {
       "position": {
-        "x": -96.0,
-        "y": 640.0
+        "x": 192.0,
+        "y": 256.0
       },
       "scale": {
         "x": 32.0,
@@ -1030,31 +1030,31 @@
             },
             "texCords": [
               {
-                "x": 0.75,
+                "x": 0.25,
                 "y": 1.0
               },
               {
-                "x": 0.75,
+                "x": 0.25,
                 "y": 0.75
               },
               {
-                "x": 0.5,
+                "x": 0.0,
                 "y": 0.75
               },
               {
-                "x": 0.5,
+                "x": 0.0,
                 "y": 1.0
               }
             ]
           },
-          "uid": 28
+          "uid": 24
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 256.0,
-        "y": 256.0
+        "x": 192.0,
+        "y": 288.0
       },
       "scale": {
         "x": 32.0,
@@ -1103,14 +1103,14 @@
               }
             ]
           },
-          "uid": 29
+          "uid": 25
         }
       }
     ],
     "transform": {
       "position": {
         "x": 224.0,
-        "y": 256.0
+        "y": 288.0
       },
       "scale": {
         "x": 32.0,
@@ -1159,14 +1159,14 @@
               }
             ]
           },
-          "uid": 30
+          "uid": 26
         }
       }
     ],
     "transform": {
       "position": {
         "x": 224.0,
-        "y": 288.0
+        "y": 256.0
       },
       "scale": {
         "x": 32.0,
@@ -1177,6 +1177,230 @@
   },
   {
     "uid": 22,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "width": 16.0,
+            "height": 16.0,
+            "texture": {
+              "filepath": "assets/images/blocksheet.png",
+              "width": 64,
+              "height": 64
+            },
+            "texCords": [
+              {
+                "x": 0.25,
+                "y": 1.0
+              },
+              {
+                "x": 0.25,
+                "y": 0.75
+              },
+              {
+                "x": 0.0,
+                "y": 0.75
+              },
+              {
+                "x": 0.0,
+                "y": 1.0
+              }
+            ]
+          },
+          "uid": 27
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": 192.0,
+        "y": 320.0
+      },
+      "scale": {
+        "x": 32.0,
+        "y": 32.0
+      }
+    },
+    "zIndex": 0
+  },
+  {
+    "uid": 23,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "width": 16.0,
+            "height": 16.0,
+            "texture": {
+              "filepath": "assets/images/blocksheet.png",
+              "width": 64,
+              "height": 64
+            },
+            "texCords": [
+              {
+                "x": 0.25,
+                "y": 1.0
+              },
+              {
+                "x": 0.25,
+                "y": 0.75
+              },
+              {
+                "x": 0.0,
+                "y": 0.75
+              },
+              {
+                "x": 0.0,
+                "y": 1.0
+              }
+            ]
+          },
+          "uid": 28
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": 160.0,
+        "y": 320.0
+      },
+      "scale": {
+        "x": 32.0,
+        "y": 32.0
+      }
+    },
+    "zIndex": 0
+  },
+  {
+    "uid": 24,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "width": 16.0,
+            "height": 16.0,
+            "texture": {
+              "filepath": "assets/images/blocksheet.png",
+              "width": 64,
+              "height": 64
+            },
+            "texCords": [
+              {
+                "x": 0.25,
+                "y": 0.75
+              },
+              {
+                "x": 0.25,
+                "y": 0.5
+              },
+              {
+                "x": 0.0,
+                "y": 0.5
+              },
+              {
+                "x": 0.0,
+                "y": 0.75
+              }
+            ]
+          },
+          "uid": 29
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": 224.0,
+        "y": 352.0
+      },
+      "scale": {
+        "x": 32.0,
+        "y": 32.0
+      }
+    },
+    "zIndex": 0
+  },
+  {
+    "uid": 25,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "width": 16.0,
+            "height": 16.0,
+            "texture": {
+              "filepath": "assets/images/blocksheet.png",
+              "width": 64,
+              "height": 64
+            },
+            "texCords": [
+              {
+                "x": 0.25,
+                "y": 0.5
+              },
+              {
+                "x": 0.25,
+                "y": 0.25
+              },
+              {
+                "x": 0.0,
+                "y": 0.25
+              },
+              {
+                "x": 0.0,
+                "y": 0.5
+              }
+            ]
+          },
+          "uid": 30
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": 224.0,
+        "y": 320.0
+      },
+      "scale": {
+        "x": 32.0,
+        "y": 32.0
+      }
+    },
+    "zIndex": 0
+  },
+  {
+    "uid": 26,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -1232,7 +1456,7 @@
     "zIndex": 0
   },
   {
-    "uid": 23,
+    "uid": 27,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -1255,19 +1479,19 @@
             "texCords": [
               {
                 "x": 0.25,
-                "y": 1.0
+                "y": 0.5
               },
               {
                 "x": 0.25,
-                "y": 0.75
+                "y": 0.25
               },
               {
                 "x": 0.0,
-                "y": 0.75
+                "y": 0.25
               },
               {
                 "x": 0.0,
-                "y": 1.0
+                "y": 0.5
               }
             ]
           },
@@ -1278,7 +1502,7 @@
     "transform": {
       "position": {
         "x": 224.0,
-        "y": 352.0
+        "y": 320.0
       },
       "scale": {
         "x": 32.0,
@@ -1288,7 +1512,7 @@
     "zIndex": 0
   },
   {
-    "uid": 24,
+    "uid": 28,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -1310,131 +1534,19 @@
             },
             "texCords": [
               {
-                "x": 0.25,
+                "x": 0.5,
                 "y": 1.0
               },
               {
-                "x": 0.25,
+                "x": 0.5,
                 "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 33
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 288.0,
-        "y": 256.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 25,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
               },
               {
                 "x": 0.25,
                 "y": 0.75
               },
               {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 34
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 320.0,
-        "y": 256.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 26,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
                 "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
                 "y": 1.0
               }
             ]
@@ -1445,8 +1557,8 @@
     ],
     "transform": {
       "position": {
-        "x": 352.0,
-        "y": 256.0
+        "x": 128.0,
+        "y": 320.0
       },
       "scale": {
         "x": 32.0,
@@ -1456,7 +1568,7 @@
     "zIndex": 0
   },
   {
-    "uid": 27,
+    "uid": 29,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -1501,120 +1613,8 @@
     ],
     "transform": {
       "position": {
-        "x": 384.0,
-        "y": 256.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 28,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 37
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 416.0,
-        "y": 256.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 29,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 1.0,
-                "y": 1.0
-              },
-              {
-                "x": 1.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.75,
-                "y": 0.75
-              },
-              {
-                "x": 0.75,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 38
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 448.0,
-        "y": 256.0
+        "x": 160.0,
+        "y": 352.0
       },
       "scale": {
         "x": 32.0,
@@ -1663,14 +1663,14 @@
               }
             ]
           },
-          "uid": 39
+          "uid": 37
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 448.0,
-        "y": 288.0
+        "x": 192.0,
+        "y": 352.0
       },
       "scale": {
         "x": 32.0,
@@ -1719,14 +1719,14 @@
               }
             ]
           },
-          "uid": 40
+          "uid": 38
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 448.0,
-        "y": 320.0
+        "x": 224.0,
+        "y": 352.0
       },
       "scale": {
         "x": 32.0,
@@ -1775,14 +1775,14 @@
               }
             ]
           },
-          "uid": 41
+          "uid": 39
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 448.0,
-        "y": 352.0
+        "x": 256.0,
+        "y": 320.0
       },
       "scale": {
         "x": 32.0,
@@ -1815,23 +1815,23 @@
             "texCords": [
               {
                 "x": 0.25,
-                "y": 0.5
+                "y": 0.75
               },
               {
                 "x": 0.25,
-                "y": 0.25
-              },
-              {
-                "x": 0.0,
-                "y": 0.25
+                "y": 0.5
               },
               {
                 "x": 0.0,
                 "y": 0.5
+              },
+              {
+                "x": 0.0,
+                "y": 0.75
               }
             ]
           },
-          "uid": 42
+          "uid": 40
         }
       }
     ],
@@ -1839,1462 +1839,6 @@
       "position": {
         "x": 224.0,
         "y": 352.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 34,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.5
-              },
-              {
-                "x": 0.0,
-                "y": 0.5
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              }
-            ]
-          },
-          "uid": 43
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 224.0,
-        "y": 384.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 35,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.5,
-                "y": 1.0
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 46
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 192.0,
-        "y": 256.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 36,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.5,
-                "y": 1.0
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 47
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 480.0,
-        "y": 288.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 37,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.5,
-                "y": 1.0
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 50
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 480.0,
-        "y": 320.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 38,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 1.0,
-                "y": 1.0
-              },
-              {
-                "x": 1.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.75,
-                "y": 0.75
-              },
-              {
-                "x": 0.75,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 53
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 480.0,
-        "y": 352.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 39,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.5,
-                "y": 1.0
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 56
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 192.0,
-        "y": 320.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 40,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.5
-              },
-              {
-                "x": 0.0,
-                "y": 0.5
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              }
-            ]
-          },
-          "uid": 59
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 544.0,
-        "y": 352.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 41,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 62
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 480.0,
-        "y": 256.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 42,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.75,
-                "y": 1.0
-              },
-              {
-                "x": 0.75,
-                "y": 0.75
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.5,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 65
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 128.0,
-        "y": 624.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 43,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.5,
-                "y": 1.0
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 66
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 32.0,
-        "y": 544.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 44,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 0.5
-              },
-              {
-                "x": 0.25,
-                "y": 0.25
-              },
-              {
-                "x": 0.0,
-                "y": 0.25
-              },
-              {
-                "x": 0.0,
-                "y": 0.5
-              }
-            ]
-          },
-          "uid": 67
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 144.0,
-        "y": 368.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 45,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 1.0,
-                "y": 0.0
-              },
-              {
-                "x": 1.0,
-                "y": -0.25
-              },
-              {
-                "x": 0.75,
-                "y": -0.25
-              },
-              {
-                "x": 0.75,
-                "y": 0.0
-              }
-            ]
-          },
-          "uid": 68
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 272.0,
-        "y": 432.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 46,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.75,
-                "y": 1.0
-              },
-              {
-                "x": 0.75,
-                "y": 0.75
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.5,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 71
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": -16.0,
-        "y": 0.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 47,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.5
-              },
-              {
-                "x": 0.0,
-                "y": 0.5
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              }
-            ]
-          },
-          "uid": 72
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": -16.0,
-        "y": 0.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 48,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 75
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": -32.0,
-        "y": 0.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 49,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.75,
-                "y": 1.0
-              },
-              {
-                "x": 0.75,
-                "y": 0.75
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.5,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 78
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 1152.0,
-        "y": 640.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 50,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 81
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 1120.0,
-        "y": 672.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 51,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 1.0,
-                "y": 1.0
-              },
-              {
-                "x": 1.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.75,
-                "y": 0.75
-              },
-              {
-                "x": 0.75,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 84
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 1056.0,
-        "y": 640.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 52,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 87
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 512.0,
-        "y": 320.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 53,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 90
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 1152.0,
-        "y": 608.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 54,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 93
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 544.0,
-        "y": 320.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 55,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 0.5
-              },
-              {
-                "x": 0.25,
-                "y": 0.25
-              },
-              {
-                "x": 0.0,
-                "y": 0.25
-              },
-              {
-                "x": 0.0,
-                "y": 0.5
-              }
-            ]
-          },
-          "uid": 96
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 544.0,
-        "y": 320.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 56,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.5,
-                "y": 1.0
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.25,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 97
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 544.0,
-        "y": 288.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 57,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.75,
-                "y": 1.0
-              },
-              {
-                "x": 0.75,
-                "y": 0.75
-              },
-              {
-                "x": 0.5,
-                "y": 0.75
-              },
-              {
-                "x": 0.5,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 98
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 512.0,
-        "y": 288.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 58,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 99
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 512.0,
-        "y": 256.0
-      },
-      "scale": {
-        "x": 32.0,
-        "y": 32.0
-      }
-    },
-    "zIndex": 0
-  },
-  {
-    "uid": 59,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "components.SpriteRenderer",
-        "properties": {
-          "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/blocksheet.png",
-              "width": 64,
-              "height": 64
-            },
-            "texCords": [
-              {
-                "x": 0.25,
-                "y": 1.0
-              },
-              {
-                "x": 0.25,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 0.75
-              },
-              {
-                "x": 0.0,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 100
-        }
-      }
-    ],
-    "transform": {
-      "position": {
-        "x": 544.0,
-        "y": 256.0
       },
       "scale": {
         "x": 32.0,
