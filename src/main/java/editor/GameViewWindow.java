@@ -69,4 +69,5 @@ public class GameViewWindow {
         return new ImVec2(viewportX + ImGui.getCursorPosX(),
                 viewportY + ImGui.getCursorPosY());
     }
+
 }
