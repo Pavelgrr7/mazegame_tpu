@@ -100,7 +100,7 @@ public abstract class Scene {
 
         String inFile = "";
         try {
-            inFile = new String(Files.readAllBytes(Paths.get("level.txt")));
+            inFile = new String(Files.readAllBytes(Paths.get("level.level")));
         } catch (IOException e) {
             e.printStackTrace();
         }

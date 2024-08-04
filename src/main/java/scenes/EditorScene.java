@@ -31,7 +31,7 @@ public class EditorScene extends Scene {
         this.camera = new Camera(new Vector2f(-250, 0));
         levelEditorStuff.addComponent(new MouseControls());
         levelEditorStuff.addComponent(new GridLines());
-        //levelEditorStuff.addComponent(new EditorCamera(this.camera));
+        levelEditorStuff.addComponent(new EditorCamera(this.camera));
 
 //        obj1 = new Transform(new Vector2f(100, 500));
 //        obj2 = new Transform(new Vector2f(100, 300));

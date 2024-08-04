@@ -7,7 +7,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import util.Settings;
 
-public class GridLines extends Component {
+public class  GridLines extends Component {
 
     @Override
     public void update(float dt) {

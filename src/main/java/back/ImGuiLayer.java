@@ -248,7 +248,7 @@ public class ImGuiLayer {
                 ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
                 ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
 
-        ImGui.begin("Dockspace Demo", new ImBoolean(true), windowFlags);
+        ImGui.begin("Dockspace", new ImBoolean(true), windowFlags);
         ImGui.popStyleVar(2);
 
         // Dockspace
