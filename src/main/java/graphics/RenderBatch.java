@@ -1,7 +1,8 @@
 package graphics;
 
-import back.Window;
 import components.SpriteRenderer;
+import back.Window;
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import util.AssetPool;
@@ -9,15 +10,12 @@ import util.AssetPool;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
-
-
+import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20C.glVertexAttribPointer;
-
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class RenderBatch implements Comparable<RenderBatch> {
     // Vertex
@@ -32,8 +30,8 @@ public class RenderBatch implements Comparable<RenderBatch> {
 
     private final int POS_OFFSET = 0;
     private final int COLOR_OFFSET = POS_OFFSET + POS_SIZE * Float.BYTES;
-    private final int TEX_CORDS_OFFSET = COLOR_OFFSET + COLOR_SIZE * Float.BYTES;
-    private final int TEX_ID_OFFSET = TEX_CORDS_OFFSET + TEX_COORDS_SIZE * Float.BYTES;
+    private final int TEX_COORDS_OFFSET = COLOR_OFFSET + COLOR_SIZE * Float.BYTES;
+    private final int TEX_ID_OFFSET = TEX_COORDS_OFFSET + TEX_COORDS_SIZE * Float.BYTES;
     private final int ENTITY_ID_OFFSET = TEX_ID_OFFSET + TEX_ID_SIZE * Float.BYTES;
     private final int VERTEX_SIZE = 10;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
@@ -79,24 +77,19 @@ public class RenderBatch implements Comparable<RenderBatch> {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
 
         // Enable the buffer attribute pointers
-        glVertexAttribPointer(0, POS_SIZE, GL_FLOAT, false,
-                VERTEX_SIZE_BYTES, POS_OFFSET);
+        glVertexAttribPointer(0, POS_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, POS_OFFSET);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, COLOR_SIZE, GL_FLOAT, false,
-                VERTEX_SIZE_BYTES, COLOR_OFFSET);
+        glVertexAttribPointer(1, COLOR_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, COLOR_OFFSET);
         glEnableVertexAttribArray(1);
 
-        glVertexAttribPointer(2, TEX_COORDS_SIZE, GL_FLOAT, false,
-                VERTEX_SIZE_BYTES, TEX_CORDS_OFFSET);
+        glVertexAttribPointer(2, TEX_COORDS_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, TEX_COORDS_OFFSET);
         glEnableVertexAttribArray(2);
 
-        glVertexAttribPointer(3, TEX_ID_SIZE, GL_FLOAT, false,
-                VERTEX_SIZE_BYTES, TEX_ID_OFFSET);
+        glVertexAttribPointer(3, TEX_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, TEX_ID_OFFSET);
         glEnableVertexAttribArray(3);
 
-        glVertexAttribPointer(4, ENTITY_ID_SIZE, GL_FLOAT, false,
-                VERTEX_SIZE_BYTES, ENTITY_ID_OFFSET);
+        glVertexAttribPointer(4, ENTITY_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, ENTITY_ID_OFFSET);
         glEnableVertexAttribArray(4);
     }
 
@@ -168,7 +161,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
         int offset = index * 4 * VERTEX_SIZE;
 
         Vector4f color = sprite.getColor();
-        Vector2f[] texCoords = sprite.getTexCords();
+        Vector2f[] texCoords = sprite.getTexCoords();
 
         int texId = 0;
         if (sprite.getTexture() != null) {
@@ -178,6 +171,17 @@ public class RenderBatch implements Comparable<RenderBatch> {
                     break;
                 }
             }
+        }
+
+        boolean isRotated = sprite.gameObject.transform.rotation != 0.0f;
+        Matrix4f transformMatrix = new Matrix4f().identity();
+        if (isRotated) {
+            transformMatrix.translate(sprite.gameObject.transform.position.x,
+                    sprite.gameObject.transform.position.y, 0f);
+            transformMatrix.rotate((float)Math.toRadians(sprite.gameObject.transform.rotation),
+                    0, 0, 1);
+            transformMatrix.scale(sprite.gameObject.transform.scale.x,
+                    sprite.gameObject.transform.scale.y, 1);
         }
 
         // Add vertices with the appropriate properties
@@ -192,9 +196,16 @@ public class RenderBatch implements Comparable<RenderBatch> {
                 yAdd = 1.0f;
             }
 
+            Vector4f currentPos = new Vector4f(sprite.gameObject.transform.position.x + (xAdd * sprite.gameObject.transform.scale.x),
+                    sprite.gameObject.transform.position.y + (yAdd * sprite.gameObject.transform.scale.y),
+                    0, 1);
+            if (isRotated) {
+                currentPos = new Vector4f(xAdd, yAdd, 0, 1).mul(transformMatrix);
+            }
+
             // Load position
-            vertices[offset] = sprite.gameObject.transform.position.x + (xAdd * sprite.gameObject.transform.scale.x);
-            vertices[offset + 1] = sprite.gameObject.transform.position.y + (yAdd * sprite.gameObject.transform.scale.y);
+            vertices[offset] = currentPos.x;
+            vertices[offset + 1] = currentPos.y;
 
             // Load color
             vertices[offset + 2] = color.x;

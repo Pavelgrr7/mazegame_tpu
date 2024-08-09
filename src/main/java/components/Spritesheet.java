@@ -1,17 +1,17 @@
 package components;
 
-import graphics.Texture;
 import org.joml.Vector2f;
+import graphics.Texture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpriteSheet {
+public class Spritesheet {
 
     private Texture texture;
     private List<Sprite> sprites;
 
-    public SpriteSheet(Texture texture, int spriteWidth, int spriteHeight, int numSprites, int spacing) {
+    public Spritesheet(Texture texture, int spriteWidth, int spriteHeight, int numSprites, int spacing) {
         this.sprites = new ArrayList<>();
 
         this.texture = texture;
@@ -31,7 +31,7 @@ public class SpriteSheet {
             };
             Sprite sprite = new Sprite();
             sprite.setTexture(this.texture);
-            sprite.setTexCords(texCoords);
+            sprite.setTexCoords(texCoords);
             sprite.setWidth(spriteWidth);
             sprite.setHeight(spriteHeight);
             this.sprites.add(sprite);

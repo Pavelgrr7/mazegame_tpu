@@ -3,7 +3,6 @@ package back;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
-
 public class KeyListener {
     private static KeyListener instance;
     private boolean keyPressed[] = new boolean[350];
@@ -32,4 +31,3 @@ public class KeyListener {
         return get().keyPressed[keyCode];
     }
 }
-

@@ -1,38 +1,35 @@
 package scenes;
 
-
-import back.Camera;
-import components.ComponentDeserializer;
-import back.GameObject;
-import back.GameObjectDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import components.Component;
-import graphics.Renderer;
+import components.ComponentDeserializer;
 import imgui.ImGui;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import back.Camera;
+import back.GameObject;
+import back.GameObjectDeserializer;
+import back.Transform;
+import graphics.Renderer;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class Scene {
+public class Scene {
 
-    protected Renderer renderer = new Renderer();
-    protected Camera camera;
+    private Renderer renderer = new Renderer();
+    private Camera camera;
     private boolean isRunning = false;
-    protected List<GameObject> gameObjects = new ArrayList<>();
-    protected boolean levelLoaded = false;
+    private List<GameObject> gameObjects = new ArrayList<>();
+    private boolean levelLoaded = false;
+    private SceneInitializer sceneInitializer;
 
-    public Scene() {
-
+    public Scene(SceneInitializer sceneInitializer) {
+        this.sceneInitializer = sceneInitializer;
     }
 
     public void init() {
@@ -64,8 +61,16 @@ public abstract class Scene {
         return result.orElse(null);
     }
 
-    public abstract void update(float dt);
-    public abstract void render();
+    public void update(float dt){
+        this.camera.adjustProjection();
+
+        for (GameObject go : this.gameObjects) {
+            go.update(dt);
+        }
+    };
+    public void render(){
+        this.renderer.render();
+    };
 
     public Camera camera() {
         return this.camera;
@@ -73,6 +78,13 @@ public abstract class Scene {
 
     public void imgui() {
 
+    }
+
+    public GameObject createGameObject(String name) {
+        GameObject go = new GameObject(name);
+        go.addComponent(new Transform());
+        go.transform = go.getComponent(Transform.class);
+        return go;
     }
 
     public void saveExit() {
@@ -83,8 +95,14 @@ public abstract class Scene {
                 .create();
 
         try {
-            FileWriter writer = new FileWriter("level.level");
-            writer.write(gson.toJson(this.gameObjects));
+            FileWriter writer = new FileWriter("level.txt");
+            List<GameObject> objsToSerialize = new ArrayList<>();
+            for (GameObject obj : this.gameObjects) {
+                if (obj.doSerialization()) {
+                    objsToSerialize.add(obj);
+                }
+            }
+            writer.write(gson.toJson(objsToSerialize));
             writer.close();
         } catch(IOException e) {
             e.printStackTrace();
@@ -100,7 +118,7 @@ public abstract class Scene {
 
         String inFile = "";
         try {
-            inFile = new String(Files.readAllBytes(Paths.get("level.level")));
+            inFile = new String(Files.readAllBytes(Paths.get("level.txt")));
         } catch (IOException e) {
             e.printStackTrace();
         }

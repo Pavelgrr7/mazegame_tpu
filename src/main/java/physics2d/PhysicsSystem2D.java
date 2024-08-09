@@ -1,7 +1,7 @@
 package physics2d;
 
 import org.joml.Vector2f;
-import physics2d.rigidbody.Rigidbody2D;
+import physics2d.components.Rigidbody2D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class PhysicsSystem2D {
 
         // Update the velocities of all rigidbodies
         for (int i=0; i < rigidbodies.size(); i++) {
-            rigidbodies.get(i).physicsUpdate(fixedUpdate);
+//            rigidbodies.get(i).physicsUpdate(fixedUpdate);
         }
     }
 

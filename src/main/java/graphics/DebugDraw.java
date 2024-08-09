@@ -150,11 +150,11 @@ public class DebugDraw {
                 new Vector2f(max.x, max.y), new Vector2f(max.x, min.y)
         };
 
-        if (rotation != 0.0f) {
-            for (Vector2f vert : vertices) {
-                JMath.rotate(vert, rotation, center);
-            }
-        }
+//        if (rotation != 0.0f) {
+//            for (Vector2f vert : vertices) {
+//                JMath.rotate(vert, rotation, center);
+//            }
+//        }
 
         addLine2D(vertices[0], vertices[1], color, lifetime);
         addLine2D(vertices[0], vertices[3], color, lifetime);
@@ -181,7 +181,7 @@ public class DebugDraw {
 
         for (int i=0; i < points.length; i++) {
             Vector2f tmp = new Vector2f(0, radius);
-            JMath.rotate(tmp, currentAngle, new Vector2f());
+//            JMath.rotate(tmp, currentAngle, new Vector2f());
             points[i] = new Vector2f(tmp).add(center);
 
             if (i > 0) {

@@ -1,18 +1,19 @@
 package back;
-//import editor.GameViewWindow;
+
 import editor.GameViewWindow;
 import editor.PropertiesWindow;
-import graphics.PickingTexture;
 import imgui.*;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.type.ImBoolean;
+import graphics.PickingTexture;
 import scenes.Scene;
 
-import static org.lwjgl.glfw.GLFW.*;
+import java.util.PropertyResourceBundle;
 
+import static org.lwjgl.glfw.GLFW.*;
 
 public class ImGuiLayer {
 
@@ -167,13 +168,11 @@ public class ImGuiLayer {
         final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
 
         // Glyphs could be added per-font as well as per config used globally like here
-        //fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
-        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
+        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
 
         // Fonts merge example
         fontConfig.setPixelSnapH(true);
         fontAtlas.addFontFromFileTTF("assets/fonts/HomeVideo.ttf", 10, fontConfig);
-        //fontAtlas.addFontFromFileTTF("assets/fonts/times.ttf", 10, fontConfig);
 
         fontConfig.destroy(); // After all fonts were added we don't need this config more
 
@@ -248,10 +247,14 @@ public class ImGuiLayer {
                 ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
                 ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
 
-        ImGui.begin("Dockspace", new ImBoolean(true), windowFlags);
+        ImGui.begin("Dockspace Demo", new ImBoolean(true), windowFlags);
         ImGui.popStyleVar(2);
 
         // Dockspace
         ImGui.dockSpace(ImGui.getID("Dockspace"));
+    }
+
+    public PropertiesWindow getPropertiesWindow() {
+        return this.propertiesWindow;
     }
 }

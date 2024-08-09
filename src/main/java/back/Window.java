@@ -1,31 +1,30 @@
 package back;
 
-import graphics.*;
+import observers.EventSystem;
+import observers.Observer;
+import observers.events.Event;
+import observers.events.EventType;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import graphics.*;
 import scenes.EditorScene;
 import scenes.MazeScene;
-import scenes.MenuScene;
 import scenes.Scene;
 import util.AssetPool;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Window {
+public class Window implements Observer {
     private int width, height;
     private String title;
     private long glfwWindow;
     private ImGuiLayer imguiLayer;
-    private FrameBuffer framebuffer;
+    private Framebuffer framebuffer;
     private PickingTexture pickingTexture;
-
-    public float r, g, b, a;
-    private boolean fadeToBlack = false;
 
     private static Window window = null;
 
@@ -34,11 +33,8 @@ public class Window {
     private Window() {
         this.width = 1280;
         this.height = 720;
-        this.title = "Test";
-        r = 1;
-        b = 1;
-        g = 1;
-        a = 1;
+        this.title = "Maze";
+        EventSystem.addObserver(this);
     }
 
     public static void changeScene(int newScene) {
@@ -99,7 +95,7 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
         // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
@@ -134,9 +130,9 @@ public class Window {
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-        this.framebuffer = new FrameBuffer(1280 , 720);
-        this.pickingTexture = new PickingTexture(1280, 720);
-        glViewport(0, 0, 1280, 720);
+        this.framebuffer = new Framebuffer(1280 , 720);
+        this.pickingTexture = new PickingTexture(1280 , 720);
+        glViewport(0, 0, 1280 , 720);
 
         this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
         this.imguiLayer.initImGui();
@@ -160,7 +156,7 @@ public class Window {
             glDisable(GL_BLEND);
             pickingTexture.enableWriting();
 
-            glViewport(0, 0, 1280, 720);
+            glViewport(0, 0, 1280 , 720);
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -174,7 +170,7 @@ public class Window {
             DebugDraw.beginFrame();
 
             this.framebuffer.bind();
-            glClearColor(r, g, b, a);
+            glClearColor(1.0f,1.0f,1.0f,1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             if (dt >= 0) {
@@ -213,11 +209,24 @@ public class Window {
         get().height = newHeight;
     }
 
-    public static FrameBuffer getFramebuffer() {
+    public static Framebuffer getFramebuffer() {
         return get().framebuffer;
     }
 
     public static float getTargetAspectRatio() {
         return 16.0f / 9.0f;
+    }
+
+    public static ImGuiLayer getImguiLayer() {
+        return get().imguiLayer;
+    }
+
+    @Override
+    public void onNotify(GameObject object, Event event) {
+        if (event.type == EventType.GameEngineStartPlay) {
+            System.out.println("Play!");
+        } else if (event.type == EventType.GameEngineStopPlay) {
+            System.out.println("Stop!");
+        }
     }
 }

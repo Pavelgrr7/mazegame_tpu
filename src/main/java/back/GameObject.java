@@ -1,9 +1,7 @@
 package back;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import components.Component;
+import imgui.ImGui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +13,11 @@ public class GameObject {
     private String name;
     private List<Component> components;
     public transient Transform transform;
-    private int zIndex;
+    private boolean doSerialization = true;
 
-    public GameObject(String name, Transform transform, int zIndex) {
+    public GameObject(String name) {
         this.name = name;
-        this.zIndex = zIndex;
         this.components = new ArrayList<>();
-        this.transform = transform;
 
         this.uid = ID_COUNTER++;
     }
@@ -71,12 +67,9 @@ public class GameObject {
 
     public void imgui() {
         for (Component c : components) {
-            c.imgui();
+            if (ImGui.collapsingHeader(c.getClass().getSimpleName()))
+                c.imgui();
         }
-    }
-
-    public int zIndex() {
-        return this.zIndex;
     }
 
     public static void init(int maxId) {
@@ -89,5 +82,13 @@ public class GameObject {
 
     public List<Component> getAllComponents() {
         return this.components;
+    }
+
+    public void setNoSerialize() {
+        this.doSerialization = false;
+    }
+
+    public boolean doSerialization() {
+        return this.doSerialization;
     }
 }
