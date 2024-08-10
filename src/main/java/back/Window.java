@@ -8,9 +8,10 @@ import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import graphics.*;
-import scenes.EditorScene;
-import scenes.MazeScene;
+import scenes.EditorSceneInitializer;
+//import scenes.MazeScene;
 import scenes.Scene;
+import scenes.SceneInitializer;
 import util.AssetPool;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -37,19 +38,11 @@ public class Window implements Observer {
         EventSystem.addObserver(this);
     }
 
-    public static void changeScene(int newScene) {
-        switch (newScene) {
-            case 0:
-                currentScene = new EditorScene();
-                break;
-            case 1:
-                currentScene = new MazeScene();
-                break;
-            default:
-                assert false : "Unknown scene '" + newScene + "'";
-                break;
-        }
+    public static void changeScene(SceneInitializer sceneInitializer) {
+        if (currentScene != null) {
 
+        }
+        currentScene = new Scene(sceneInitializer);
         currentScene.load();
         currentScene.init();
         currentScene.start();
@@ -137,7 +130,7 @@ public class Window implements Observer {
         this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
         this.imguiLayer.initImGui();
 
-        Window.changeScene(0);
+        Window.changeScene(new EditorSceneInitializer());
     }
 
     public void loop() {

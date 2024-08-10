@@ -10,6 +10,7 @@ import back.GameObject;
 import back.GameObjectDeserializer;
 import back.Transform;
 import graphics.Renderer;
+import org.joml.Vector2f;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +34,9 @@ public class Scene {
     }
 
     public void init() {
-
+        this.camera = new Camera(new Vector2f(-250, 0));
+        this.sceneInitializer.loadResources(this);
+        this.sceneInitializer.init(this);
     }
 
     public void start() {
@@ -77,7 +80,7 @@ public class Scene {
     }
 
     public void imgui() {
-
+        this.sceneInitializer.imgui();
     }
 
     public GameObject createGameObject(String name) {
@@ -146,5 +149,9 @@ public class Scene {
             Component.init(maxCompId);
             this.levelLoaded = true;
         }
+    }
+
+    public List<GameObject> getGameObjects() {
+        return this.gameObjects;
     }
 }
