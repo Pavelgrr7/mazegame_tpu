@@ -9,7 +9,6 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_DECIMAL;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_MIDDLE;
 
 public class EditorCamera extends Component {
-
     private float dragDebounce = 0.032f;
 
     private Camera levelEditorCamera;
@@ -26,7 +25,7 @@ public class EditorCamera extends Component {
     }
 
     @Override
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
         if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE) && dragDebounce > 0) {
             this.clickOrigin = new Vector2f(MouseListener.getOrthoX(), MouseListener.getOrthoY());
             dragDebounce -= dt;

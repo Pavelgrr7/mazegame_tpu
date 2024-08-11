@@ -1,6 +1,7 @@
 package back;
 
 import editor.GameViewWindow;
+import editor.MenuBar;
 import editor.PropertiesWindow;
 import imgui.*;
 import imgui.callback.ImStrConsumer;
@@ -27,11 +28,13 @@ public class ImGuiLayer {
 
     private GameViewWindow gameViewWindow;
     private PropertiesWindow propertiesWindow;
+    private MenuBar menuBar;
 
     public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture) {
         this.glfwWindow = glfwWindow;
         this.gameViewWindow = new GameViewWindow();
         this.propertiesWindow = new PropertiesWindow(pickingTexture);
+        this.menuBar = new MenuBar();
     }
 
     // Initialize Dear ImGui.
@@ -168,7 +171,7 @@ public class ImGuiLayer {
         final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
 
         // Glyphs could be added per-font as well as per config used globally like here
-        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
+        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
 
         // Fonts merge example
         fontConfig.setPixelSnapH(true);
@@ -178,8 +181,7 @@ public class ImGuiLayer {
 
         // ------------------------------------------------------------
         // Use freetype instead of stb_truetype to build a fonts texture
-        //ImGuiFreeType.buildFontAtlas(fontAtlas, ImGuiFreeType.RasterizerFlags.LightHinting);
-
+        //ImGuiFreeType.buildFontAtlas(fontAtlas, ImGuiFreeType.RasterizerFlags.LightHinting);\
         // Method initializes LWJGL3 renderer.
         // This method SHOULD be called after you've initialized your ImGui configuration (fonts and so on).
         // ImGui context should be created as well.
@@ -193,10 +195,11 @@ public class ImGuiLayer {
         ImGui.newFrame();
         setupDockspace();
         currentScene.imgui();
-        ImGui.showDemoWindow();
+//        ImGui.showDemoWindow();
         gameViewWindow.imgui();
         propertiesWindow.update(dt, currentScene);
         propertiesWindow.imgui();
+        menuBar.imgui();
         ImGui.end();
         ImGui.render();
 

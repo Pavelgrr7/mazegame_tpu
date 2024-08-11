@@ -30,6 +30,7 @@ public class Window implements Observer {
     private static Window window = null;
 
     private static Scene currentScene;
+    private boolean runtimePlay = false;
 
     private Window() {
         this.width = 1280;
@@ -40,8 +41,10 @@ public class Window implements Observer {
 
     public static void changeScene(SceneInitializer sceneInitializer) {
         if (currentScene != null) {
-
+            currentScene.destroy();
         }
+        getImguiLayer().getPropertiesWindow().setActiveGameObject(null);
+
         currentScene = new Scene(sceneInitializer);
         currentScene.load();
         currentScene.init();
@@ -88,7 +91,7 @@ public class Window implements Observer {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+            glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
 
         // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
@@ -169,7 +172,8 @@ public class Window implements Observer {
             if (dt >= 0) {
                 DebugDraw.draw();
                 Renderer.bindShader(defaultShader);
-                currentScene.update(dt);
+                if (runtimePlay) {currentScene.update(dt);}
+                else {currentScene.editorUpdate(dt);}
                 currentScene.render();
             }
             this.framebuffer.unbind();
@@ -183,7 +187,7 @@ public class Window implements Observer {
             beginTime = endTime;
         }
 
-        currentScene.saveExit();
+        currentScene.save();
     }
 
     public static int getWidth() {
@@ -216,10 +220,24 @@ public class Window implements Observer {
 
     @Override
     public void onNotify(GameObject object, Event event) {
-        if (event.type == EventType.GameEngineStartPlay) {
-            System.out.println("Play!");
-        } else if (event.type == EventType.GameEngineStopPlay) {
-            System.out.println("Stop!");
+        switch (event.type) {
+            case GameEngineStartPlay:
+                System.out.println("Starting play");
+                this.runtimePlay = true;
+                currentScene.save();
+                Window.changeScene(new EditorSceneInitializer());
+                break;
+            case GameEngineStopPlay:
+                System.out.println("Stop!");
+                this.runtimePlay = false;
+                Window.changeScene(new EditorSceneInitializer());
+                break;
+            case LoadLevel:
+                Window.changeScene(new EditorSceneInitializer());
+                break;
+            case SaveLevel:
+                currentScene.save();
+                break;
         }
     }
 }

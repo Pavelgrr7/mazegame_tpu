@@ -4,13 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import components.Component;
 import components.ComponentDeserializer;
-import imgui.ImGui;
 import back.Camera;
 import back.GameObject;
 import back.GameObjectDeserializer;
 import back.Transform;
 import graphics.Renderer;
 import org.joml.Vector2f;
+import physics2d.Physics2D;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,11 +26,16 @@ public class Scene {
     private Camera camera;
     private boolean isRunning = false;
     private List<GameObject> gameObjects = new ArrayList<>();
-    private boolean levelLoaded = false;
+    private boolean levelLoaded;
+    private Physics2D physics2D;
     private SceneInitializer sceneInitializer;
 
     public Scene(SceneInitializer sceneInitializer) {
         this.sceneInitializer = sceneInitializer;
+        this.physics2D = new Physics2D();
+        this.renderer = new Renderer();
+        this.gameObjects = new ArrayList<>();
+        this.isRunning = false;
     }
 
     public void init() {
@@ -40,9 +45,11 @@ public class Scene {
     }
 
     public void start() {
-        for (GameObject go : gameObjects) {
+        for (int i=0; i < gameObjects.size(); i++) {
+            GameObject go = gameObjects.get(i);
             go.start();
             this.renderer.add(go);
+            this.physics2D.add(go);
         }
         isRunning = true;
     }
@@ -57,6 +64,12 @@ public class Scene {
         }
     }
 
+    public void destroy(){
+        for (GameObject go : gameObjects) {
+            go.destroy();
+        }
+    }
+
     public GameObject getGameObject(int gameObjectId) {
         Optional<GameObject> result = this.gameObjects.stream()
                 .filter(gameObject -> gameObject.getUid() == gameObjectId)
@@ -64,11 +77,34 @@ public class Scene {
         return result.orElse(null);
     }
 
+    public void editorUpdate(float dt) {
+        this.camera.adjustProjection();
+        for (int i=0; i < gameObjects.size(); i++) {
+            GameObject go = gameObjects.get(i);
+            go.editorUpdate(dt);
+
+            if (go.isDead()) {
+                gameObjects.remove(i);
+                this.renderer.destroyGameObject(go);
+                this.physics2D.destroyGameObject(go);
+                i--;
+            }
+        }
+    }
+
     public void update(float dt){
         this.camera.adjustProjection();
-
-        for (GameObject go : this.gameObjects) {
+        this.physics2D.update(dt);
+        for (int i=0; i < gameObjects.size(); i++) {
+            GameObject go = gameObjects.get(i);
             go.update(dt);
+
+            if (go.isDead()) {
+                gameObjects.remove(i);
+                this.renderer.destroyGameObject(go);
+                this.physics2D.destroyGameObject(go);
+                i--;
+            }
         }
     };
     public void render(){
@@ -90,7 +126,7 @@ public class Scene {
         return go;
     }
 
-    public void saveExit() {
+    public void save() {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(Component.class, new ComponentDeserializer())
@@ -147,7 +183,6 @@ public class Scene {
             maxCompId++;
             GameObject.init(maxGoId);
             Component.init(maxCompId);
-            this.levelLoaded = true;
         }
     }
 

@@ -50,6 +50,7 @@ public class PropertiesWindow {
                         activeGameObject.addComponent(new Rigidbody2D());
                     }
                 }
+
                 if (ImGui.menuItem("Add Box Collider")) {
                     if (activeGameObject.getComponent(Box2DCollider.class) == null &&
                             activeGameObject.getComponent(CircleCollider.class) == null) {
@@ -63,6 +64,7 @@ public class PropertiesWindow {
                         activeGameObject.addComponent(new CircleCollider());
                     }
                 }
+
                 ImGui.endPopup();
             }
 
@@ -73,5 +75,9 @@ public class PropertiesWindow {
 
     public GameObject getActiveGameObject() {
         return this.activeGameObject;
+    }
+
+    public void setActiveGameObject(GameObject go) {
+        this.activeGameObject = go;
     }
 }
