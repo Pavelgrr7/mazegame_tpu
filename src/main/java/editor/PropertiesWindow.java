@@ -4,11 +4,10 @@ import components.NonPickable;
 import imgui.ImGui;
 import back.GameObject;
 import back.MouseListener;
-import graphics.PickingTexture;
 import physics2d.components.Box2DCollider;
 import physics2d.components.CircleCollider;
-import physics2d.components.Collider;
 import physics2d.components.Rigidbody2D;
+import graphics.PickingTexture;
 import scenes.Scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
