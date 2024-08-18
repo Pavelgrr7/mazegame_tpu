@@ -14,8 +14,9 @@ public class EditorCamera extends Component {
     private Camera levelEditorCamera;
     private Vector2f clickOrigin;
     private boolean reset = false;
-    private float dragSensitivity = 0.0f;
-    private float scrollSensitivity = 0.001f;
+    private float dragSensitivity = 32f;
+    private float scrollSensitivity = 0.1f;
+    private float previousScrollVal = -1f;
 
     public EditorCamera(Camera levelEditorCamera) {
         this.levelEditorCamera = levelEditorCamera;
@@ -24,6 +25,7 @@ public class EditorCamera extends Component {
 
     @Override
     public void editorUpdate(float dt) {
+
         if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE) && dragDebounce > 0) {
             System.out.println("1");
             this.clickOrigin = new Vector2f(MouseListener.getWorldX(), MouseListener.getWorldY());
@@ -39,16 +41,17 @@ public class EditorCamera extends Component {
 
         if (dragDebounce <= 0.0f && !MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
             System.out.println("3");
-            dragDebounce = 1f;
+            dragDebounce = 0.1f;
         }
 
         if (MouseListener.getScrollY() != 0.0f) {
-            System.out.println("4");
+            previousScrollVal = MouseListener.getScrollY();
+            System.out.println("4 " + MouseListener.getScrollY());
             float addValue = (float)Math.pow(Math.abs(MouseListener.getScrollY() * scrollSensitivity),
                     1 / levelEditorCamera.getZoom());
             addValue *= -Math.signum(MouseListener.getScrollY());
             levelEditorCamera.addZoom(addValue);
-
+            MouseListener.setScrollY(0.0f);
         }
 
         if (KeyListener.isKeyPressed(GLFW_KEY_ENTER)) {

@@ -25,10 +25,9 @@ public class PropertiesWindow {
     public void update(float dt, Scene currentScene) {
         debounce -= dt;
         //picking texture
-        if (!MouseListener.isDragging() && MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)  && debounce < 0) {
+        if (/*!MouseListener.isDragging() &&*/ MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT) /* && debounce < 0*/) {
             int x = (int)MouseListener.getScreenX();
             int y = (int)MouseListener.getScreenY();
-            System.out.println("I'm about to call readPixel");
             int gameObjectId = pickingTexture.readPixel(x, y);
             System.out.println(gameObjectId);
             GameObject pickedObj = currentScene.getGameObject(gameObjectId);

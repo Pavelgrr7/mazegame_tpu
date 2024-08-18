@@ -2,6 +2,7 @@ package back;
 
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
@@ -10,7 +11,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 public class MouseListener {
     private static MouseListener instance;
     private double scrollX, scrollY;
-    private double xPos, yPos, worldX, worldY, lastWorldX, lastWorldY;
+    private double xPos, yPos, lastY, lastX, worldX, worldY, lastWorldX, lastWorldY;
     private boolean mouseButtonPressed[] = new boolean[9];
     private boolean isDragging;
 
@@ -24,6 +25,8 @@ public class MouseListener {
         this.scrollY = 0.0;
         this.xPos = 0.0;
         this.yPos = 0.0;
+        this.lastX = 0.0;
+        this.lastY = 0.0;
     }
 
     public static MouseListener get() {
@@ -39,6 +42,8 @@ public class MouseListener {
             get().isDragging = true;
         }
 
+        get().lastX = get().xPos;
+        get().lastY = get().yPos;
         get().lastWorldX = get().worldX;
         get().lastWorldY = get().worldY;
         get().xPos = xpos;
@@ -75,6 +80,13 @@ public class MouseListener {
         return (float)get().yPos;
     }
 
+    public static float getWorldDx() {
+        return (float)(get().lastWorldX - get().worldX);
+    }
+
+    public static float getWorldDy() {
+        return (float)(get().lastWorldY - get().worldY);
+    }
 
     public static float getScrollX() { return (float)get().scrollX; }
 
@@ -134,5 +146,9 @@ public class MouseListener {
 
     public static void setGameViewportSize(Vector2f gameViewportSize) {
         get().gameViewportSize.set(gameViewportSize);
+    }
+
+    public static void setScrollY(float v) {
+        get().scrollY = v;
     }
 }
