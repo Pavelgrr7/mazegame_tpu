@@ -1,5 +1,6 @@
 package back;
 
+import editor.PropertiesWindow;
 import observers.EventSystem;
 import observers.Observer;
 import observers.events.Event;
@@ -91,7 +92,7 @@ public class Window implements Observer {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-            glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
 
         // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
@@ -172,6 +173,7 @@ public class Window implements Observer {
             if (dt >= 0) {
                 DebugDraw.draw();
                 Renderer.bindShader(defaultShader);
+                //PropertiesWindow.update(dt, currentScene);
                 if (runtimePlay) {currentScene.update(dt);}
                 else {currentScene.editorUpdate(dt);}
                 currentScene.render();
@@ -180,7 +182,7 @@ public class Window implements Observer {
 
             this.imguiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow);
-            MouseListener.endFrame();
+            //MouseListener.endFrame();
 
             endTime = (float)glfwGetTime();
             dt = endTime - beginTime;

@@ -58,6 +58,10 @@ public class EditorSceneInitializer extends SceneInitializer {
 
     @Override
     public void imgui() {
+
+            //System.out.println("X" + MouseListener.getScreenX());
+        //System.out.println("Y" + MouseListener.getScreenY());
+
         ImGui.begin("Level Editor Stuff");
         levelEditorStuff.imgui();
         ImGui.end();

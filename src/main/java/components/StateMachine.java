@@ -1,49 +1,49 @@
-//package components;
-//
-//import imgui.ImGui;
-//import imgui.type.ImString;
-//
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Objects;
-//
-//public class StateMachine extends Component {
-//    private class StateTrigger {
-//        public String state;
-//        public String trigger;
-//
-//        public StateTrigger() {}
-//
-//        public StateTrigger(String state, String trigger) {
-//            this.state = state;
-//            this.trigger = trigger;
-//        }
-//
-//        @Override
-//        public boolean equals(Object o) {
-//            if (o.getClass() != StateTrigger.class) return false;
-//            StateTrigger t2 = (StateTrigger)o;
-//            return t2.trigger.equals(this.trigger) && t2.state.equals(this.state);
-//        }
-//
-//        @Override
-//        public int hashCode() {
-//            return Objects.hash(state, trigger);
-//        }
-//    }
-//
-//    public HashMap<StateTrigger, String> stateTransfers = new HashMap<>();
+package components;
+
+import imgui.ImGui;
+import imgui.type.ImString;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
+public class StateMachine extends Component {
+    private class StateTrigger {
+        public String state;
+        public String trigger;
+
+        public StateTrigger() {}
+
+        public StateTrigger(String state, String trigger) {
+            this.state = state;
+            this.trigger = trigger;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o.getClass() != StateTrigger.class) return false;
+            StateTrigger t2 = (StateTrigger)o;
+            return t2.trigger.equals(this.trigger) && t2.state.equals(this.state);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(state, trigger);
+        }
+    }
+
+    public HashMap<StateTrigger, String> stateTransfers = new HashMap<>();
 //    private List<AnimationState> states = new ArrayList<>();
 //    private transient AnimationState currentState = null;
-//    private String defaultStateTitle = "";
-//
-//    public void refreshTextures() {
+    private String defaultStateTitle = "";
+
+    public void refreshTextures() {
 //        for (AnimationState state : states) {
 //            state.refreshTextures();
 //        }
-//    }
-//
+    }
+
 //    public void setDefaultState(String animationTitle) {
 //        for (AnimationState state : states) {
 //            if (state.title.equals(animationTitle)) {
@@ -143,4 +143,4 @@
 //            }
 //        }
 //    }
-//}
+}

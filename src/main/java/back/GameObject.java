@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import components.Component;
 import components.ComponentDeserializer;
 import components.SpriteRenderer;
+import editor.PropertiesWindow;
 import imgui.ImGui;
 import util.AssetPool;
 
@@ -63,6 +64,7 @@ public class GameObject {
         for (int i=0; i < components.size(); i++) {
             components.get(i).update(dt);
         }
+        //PropertiesWindow.update(dt, scene);
     }
 
     public void start() {

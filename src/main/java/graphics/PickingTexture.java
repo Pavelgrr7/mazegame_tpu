@@ -71,7 +71,7 @@ public class PickingTexture {
 
         float pixels[] = new float[3];
         glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, pixels);
-
+        System.out.printf("%s %s %s" , pixels[0], pixels[1], pixels[2]);
         return (int)(pixels[0]) - 1;
     }
 }

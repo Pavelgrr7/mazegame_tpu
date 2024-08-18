@@ -53,7 +53,7 @@ public class ImGuiLayer {
         final ImGuiIO io = ImGui.getIO();
 
         io.setIniFilename("imgui.ini"); // We don't want to save .ini file
-//        io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
+        //io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setConfigFlags(ImGuiConfigFlags.DockingEnable);
 //        io.setConfigFlags(ImGuiConfigFlags.ViewportsEnable);
 //        io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
@@ -158,9 +158,6 @@ public class ImGuiLayer {
 
     public void update(float dt, Scene currentScene) {
         startFrame(dt);
-
-        // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
-
         setupDockspace();
         currentScene.imgui();
 //        ImGui.showDemoWindow();
@@ -188,9 +185,9 @@ public class ImGuiLayer {
         // At that moment ImGui will be rendered to the current OpenGL context.
         imGuiGl3.renderDrawData(ImGui.getDrawData());
         long backupWindowPtr = glfwGetCurrentContext();
-//        ImGui.updatePlatformWindows();
-//        ImGui.renderPlatformWindowsDefault();
-//        glfwMakeContextCurrent(backupWindowPtr);
+        ImGui.updatePlatformWindows();
+        ImGui.renderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backupWindowPtr);
     }
 
     // If you want to clean a room after yourself - do it by yourself
