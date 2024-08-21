@@ -3,6 +3,9 @@ package components;
 import back.Camera;
 import back.KeyListener;
 import back.MouseListener;
+import editor.GameViewWindow;
+import imgui.ImGui;
+import imgui.ImVec2;
 import org.joml.Vector2f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -17,8 +20,10 @@ public class EditorCamera extends Component {
     private float dragSensitivity = 32f;
     private float scrollSensitivity = 0.1f;
     private float previousScrollVal = -1f;
+    private GameViewWindow gameViewWindow;
 
     public EditorCamera(Camera levelEditorCamera) {
+        this.gameViewWindow = new GameViewWindow();
         this.levelEditorCamera = levelEditorCamera;
         this.clickOrigin = new Vector2f();
     }
@@ -45,12 +50,14 @@ public class EditorCamera extends Component {
         }
 
         if (MouseListener.getScrollY() != 0.0f) {
-            previousScrollVal = MouseListener.getScrollY();
-            System.out.println("4 " + MouseListener.getScrollY());
-            float addValue = (float)Math.pow(Math.abs(MouseListener.getScrollY() * scrollSensitivity),
-                    1 / levelEditorCamera.getZoom());
-            addValue *= -Math.signum(MouseListener.getScrollY());
-            levelEditorCamera.addZoom(addValue);
+            if (GameViewWindow.getWantCaptureMouse()) {
+                previousScrollVal = MouseListener.getScrollY();
+                System.out.println("4 " + MouseListener.getScrollY());
+                float addValue = (float) Math.pow(Math.abs(MouseListener.getScrollY() * scrollSensitivity),
+                        1 / levelEditorCamera.getZoom());
+                addValue *= -Math.signum(MouseListener.getScrollY());
+                levelEditorCamera.addZoom(addValue);
+            }
             MouseListener.setScrollY(0.0f);
         }
 

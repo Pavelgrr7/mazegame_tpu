@@ -12,7 +12,10 @@ import org.joml.Vector2f;
 
 public class GameViewWindow {
 
-    private float leftX, rightX, topY, bottomY;
+    private static float leftX;
+    private static float rightX;
+    private static float topY;
+    private static float bottomY;
     private boolean isPlaying = false;
 
     public void imgui() {
@@ -53,7 +56,7 @@ public class GameViewWindow {
         ImGui.end();
     }
 
-    public boolean getWantCaptureMouse() {
+    public static boolean getWantCaptureMouse() {
         return MouseListener.getX() >= leftX && MouseListener.getX() <= rightX &&
                 MouseListener.getY() >= bottomY && MouseListener.getY() <= topY;
     }
