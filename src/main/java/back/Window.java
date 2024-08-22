@@ -44,7 +44,7 @@ public class Window implements Observer {
         if (currentScene != null) {
             currentScene.destroy();
         }
-        getImguiLayer().getPropertiesWindow().setActiveGameObject(null);
+        //getImguiLayer().getPropertiesWindow().setActiveGameObject(null);
 
         currentScene = new Scene(sceneInitializer);
         currentScene.load();

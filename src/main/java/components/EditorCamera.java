@@ -1,6 +1,7 @@
 package components;
 
 import back.Camera;
+//import back.KeyListener;
 import back.KeyListener;
 import back.MouseListener;
 import editor.GameViewWindow;
@@ -65,6 +66,7 @@ public class EditorCamera extends Component {
             System.out.println("5");
             reset = true;
         }
+
 
         if (reset) {
             System.out.println("6");
