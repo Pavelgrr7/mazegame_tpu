@@ -13,12 +13,12 @@ public class Rigidbody2D extends Component {
     private float linearDamping = 0.9f;
     private float mass = 0;
     private BodyType bodyType = BodyType.Dynamic;
-//    private float friction = 0.1f;
+    private float friction = 0.1f;
     public float angularVelocity = 0.0f;
-    public float gravityScale = 0.0f;
+//    public float gravityScale = 1.0f;
     private boolean isSensor = false;
 
-    private boolean fixedRotation = false;
+//    private boolean fixedRotation = false;
     private boolean continuousCollision = true;
 
     private transient Body rawBody = null;
@@ -26,58 +26,43 @@ public class Rigidbody2D extends Component {
     @Override
     public void update(float dt) {
         if (rawBody != null) {
-            if (this.bodyType == BodyType.Dynamic || this.bodyType == BodyType.Kinematic) {
-                this.gameObject.transform.position.set(
-                        rawBody.getPosition().x, rawBody.getPosition().y
-                );
-                this.gameObject.transform.rotation = (float) Math.toDegrees(rawBody.getAngle());
-//                Vec2 vel = rawBody.getLinearVelocity();
-//                this.velocity.set(vel.x, vel.y);
-//            } else if (this.bodyType == BodyType.Static) {
-//                this.rawBody.setTransform(
-//                        new Vec2(this.gameObject.transform.position.x, this.gameObject.transform.position.y),
-//                        this.gameObject.transform.rotation
-//                );
-            }
+            this.gameObject.transform.position.set(
+                    rawBody.getPosition().x, rawBody.getPosition().y
+            );
+            this.gameObject.transform.rotation = (float)Math.toDegrees(rawBody.getAngle());
         }
     }
 
-//    public void addVelocity(Vector2f forceToAdd) {
-////        if (rawBody != null) {
-////            rawBody.applyForceToCenter(new Vec2(forceToAdd.x, forceToAdd.y));
-////        }
-//    }
+    public void addVelocity(Vector2f forceToAdd) {
+        if (rawBody != null) {
+            rawBody.applyForceToCenter(new Vec2(velocity.x, velocity.y));
+        }
+    }
 
-//    public void addImpulse(Vector2f impulse) {
-//        if (rawBody != null) {
-//            rawBody.applyLinearImpulse(new Vec2(velocity.x, velocity.y), rawBody.getWorldCenter());
-//        }
-//    }
+    public void addImpulse(Vector2f impulse) {
+        if (rawBody != null) {
+            rawBody.applyLinearImpulse(new Vec2(velocity.x, velocity.y), rawBody.getWorldCenter());
+        }
+    }
 
-//    public Vector2f getVelocity() {
-//        return velocity;
-//    }
+    public Vector2f getVelocity() {
+        return velocity;
+    }
 
-//    public void setVelocity(Vector2f velocity) {
-//        this.velocity.set(velocity);
-//        if (rawBody != null) {
-//            this.rawBody.setLinearVelocity(new Vec2(velocity.x, velocity.y));
-//        }
-//    }
+    public void setVelocity(Vector2f velocity) {
+        this.velocity.set(velocity);
+        if (rawBody != null) {
+            this.rawBody.setLinearVelocity(new Vec2(velocity.x, velocity.y));
+        }
+    }
 
-//    public void setPosition(Vector2f newPos) {
-//        if (rawBody != null) {
-//            rawBody.setTransform(new Vec2(newPos.x, newPos.y), gameObject.transform.rotation);
-//        }
-//    }
-
-//    public void setAngularVelocity(float angularVelocity) {
-//        this.angularVelocity = angularVelocity;
-//        if (rawBody != null) {
-//            this.rawBody.setAngularVelocity(angularVelocity);
-//        }
-//    }
-
+    public void setAngularVelocity(float angularVelocity) {
+        this.angularVelocity = angularVelocity;
+        if (rawBody != null) {
+            this.rawBody.setAngularVelocity(angularVelocity);
+        }
+    }
+//
 //    public void setGravityScale(float gravityScale) {
 //        this.gravityScale = gravityScale;
 //        if (rawBody != null) {
@@ -85,23 +70,23 @@ public class Rigidbody2D extends Component {
 //        }
 //    }
 
-//    public void setIsSensor() {
-//        isSensor = true;
-//        if (rawBody != null) {
-//            Window.getPhysics().setIsSensor(this);
-//        }
-//    }
+    public void setIsSensor() {
+        isSensor = true;
+        if (rawBody != null) {
+            //Window.getPhysics().setIsSensor(this);
+        }
+    }
 
-//    public void setNotSensor() {
-//        isSensor = false;
-//        if (rawBody != null) {
-//            Window.getPhysics().setNotSensor(this);
-//        }
-//    }
+    public void setNotSensor() {
+        isSensor = false;
+        if (rawBody != null) {
+            //Window.getPhysics().setNotSensor(this);
+        }
+    }
 
-//    public float getFriction() {
-//        return this.friction;
-//    }
+    public float getFriction() {
+        return this.friction;
+    }
 
     public boolean isSensor() {
         return this.isSensor;
@@ -139,13 +124,13 @@ public class Rigidbody2D extends Component {
         this.bodyType = bodyType;
     }
 
-    public boolean isFixedRotation() {
-        return fixedRotation;
-    }
-
-    public void setFixedRotation(boolean fixedRotation) {
-        this.fixedRotation = fixedRotation;
-    }
+//    public boolean isFixedRotation() {
+//        return fixedRotation;
+//    }
+//
+//    public void setFixedRotation(boolean fixedRotation) {
+//        this.fixedRotation = fixedRotation;
+//    }
 
     public boolean isContinuousCollision() {
         return continuousCollision;
@@ -158,7 +143,7 @@ public class Rigidbody2D extends Component {
     public Body getRawBody() {
         return rawBody;
     }
-//
+
     public void setRawBody(Body rawBody) {
         this.rawBody = rawBody;
     }

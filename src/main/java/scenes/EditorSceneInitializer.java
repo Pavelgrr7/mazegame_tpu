@@ -5,7 +5,7 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import back.*;
 import org.joml.Vector2f;
-import physics2d.PhysicsSystem2D;
+
 //import physics2d.primitives.Circle;
 //import physics2d.rigidbody.Rigidbody2D;
 //import sun.security.ssl.Debug;
@@ -16,7 +16,6 @@ public class EditorSceneInitializer extends SceneInitializer {
     private Spritesheet sprites;
 
     private GameObject levelEditorStuff;
-    PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 60.0f, new Vector2f(0, -10));
 
     public EditorSceneInitializer() {
 
