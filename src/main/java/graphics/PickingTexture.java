@@ -1,7 +1,7 @@
 package graphics;
 
 import editor.GameViewWindow;
-
+import org.joml.Vector2i;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL14.GL_DEPTH_COMPONENT32;
 import static org.lwjgl.opengl.GL30.*;
@@ -73,7 +73,22 @@ public class PickingTexture {
 
         float pixels[] = new float[3];
         glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, pixels);
-        System.out.printf("\n%s %s %s and the result is : %s", pixels[0], pixels[1], pixels[2], (int)(pixels[0]) - 1 );
+
         return (int)(pixels[0]) - 1;
+    }
+
+    public float[] readPixels(Vector2i start, Vector2i end) {
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
+        glReadBuffer(GL_COLOR_ATTACHMENT0);
+
+        Vector2i size = new Vector2i(end).sub(start).absolute();
+        int numPixels = size.x * size.y;
+        float pixels[] = new float[3 * numPixels];
+        glReadPixels(start.x, start.y, size.x, size.y, GL_RGB, GL_FLOAT, pixels);
+        for (int i = 0; i < pixels.length; i++) {
+            pixels[i] -= 1;
+        }
+
+        return pixels;
     }
 }

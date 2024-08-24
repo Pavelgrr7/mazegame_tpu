@@ -1,5 +1,6 @@
 package editor;
 
+import back.Sound;
 import imgui.ImGui;
 import imgui.ImVec2;
 import imgui.flag.ImGuiWindowFlags;
@@ -9,6 +10,9 @@ import observers.EventSystem;
 import observers.events.Event;
 import observers.events.EventType;
 import org.joml.Vector2f;
+import util.AssetPool;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class GameViewWindow {
 
@@ -18,6 +22,7 @@ public class GameViewWindow {
     private static float bottomY;
     private boolean isPlaying = false;
 
+
     public void imgui() {
         ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
                 | ImGuiWindowFlags.MenuBar);
@@ -25,10 +30,15 @@ public class GameViewWindow {
         ImGui.beginMenuBar();
         if (ImGui.menuItem("Play", "", isPlaying, !isPlaying)) {
             isPlaying = true;
+            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
+            if (!mainTheme.isPlaying()) mainTheme.play();
+            else mainTheme.stop();
             EventSystem.notify(null, new Event(EventType.GameEngineStartPlay));
         }
         if (ImGui.menuItem("Stop", "", !isPlaying, isPlaying)) {
             isPlaying = false;
+            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
+            if (mainTheme.isPlaying()) mainTheme.stop();
             EventSystem.notify(null, new Event(EventType.GameEngineStopPlay));
         }
         ImGui.endMenuBar();

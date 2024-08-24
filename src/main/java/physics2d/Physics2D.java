@@ -32,13 +32,11 @@ public class Physics2D {
             Transform transform = go.transform;
 
             BodyDef bodyDef = new BodyDef();
-            //bodyDef.angle = (float)Math.toRadians(transform.rotation);
+            bodyDef.angle = (float)Math.toRadians(transform.rotation);
             bodyDef.position.set(transform.position.x, transform.position.y);
             bodyDef.angularDamping = rb.getAngularDamping();
             bodyDef.linearDamping = rb.getLinearDamping();
-            //bodyDef.fixedRotation = rb.isFixedRotation();
             bodyDef.bullet = rb.isContinuousCollision();
-            //bodyDef.gravityScale = rb.gravityScale;
             bodyDef.angularVelocity = rb.angularVelocity;
             bodyDef.userData = rb.gameObject;
 

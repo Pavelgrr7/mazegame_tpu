@@ -7,8 +7,13 @@ import observers.events.Event;
 import observers.events.EventType;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.opengl.GL;
 import graphics.*;
+import physics2d.Physics2D;
 import scenes.EditorSceneInitializer;
 //import scenes.MazeScene;
 import scenes.Scene;
@@ -17,6 +22,7 @@ import util.AssetPool;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -29,6 +35,10 @@ public class Window implements Observer {
     private PickingTexture pickingTexture;
 
     private static Window window = null;
+
+    //OpenAL: vars for sound handling
+    private long audioContext;
+    private long audioDevice;
 
     private static Scene currentScene;
     private boolean runtimePlay = false;
@@ -64,11 +74,18 @@ public class Window implements Observer {
         return get().currentScene;
     }
 
+    public static Physics2D getPhysics() { return currentScene.getPhysics(); }
+
+
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         init();
         loop();
+
+        //Destroy the audio context
+        alcDestroyContext(audioContext);
+        alcCloseDevice(audioDevice);
 
         // Free the memory
         glfwFreeCallbacks(glfwWindow);
@@ -113,9 +130,21 @@ public class Window implements Observer {
         glfwMakeContextCurrent(glfwWindow);
         // Enable v-sync
         glfwSwapInterval(1);
-
         // Make the window visible
         glfwShowWindow(glfwWindow);
+        //Setup audio context: initialize the audio device
+        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+        audioDevice = alcOpenDevice(defaultDeviceName);
+        int[] attributes = {0};
+        audioContext = alcCreateContext(audioDevice, attributes);
+        alcMakeContextCurrent(audioContext);
+
+        ALCCapabilities alcCapibilities = ALC.createCapabilities(audioDevice);
+        ALCapabilities alCapabilities = AL.createCapabilities(alcCapibilities);
+
+        if (!alCapabilities.OpenAL10) {
+            assert false : "Audio librart not supported.";
+        }
 
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
@@ -181,8 +210,12 @@ public class Window implements Observer {
             this.framebuffer.unbind();
 
             this.imguiLayer.update(dt, currentScene);
+
+            MouseListener.endFrame();
+            KeyListener.endFrame();
+
             glfwSwapBuffers(glfwWindow);
-            //MouseListener.endFrame();
+            //
 
             endTime = (float)glfwGetTime();
             dt = endTime - beginTime;

@@ -33,12 +33,10 @@ public class EditorCamera extends Component {
     public void editorUpdate(float dt) {
 
         if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE) && dragDebounce > 0) {
-            System.out.println("1");
             this.clickOrigin = new Vector2f(MouseListener.getWorldX(), MouseListener.getWorldY());
             dragDebounce -= dt;
             return;
         } else if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
-            System.out.println("2");
             Vector2f mousePos = new Vector2f(MouseListener.getWorldX(), MouseListener.getWorldY());
             Vector2f delta = new Vector2f(mousePos).sub(this.clickOrigin);
             levelEditorCamera.position.sub(delta.mul(dt).mul(dragSensitivity));
@@ -46,14 +44,12 @@ public class EditorCamera extends Component {
         }
 
         if (dragDebounce <= 0.0f && !MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
-            System.out.println("3");
             dragDebounce = 0.1f;
         }
 
         if (MouseListener.getScrollY() != 0.0f) {
             if (GameViewWindow.getWantCaptureMouse()) {
                 previousScrollVal = MouseListener.getScrollY();
-                System.out.println("4 " + MouseListener.getScrollY());
                 float addValue = (float) Math.pow(Math.abs(MouseListener.getScrollY() * scrollSensitivity),
                         1 / levelEditorCamera.getZoom());
                 addValue *= -Math.signum(MouseListener.getScrollY());
@@ -63,13 +59,11 @@ public class EditorCamera extends Component {
         }
 
         if (KeyListener.isKeyPressed(GLFW_KEY_ENTER)) {
-            System.out.println("5");
             reset = true;
         }
 
 
         if (reset) {
-            System.out.println("6");
             //levelEditorCamera.position.lerp(new Vector2f(), lerpTime);
             levelEditorCamera.setZoom(this.levelEditorCamera.getZoom() +
                     ((1.0f - levelEditorCamera.getZoom())));
