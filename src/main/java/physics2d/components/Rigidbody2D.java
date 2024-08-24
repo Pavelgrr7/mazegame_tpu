@@ -15,10 +15,10 @@ public class Rigidbody2D extends Component {
     private BodyType bodyType = BodyType.Dynamic;
     private float friction = 0.1f;
     public float angularVelocity = 0.0f;
-//    public float gravityScale = 1.0f;
+    public float gravityScale = 0.0f;
     private boolean isSensor = false;
 
-//    private boolean fixedRotation = false;
+    private boolean fixedRotation = false;
     private boolean continuousCollision = true;
 
     private transient Body rawBody = null;
@@ -63,12 +63,12 @@ public class Rigidbody2D extends Component {
         }
     }
 //
-//    public void setGravityScale(float gravityScale) {
-//        this.gravityScale = gravityScale;
-//        if (rawBody != null) {
-//            this.rawBody.setGravityScale(gravityScale);
-//        }
-//    }
+    public void setGravityScale(float gravityScale) {
+        this.gravityScale = gravityScale;
+        if (rawBody != null) {
+            this.rawBody.setGravityScale(gravityScale);
+        }
+    }
 
     public void setIsSensor() {
         isSensor = true;
@@ -128,9 +128,9 @@ public class Rigidbody2D extends Component {
 //        return fixedRotation;
 //    }
 //
-//    public void setFixedRotation(boolean fixedRotation) {
-//        this.fixedRotation = fixedRotation;
-//    }
+    public void setFixedRotation(boolean fixedRotation) {
+        this.fixedRotation = fixedRotation;
+    }
 
     public boolean isContinuousCollision() {
         return continuousCollision;
@@ -147,4 +147,5 @@ public class Rigidbody2D extends Component {
     public void setRawBody(Body rawBody) {
         this.rawBody = rawBody;
     }
+
 }

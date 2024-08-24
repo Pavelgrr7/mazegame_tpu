@@ -6,9 +6,9 @@ import imgui.ImVec2;
 import back.*;
 import org.joml.Vector2f;
 
-//import physics2d.primitives.Circle;
-//import physics2d.rigidbody.Rigidbody2D;
-//import sun.security.ssl.Debug;
+import physics2d.components.Box2DCollider;
+import physics2d.components.Rigidbody2D;
+import physics2d.enums.BodyType;
 import util.AssetPool;
 
 import java.io.File;
@@ -52,6 +52,7 @@ public class EditorSceneInitializer extends SceneInitializer {
         AssetPool.addSound("assets/sounds/cave.ogg", false);
         AssetPool.addSound("assets/sounds/pipe.ogg", false);
         AssetPool.addSound("assets/sounds/main_theme_overworld.ogg", true);
+        AssetPool.addSound("assets/sounds/hurt.ogg", false);
 
 
         for (GameObject g : scene.getGameObjects()) {
@@ -89,6 +90,11 @@ public class EditorSceneInitializer extends SceneInitializer {
 
                 float windowX2 = windowPos.x + windowSize.x;
                 for (int i = 0; i < sprites.size(); i++) {
+                    // todo change when I will get my actual sprite sheet
+                    //--------------------
+                    if (i == 34) continue;
+                    if (i >= 38 && i < 61) continue;
+                    //--------------------
                     Sprite sprite = sprites.getSprite(i);
                     float spriteWidth = sprite.getWidth() * 4;
                     float spriteHeight = sprite.getHeight() * 4;
@@ -98,6 +104,18 @@ public class EditorSceneInitializer extends SceneInitializer {
                     ImGui.pushID(i);
                     if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
                         GameObject object = Prefabs.generateSpriteObject(sprite, 0.25f, 0.25f);
+                        Rigidbody2D rb = new Rigidbody2D();
+                        rb.setBodyType(BodyType.Static);
+                        object.addComponent(rb);
+                        Box2DCollider b2d = new Box2DCollider();
+                        b2d.setHalfSize(new Vector2f(0.25f, 0.25f));
+                        object.addComponent(b2d);
+//                        object.addComponent(new Wall());
+                        // todo change all of these id's
+                        if (i == 12) {
+                            //object.addComponent(new BreakableBrick());
+                        }
+
                         levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
                     }
                     ImGui.popID();
@@ -121,7 +139,6 @@ public class EditorSceneInitializer extends SceneInitializer {
                 float spriteHeight = sprite.getHeight() * 4;
                 int id = sprite.getTexId();
                 Vector2f[] texCoords = sprite.getTexCoords();
-
                 if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
                     GameObject object = Prefabs.generatePlayer();
                     levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
