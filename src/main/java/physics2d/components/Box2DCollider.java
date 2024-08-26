@@ -7,7 +7,7 @@ import graphics.DebugDraw;
 public class Box2DCollider extends Component {
     private Vector2f halfSize = new Vector2f(1);
     private Vector2f origin = new Vector2f();
-    private Vector2f offset = new Vector2f();
+    private Vector2f offset = new Vector2f(0.12f, 0.12f);
 
     public Vector2f getOffset() {
         return this.offset;

@@ -15,7 +15,7 @@ public class PillboxCollider extends Component{
 
     public float width = 0.1f;
     public float height = 0.2f;
-    public Vector2f offset = new Vector2f();
+    private Vector2f offset = new Vector2f(0.12f, 0.12f);
 
     @Override
     public void start() {

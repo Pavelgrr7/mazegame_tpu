@@ -43,11 +43,6 @@ public class Prefabs {
         idle.addFrame(playerSprites.getSprite(0), 0.1f);
         idle.setLoop(false);
 
-        AnimationState jump = new AnimationState();
-        jump.title = "Jump";
-        jump.addFrame(playerSprites.getSprite(5), 0.1f);
-        jump.setLoop(false);
-
         AnimationState die = new AnimationState();
         die.title = "Die";
         die.addFrame(playerSprites.getSprite(6), 0.1f);
@@ -57,29 +52,24 @@ public class Prefabs {
         stateMachine.addState(run);
         stateMachine.addState(idle);
         stateMachine.addState(switchDirection);
-        stateMachine.addState(jump);
         stateMachine.addState(die);
 
         stateMachine.setDefaultState(idle.title);
         stateMachine.addState(run.title, switchDirection.title, "switchDirection");
         stateMachine.addState(run.title, idle.title, "stopRunning");
-        stateMachine.addState(run.title, jump.title, "jump");
         stateMachine.addState(switchDirection.title, idle.title, "stopRunning");
         stateMachine.addState(switchDirection.title, run.title, "startRunning");
-        stateMachine.addState(switchDirection.title, jump.title, "jump");
         stateMachine.addState(idle.title, run.title, "startRunning");
-        stateMachine.addState(idle.title, jump.title, "jump");
-        stateMachine.addState(jump.title, idle.title, "stopJumping");
 
         stateMachine.addState(run.title, die.title, "die");
         stateMachine.addState(switchDirection.title, die.title, "die");
         stateMachine.addState(idle.title, die.title, "die");
-        stateMachine.addState(jump.title, die.title, "die");
 
         player.addComponent(stateMachine);
         PillboxCollider pb = new PillboxCollider();
-        pb.width = 0.39f;
-        pb.height = 0.31f;
+        pb.width = 0.40f;
+        pb.height = 0.71f;
+
         Rigidbody2D rb = new Rigidbody2D();
         rb.setBodyType(BodyType.Dynamic);
         rb.setContinuousCollision(false);

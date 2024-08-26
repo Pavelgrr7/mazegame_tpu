@@ -24,6 +24,8 @@ import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window implements Observer {
@@ -201,6 +203,23 @@ public class Window implements Observer {
 
             if (dt >= 0) {
                 DebugDraw.draw();
+                //
+//                int floorTextureID = defaultShader.loadTexture("assets/images/iChannel0.png");
+//                int wallTextureID = defaultShader.loadTexture("assets/images/iChannel1.png");
+//
+//                glUseProgram(defaultShader.getShaderProgramID());
+//
+//                glActiveTexture(GL_TEXTURE0);
+//                glBindTexture(GL_TEXTURE_2D, floorTextureID);
+//                int iChannel0Location = glGetUniformLocation(defaultShader.getShaderProgramID(), "iChannel0");
+//                glUniform1i(iChannel0Location, 0);
+//
+//                glActiveTexture(GL_TEXTURE1);
+//                glBindTexture(GL_TEXTURE_2D, wallTextureID);
+//                int iChannel1Location = glGetUniformLocation(defaultShader.getShaderProgramID(), "iChannel1");
+//                glUniform1i(iChannel1Location, 1);
+
+                //
                 Renderer.bindShader(defaultShader);
                 //PropertiesWindow.update(dt, currentScene);
                 if (runtimePlay) {currentScene.update(dt);}

@@ -3,7 +3,6 @@ package graphics;
 import org.joml.*;
 import org.lwjgl.BufferUtils;
 
-import javax.print.DocFlavor;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.file.Files;
@@ -12,7 +11,12 @@ import java.nio.file.Paths;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
+import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MemoryStack;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 public class Shader {
 
     private int shaderProgramID;
@@ -92,7 +96,7 @@ public class Shader {
             int len = glGetShaderi(fragmentID, GL_INFO_LOG_LENGTH);
             System.out.println("ERROR: '" + filepath + "'\n\tFragment shader compilation failed.");
             System.out.println(glGetShaderInfoLog(fragmentID, len));
-            assert false : "";
+            assert false : "shader";
         }
 
         // Link shaders and check for errors
@@ -180,5 +184,33 @@ public class Shader {
         int varLocation = glGetUniformLocation(shaderProgramID, varName);
         use();
         glUniform1iv(varLocation, array);
+    }
+
+
+
+    public int loadTexture(String filePath) {
+        int textureID;
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer width = stack.mallocInt(1);
+            IntBuffer height = stack.mallocInt(1);
+            IntBuffer channels = stack.mallocInt(1);
+
+            ByteBuffer image = STBImage.stbi_load(filePath, width, height, channels, 4);
+            if (image == null) {
+                throw new RuntimeException("Failed to load texture file " + filePath);
+            }
+
+            textureID = glGenTextures();
+            glBindTexture(GL_TEXTURE_2D, textureID);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(), height.get(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            STBImage.stbi_image_free(image);
+        }
+        return textureID;
+    }
+
+    public int getShaderProgramID() {
+        return shaderProgramID;
     }
 }

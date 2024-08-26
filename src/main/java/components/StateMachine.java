@@ -3,10 +3,7 @@ package components;
 import imgui.ImGui;
 import imgui.type.ImString;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class StateMachine extends Component {
     private class StateTrigger {
@@ -80,6 +77,9 @@ public class StateMachine extends Component {
         }
 
         System.out.println("Unable to find trigger '" + trigger + "'");
+        for (AnimationState s : states) {
+            System.out.print(s.title + " , ");
+        } System.out.print("\n");
     }
 
     @Override
