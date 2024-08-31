@@ -22,7 +22,7 @@ public class Prefabs {
 
     public static GameObject generatePlayer() {
         Spritesheet playerSprites = AssetPool.getSpritesheet("assets/images/spritesheet.png");
-        GameObject player = generateSpriteObject(playerSprites.getSprite(0), 0.25f, 0.25f);
+        GameObject player = generateSpriteObject(playerSprites.getSprite(0), 0.266f, 0.371875f);
 
         AnimationState run = new AnimationState();
         run.title = "Run";
@@ -83,5 +83,22 @@ public class Prefabs {
         return player;
     }
 
+    public static GameObject generateGhost() {
+        Spritesheet sprites = AssetPool.getSpritesheet("assets/images/spritesheet2.png");
+        GameObject ghost = generateSpriteObject(sprites.getSprite(0), 0.25f, 0.25f);
 
+
+        Rigidbody2D rb = new Rigidbody2D();
+        rb.setBodyType(BodyType.Dynamic);
+        rb.setMass(0.1f);
+        rb.setFixedRotation(true);
+        ghost.addComponent(rb);
+        CircleCollider circle = new CircleCollider();
+        circle.setRadius(0.12f);
+        ghost.addComponent(circle);
+
+        ghost.addComponent(new Ghost());
+
+        return ghost;
+    }
 }

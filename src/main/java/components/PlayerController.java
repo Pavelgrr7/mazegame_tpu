@@ -4,12 +4,14 @@ import back.GameObject;
 import back.KeyListener;
 import back.Prefabs;
 import back.Window;
+import graphics.Texture;
 import org.jbox2d.dynamics.contacts.Contact;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import physics2d.Physics2D;
 import physics2d.RaycastInfo;
+import physics2d.components.Box2DCollider;
 import physics2d.components.PillboxCollider;
 import physics2d.components.Rigidbody2D;
 import physics2d.enums.BodyType;
@@ -26,14 +28,19 @@ public class PlayerController extends Component {
 
     private transient Rigidbody2D rb;
     private transient StateMachine stateMachine;
-    private transient float playerWidth = 0.25f;
+    private transient float playerWidth = 0.266f;
     private transient Vector2f acceleration = new Vector2f();
     private transient Vector2f velocity = new Vector2f();
     private transient boolean isDead = false;
-    private transient int enemyBounce = 0;
+    private transient float deadMaxHeight = 0;
+    private transient float deadMinHeight = 0;
+    private transient boolean deadGoingUp = true;
+    private transient float blinkTime = 0.0f;
+    private transient SpriteRenderer spr;
 
     @Override
     public void start() {
+        this.spr = gameObject.getComponent(SpriteRenderer.class);
         this.rb = gameObject.getComponent(Rigidbody2D.class);
         this.stateMachine = gameObject.getComponent(StateMachine.class);
         this.rb.setGravityScale(0.0f);
@@ -41,6 +48,23 @@ public class PlayerController extends Component {
 
     @Override
     public void update(float dt) {
+        if (isDead) {
+            if (this.gameObject.transform.position.y < deadMaxHeight && deadGoingUp) {
+                this.gameObject.transform.position.y += dt * walkSpeed / 2.0f;
+            } else if (this.gameObject.transform.position.y >= deadMaxHeight && deadGoingUp) {
+                deadGoingUp = false;
+            } else if (!deadGoingUp && gameObject.transform.position.y > deadMinHeight) {
+                this.rb.setBodyType(BodyType.Kinematic);
+                this.acceleration.y = 0.55f * walkSpeed ;
+                this.velocity.y += this.acceleration.y * dt;
+                this.velocity.y = Math.max(Math.min(this.velocity.y, this.terminalVelocity.y), -this.terminalVelocity.y);
+                this.rb.setVelocity(this.velocity);
+                this.rb.setAngularVelocity(0);
+            } else if (!deadGoingUp && gameObject.transform.position.y <= deadMinHeight) {
+                Window.changeScene(new EditorSceneInitializer());
+            }
+            return;
+        }
         if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || KeyListener.isKeyPressed(GLFW_KEY_D)) {
             this.gameObject.transform.scale.x = playerWidth;
             this.acceleration.x = 0.55f * walkSpeed;
@@ -111,5 +135,40 @@ public class PlayerController extends Component {
         this.velocity.y = Math.max(Math.min(this.velocity.y, this.terminalVelocity.y), -this.terminalVelocity.y);
         this.rb.setVelocity(this.velocity);
         this.rb.setAngularVelocity(0);
+    }
+
+    @Override
+    public void beginCollision(GameObject collidingObject, Contact contact, Vector2f contactNormal) {
+        if (isDead) return;
+
+        if (collidingObject.getComponent(Box2DCollider.class) != null) {
+            if (Math.abs(contactNormal.x) > 0.8f) {
+                this.velocity.x = 0;
+            } else if (contactNormal.y > 0.8f) {
+                this.velocity.y = 0;
+                this.acceleration.y = 0;
+            }
+        }
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+
+    public void die() {
+        this.stateMachine.trigger("die");
+
+        this.velocity.set(0, 0);
+        this.acceleration.set(0, 0);
+        this.rb.setVelocity(new Vector2f());
+        this.isDead = true;
+        this.rb.setIsSensor();
+        AssetPool.getSound("assets/sounds/hurt.ogg").play();
+        deadMaxHeight = this.gameObject.transform.position.y + 0.3f;
+        this.rb.setBodyType(BodyType.Static);
+        if (gameObject.transform.position.y > 0) {
+            deadMinHeight = -0.25f;
+        }
     }
 }

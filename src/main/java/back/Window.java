@@ -1,6 +1,5 @@
 package back;
 
-import editor.PropertiesWindow;
 import observers.EventSystem;
 import observers.Observer;
 import observers.events.Event;
@@ -15,7 +14,6 @@ import org.lwjgl.opengl.GL;
 import graphics.*;
 import physics2d.Physics2D;
 import scenes.EditorSceneInitializer;
-//import scenes.MazeScene;
 import scenes.Scene;
 import scenes.SceneInitializer;
 import util.AssetPool;
@@ -203,25 +201,8 @@ public class Window implements Observer {
 
             if (dt >= 0) {
                 DebugDraw.draw();
-                //
-//                int floorTextureID = defaultShader.loadTexture("assets/images/iChannel0.png");
-//                int wallTextureID = defaultShader.loadTexture("assets/images/iChannel1.png");
-//
-//                glUseProgram(defaultShader.getShaderProgramID());
-//
-//                glActiveTexture(GL_TEXTURE0);
-//                glBindTexture(GL_TEXTURE_2D, floorTextureID);
-//                int iChannel0Location = glGetUniformLocation(defaultShader.getShaderProgramID(), "iChannel0");
-//                glUniform1i(iChannel0Location, 0);
-//
-//                glActiveTexture(GL_TEXTURE1);
-//                glBindTexture(GL_TEXTURE_2D, wallTextureID);
-//                int iChannel1Location = glGetUniformLocation(defaultShader.getShaderProgramID(), "iChannel1");
-//                glUniform1i(iChannel1Location, 1);
 
-                //
                 Renderer.bindShader(defaultShader);
-                //PropertiesWindow.update(dt, currentScene);
                 if (runtimePlay) {currentScene.update(dt);}
                 else {currentScene.editorUpdate(dt);}
                 currentScene.render();

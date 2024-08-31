@@ -14,6 +14,7 @@ import imgui.type.ImBoolean;
 import graphics.PickingTexture;
 import scenes.Scene;
 
+import java.io.File;
 import java.util.PropertyResourceBundle;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -137,18 +138,15 @@ public class ImGuiLayer {
         // Fonts configuration
         // Read: https://raw.githubusercontent.com/ocornut/imgui/master/docs/FONTS.txt
 
-        final ImFontAtlas fontAtlas = io.getFonts();
-        final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
-
-        // Glyphs could be added per-font as well as per config used globally like here
-        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
-
-        // Fonts merge example
-        fontConfig.setPixelSnapH(true);
-        fontAtlas.addFontFromFileTTF("assets/fonts/HomeVideo.ttf", 10, fontConfig);
-
-        fontConfig.destroy(); // After all fonts were added we don't need this config more
-
+        if (new File("assets/fonts/HomeVideo.ttf").isFile()) {
+            final ImFontAtlas fontAtlas = io.getFonts();
+            final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
+            fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
+            // Fonts merge example
+            fontConfig.setPixelSnapH(true);
+            fontAtlas.addFontFromFileTTF("assets/fonts/HomeVideo.ttf", 10, fontConfig);
+            fontConfig.destroy(); // After all fonts were added we don't need this config more
+        }
         // ------------------------------------------------------------
         // Use freetype instead of stb_truetype to build a fonts texture
         //ImGuiFreeType.buildFontAtlas(fontAtlas, ImGuiFreeType.RasterizerFlags.LightHinting);
