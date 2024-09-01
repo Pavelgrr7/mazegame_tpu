@@ -26,7 +26,7 @@ public class LevelSceneInitializer extends SceneInitializer {
 
         AssetPool.addSpritesheet("assets/images/blocksheet.png",
                 new Spritesheet(AssetPool.getTexture("assets/images/blocksheet2.png"),
-                        16, 16, 20, 0));
+                        16, 16, 24, 0));
         AssetPool.addSpritesheet("assets/images/spritesheet.png",
                 new Spritesheet(AssetPool.getTexture("assets/images/spritesheet.png"),
                         17, 27, 13, 0));
