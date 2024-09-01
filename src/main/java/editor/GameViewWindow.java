@@ -30,15 +30,15 @@ public class GameViewWindow {
         ImGui.beginMenuBar();
         if (ImGui.menuItem("Play", "", isPlaying, !isPlaying)) {
             isPlaying = true;
-            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
-            if (!mainTheme.isPlaying()) mainTheme.play();
-            else mainTheme.stop();
+            //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
+            //if (!mainTheme.isPlaying()) mainTheme.play();
+            //else mainTheme.stop();
             EventSystem.notify(null, new Event(EventType.GameEngineStartPlay));
         }
         if (ImGui.menuItem("Stop", "", !isPlaying, isPlaying)) {
             isPlaying = false;
-            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
-            if (mainTheme.isPlaying()) mainTheme.stop();
+            //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
+            //if (mainTheme.isPlaying()) mainTheme.stop();
             EventSystem.notify(null, new Event(EventType.GameEngineStopPlay));
         }
         ImGui.endMenuBar();

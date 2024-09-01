@@ -43,8 +43,10 @@ public class Ghost extends Component{
         }
 
         if (goingRight) {
+            gameObject.transform.scale.x = 0.26f;
             velocity.x = walkSpeed;
         } else {
+            gameObject.transform.scale.x = -0.26f;
             velocity.x = -walkSpeed;
         }
 

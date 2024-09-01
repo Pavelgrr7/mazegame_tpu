@@ -26,7 +26,7 @@ public class EditorSceneInitializer extends SceneInitializer {
 
     @Override
     public void init(Scene scene) {
-        sprites = AssetPool.getSpritesheet("assets/images/blocksheet2.png");
+        sprites = AssetPool.getSpritesheet("assets/images/blocksheet.png");
         levelEditorStuff = scene.createGameObject("Level Editor");
         levelEditorStuff.setNoSerialize();
         levelEditorStuff.addComponent(new MouseControls());
@@ -40,9 +40,9 @@ public class EditorSceneInitializer extends SceneInitializer {
     public void loadResources(Scene scene) {
         AssetPool.getShader("assets/shaders/default.glsl");
 
-        AssetPool.addSpritesheet("assets/images/blocksheet2.png",
-                new Spritesheet(AssetPool.getTexture("assets/images/blocksheet2.png"),
-                        16, 16, 12, 0));
+        AssetPool.addSpritesheet("assets/images/blocksheet.png",
+                new Spritesheet(AssetPool.getTexture("assets/images/blocksheet.png"),
+                        16, 16, 20, 0));
         AssetPool.addSpritesheet("assets/images/spritesheet.png",
                 new Spritesheet(AssetPool.getTexture("assets/images/spritesheet.png"),
                         17, 27, 13, 0));
@@ -131,7 +131,7 @@ public class EditorSceneInitializer extends SceneInitializer {
                 ImGui.getStyle().getItemSpacing(itemSpacing);
 
                 float windowX2 = windowPos.x + windowSize.x;
-                for (int i = 4; i < 12; i++) {
+                for (int i = 4; i < 20; i++) {
 
                     Sprite sprite = sprites.getSprite(i);
                     float spriteWidth = sprite.getWidth() * 4;

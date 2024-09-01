@@ -13,7 +13,7 @@ public class LevelSceneInitializer extends SceneInitializer {
 
     @Override
     public void init(Scene scene) {
-        Spritesheet sprites = AssetPool.getSpritesheet("assets/images/blocksheet2.png");
+        Spritesheet sprites = AssetPool.getSpritesheet("assets/images/blocksheet.png");
         GameObject cameraObject = scene.createGameObject("Game Camera");
         cameraObject.addComponent(new GameCamera(scene.camera()));
         cameraObject.start();
@@ -24,9 +24,9 @@ public class LevelSceneInitializer extends SceneInitializer {
     public void loadResources(Scene scene) {
         AssetPool.getShader("assets/shaders/default.glsl");
 
-        AssetPool.addSpritesheet("assets/images/blocksheet2.png",
+        AssetPool.addSpritesheet("assets/images/blocksheet.png",
                 new Spritesheet(AssetPool.getTexture("assets/images/blocksheet2.png"),
-                        16, 16, 12, 0));
+                        16, 16, 20, 0));
         AssetPool.addSpritesheet("assets/images/spritesheet.png",
                 new Spritesheet(AssetPool.getTexture("assets/images/spritesheet.png"),
                         17, 27, 13, 0));

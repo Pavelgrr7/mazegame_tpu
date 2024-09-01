@@ -22,9 +22,9 @@ public class GameCamera extends Component {
     @Override
     public void start() {
         this.player = Window.getScene().getGameObject("Player");
-        this.gameCamera.clearColor.set(backgroundColor);
-        this.yLevel = this.gameCamera.position.y -
-                this.gameCamera.getProjectionSize().y - this.cameraBuffer;
+        //this.gameCamera.clearColor.set(backgroundColor);
+        //this.yLevel = this.gameCamera.position.y -
+                //this.gameCamera.getProjectionSize().y - this.cameraBuffer;
     }
 
     @Override
