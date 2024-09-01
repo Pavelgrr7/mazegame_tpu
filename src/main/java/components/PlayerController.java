@@ -29,13 +29,13 @@ public class PlayerController extends Component {
     private transient Rigidbody2D rb;
     private transient StateMachine stateMachine;
     private transient float playerWidth = 0.266f;
+    private transient float playerHeight = 0.371875f;
     private transient Vector2f acceleration = new Vector2f();
     private transient Vector2f velocity = new Vector2f();
     private transient boolean isDead = false;
     private transient float deadMaxHeight = 0;
     private transient float deadMinHeight = 0;
     private transient boolean deadGoingUp = true;
-    private transient float blinkTime = 0.0f;
     private transient SpriteRenderer spr;
 
     @Override
@@ -61,12 +61,13 @@ public class PlayerController extends Component {
                 this.rb.setVelocity(this.velocity);
                 this.rb.setAngularVelocity(0);
             } else if (!deadGoingUp && gameObject.transform.position.y <= deadMinHeight) {
-                Window.changeScene(new EditorSceneInitializer());
+                Window.changeScene(new LevelSceneInitializer());
             }
             return;
         }
         if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || KeyListener.isKeyPressed(GLFW_KEY_D)) {
             this.gameObject.transform.scale.x = playerWidth;
+
             this.acceleration.x = 0.55f * walkSpeed;
 
             if (this.velocity.x < 0) {
@@ -76,7 +77,7 @@ public class PlayerController extends Component {
                 this.stateMachine.trigger("startRunning");
             }
         } else if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A)) {
-            this.gameObject.transform.scale.x = -playerWidth;
+            this.gameObject.transform.scale.x = playerWidth;
             this.acceleration.x = 0.55f * -walkSpeed;
 
             if (this.velocity.x > 0) {
@@ -86,7 +87,7 @@ public class PlayerController extends Component {
                 this.stateMachine.trigger("startRunning");
             }
         }  else if (KeyListener.isKeyPressed(GLFW_KEY_UP) || KeyListener.isKeyPressed(GLFW_KEY_W)) {
-            this.gameObject.transform.scale.y = playerWidth;
+            this.gameObject.transform.scale.y = playerHeight;
             this.acceleration.y = 0.55f * walkSpeed;
 
             if (this.velocity.y < 0) {
@@ -96,7 +97,7 @@ public class PlayerController extends Component {
                 this.stateMachine.trigger("startRunning");
             }
         } else if (KeyListener.isKeyPressed(GLFW_KEY_DOWN) || KeyListener.isKeyPressed(GLFW_KEY_S)) {
-            this.gameObject.transform.scale.y = -playerWidth;
+            this.gameObject.transform.scale.y = playerHeight;
             this.acceleration.y = 0.55f * -walkSpeed;
 
             if (this.velocity.y > 0) {
@@ -170,5 +171,9 @@ public class PlayerController extends Component {
         if (gameObject.transform.position.y > 0) {
             deadMinHeight = -0.25f;
         }
+    }
+
+    public boolean hasWon() {
+        return false;
     }
 }

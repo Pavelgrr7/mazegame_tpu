@@ -18,7 +18,7 @@ import physics2d.components.Rigidbody2D;
 import graphics.DebugDraw;
 
 public class Physics2D {
-    private Vec2 gravity = new Vec2(0, -1.0f);
+    private Vec2 gravity = new Vec2(0, 0.0f);
     private World world = new World(gravity);
 
     private float physicsTime = 0.0f;

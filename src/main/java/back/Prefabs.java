@@ -85,7 +85,7 @@ public class Prefabs {
 
     public static GameObject generateGhost() {
         Spritesheet sprites = AssetPool.getSpritesheet("assets/images/spritesheet2.png");
-        GameObject ghost = generateSpriteObject(sprites.getSprite(0), 0.25f, 0.25f);
+        GameObject ghost = generateSpriteObject(sprites.getSprite(0), 0.27f, 0.25f);
 
 
         Rigidbody2D rb = new Rigidbody2D();

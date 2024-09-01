@@ -4,6 +4,7 @@ import observers.EventSystem;
 import observers.Observer;
 import observers.events.Event;
 import observers.events.EventType;
+import org.joml.Vector4f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.openal.AL;
@@ -14,6 +15,7 @@ import org.lwjgl.opengl.GL;
 import graphics.*;
 import physics2d.Physics2D;
 import scenes.EditorSceneInitializer;
+import scenes.LevelSceneInitializer;
 import scenes.Scene;
 import scenes.SceneInitializer;
 import util.AssetPool;
@@ -196,7 +198,7 @@ public class Window implements Observer {
             DebugDraw.beginFrame();
 
             this.framebuffer.bind();
-            glClearColor(1.0f,1.0f,1.0f,1.0f);
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             if (dt >= 0) {
@@ -260,7 +262,7 @@ public class Window implements Observer {
                 System.out.println("Starting play");
                 this.runtimePlay = true;
                 currentScene.save();
-                Window.changeScene(new EditorSceneInitializer());
+                Window.changeScene(new LevelSceneInitializer());
                 break;
             case GameEngineStopPlay:
                 System.out.println("Stop!");

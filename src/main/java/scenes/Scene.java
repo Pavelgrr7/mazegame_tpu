@@ -8,6 +8,7 @@ import back.Camera;
 import back.GameObject;
 import back.GameObjectDeserializer;
 import back.Transform;
+import components.PlayerController;
 import graphics.Renderer;
 import org.joml.Vector2f;
 import physics2d.Physics2D;
@@ -194,5 +195,22 @@ public class Scene {
 
     public Physics2D getPhysics() {
         return this.physics2D;
+    }
+
+    public <T extends Component> GameObject getGameObjectWith(Class<T> c) {
+        for (GameObject go : gameObjects) {
+            if (go.getComponent(c) != null) {
+                return go;
+            }
+        }
+
+        return null;
+    }
+
+    public GameObject getGameObject(String gameObjectName) {
+        Optional<GameObject> result = this.gameObjects.stream()
+                .filter(gameObject -> gameObject.name.equals(gameObjectName))
+                .findFirst();
+        return result.orElse(null);
     }
 }

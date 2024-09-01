@@ -1,6 +1,5 @@
-package back;
+package components;
 import org.lwjgl.openal.*;
-import org.lwjgl.system.MemoryStack;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -11,7 +10,6 @@ import java.nio.IntBuffer;
 
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.openal.AL10.*;
-import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 // ------------------------------------------
@@ -44,9 +42,8 @@ public class AudioTest {
         alcMakeContextCurrent(context);
         AL.createCapabilities(alcCapabilities);
 
-        // Загрузка и воспроизведение WAV файла
         try {
-            buffer = loadWAV("resources/test.wav");
+            buffer = loadWAV("assets/sounds/main_theme.wav");
         } catch (IOException | UnsupportedAudioFileException e) {
             e.printStackTrace();
             return;
@@ -62,7 +59,6 @@ public class AudioTest {
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
         AudioFormat format = audioStream.getFormat();
 
-        // Чтение данных
         byte[] audioData = audioStream.readAllBytes();
         ByteBuffer bufferData = ByteBuffer.allocateDirect(audioData.length).order(ByteOrder.nativeOrder());
         bufferData.put(audioData).flip();
@@ -100,7 +96,7 @@ public class AudioTest {
 
         // Пауза для проигрывания звука
         try {
-            Thread.sleep(5000); // проигрывать 5 секунд
+            Thread.sleep(60000000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
