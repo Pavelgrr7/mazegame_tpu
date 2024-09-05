@@ -1,7 +1,6 @@
 package components;
 
 import editor.JImGui;
-import imgui.ImGui;
 import back.Transform;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -23,6 +22,8 @@ public class SpriteRenderer extends Component {
             this.sprite.setTexture(AssetPool.getTexture(this.sprite.getTexture().getFilepath()));
         }
         this.lastTransform = gameObject.transform.copy();
+        //todo fix
+        if (this.lastTransform == null) menuObject.transform.copy();
     }
 
     @Override
@@ -82,8 +83,16 @@ public class SpriteRenderer extends Component {
 
     @Override
     public void editorUpdate(float dt) {
+        if (this.lastTransform == null) return;
         if (!this.lastTransform.equals(this.gameObject.transform)) {
             this.gameObject.transform.copy(this.lastTransform);
+            isDirty = true;
+        }
+    }
+    @Override
+    public void menuUpdate(float dt) {
+        if (!this.lastTransform.equals(this.menuObject.transform)) {
+            this.menuObject.transform.copy(this.lastTransform);
             isDirty = true;
         }
     }

@@ -217,7 +217,7 @@ public class ImGuiLayer {
         menuBar.imgui();
         ImGui.end();
     }
-    private void destroyDockspace(){
+//    private void destroyDockspace(){
         //int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
 //
 //        ImGuiViewport mainViewport = ImGui.getMainViewport();
@@ -236,10 +236,9 @@ public class ImGuiLayer {
         //ImGui.destroyContext();
 
         // Dockspace
-        //ImGui.dockSpace(-1);
-        //menuBar.imgui();
+        // menuBar.imgui();
 //        ImGui.end();
-    }
+//    }
 
     public PropertiesWindow getPropertiesWindow() {
         return this.propertiesWindow;
@@ -253,7 +252,7 @@ public class ImGuiLayer {
         //this.gameViewWindow.setDeadWindow(true);
         //this.sceneHierarchyWindow.setDeadWindow(true);
 //        this.gameViewWindow = null;
-        //boolean isGuiDestroyed = true;
+        boolean isGuiDestroyed = true;
     }
     public boolean isGuiDestroyed() {
         return isGuiDestroyed;

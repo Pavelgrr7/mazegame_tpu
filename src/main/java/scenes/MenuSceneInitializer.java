@@ -18,7 +18,6 @@ public class MenuSceneInitializer extends SceneInitializer{
     private MenuObject menuStuff;
 
     public MenuSceneInitializer() {
-
     }
 
     public void init(Scene scene) {

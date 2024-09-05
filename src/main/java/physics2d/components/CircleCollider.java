@@ -28,6 +28,9 @@ public class CircleCollider extends Component {
 
     @Override
     public void editorUpdate(float dt) {
+        //｡°(°.◜ᯅ◝°)°｡
+        if (this.gameObject == null) return;
+
         Vector2f center = new Vector2f(this.gameObject.transform.position).add(this.offset);
         DebugDraw.addCircle(center, this.radius);
     }

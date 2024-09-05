@@ -3,6 +3,7 @@ package back;
 import observers.EventSystem;
 import observers.Observer;
 import observers.events.Event;
+import observers.events.EventType;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.openal.AL;
@@ -168,8 +169,9 @@ public class Window implements Observer {
 
         this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
         this.imguiLayer.initImGui();
-        Window.changeScene(new EditorSceneInitializer(), false);
-        //Window.changeScene(new MenuSceneInitializer(), true);
+//        Window.changeScene(new EditorSceneInitializer(), false);
+        EventSystem.notify(new Event(EventType.FirstLoadMenu));
+        Window.changeScene(new MenuSceneInitializer(), true);
     }
 
     public void loop() {
@@ -210,8 +212,8 @@ public class Window implements Observer {
 
                 Renderer.bindShader(defaultShader);
                 if (runtimePlay) {currentScene.update(dt);}
-                else if (!this.imguiLayer.isGuiDestroyed()) {currentScene.editorUpdate(dt);}
-                else {currentScene.menuUpdate(dt);}
+                else if (this.imguiLayer.isGuiDestroyed()) {currentScene.menuUpdate(dt);}
+                else {currentScene.editorUpdate(dt);}
 
                 currentScene.render();
             }
@@ -264,12 +266,18 @@ public class Window implements Observer {
     @Override
     public void onNotify(Event event) {
         switch (event.type) {
-            case LoadMenu:
-                currentScene.setMenu(true);
-                test = true;
-                System.out.println("Menu!");
+            case FirstLoadMenu:
+                //currentScene.setMenu(true);
+                //test = true;
+                System.out.println("First Menu!");
 //                this.imguiLayer.destroyGui();
-//                currentScene.save();
+                Window.changeScene(new MenuSceneInitializer(), true);
+                break;
+            case LoadMenu:
+                currentScene.save();
+                currentScene.setMenu(true);
+                System.out.println("Menu!");
+                this.imguiLayer.destroyGui();
                 Window.changeScene(new MenuSceneInitializer(), true);
                 break;
             case GameEngineStartPlay:

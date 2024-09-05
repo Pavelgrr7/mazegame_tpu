@@ -143,4 +143,8 @@ public abstract class Component {
     public void editorUpdate(float dt) {
 
     }
+
+    public  void menuUpdate(float dt){
+
+    }
 }
