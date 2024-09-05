@@ -25,7 +25,7 @@ public class LevelSceneInitializer extends SceneInitializer {
         AssetPool.getShader("assets/shaders/default.glsl");
 
         AssetPool.addSpritesheet("assets/images/blocksheet.png",
-                new Spritesheet(AssetPool.getTexture("assets/images/blocksheet2.png"),
+                new Spritesheet(AssetPool.getTexture("assets/images/blocksheet.png"),
                         16, 16, 24, 0));
         AssetPool.addSpritesheet("assets/images/spritesheet.png",
                 new Spritesheet(AssetPool.getTexture("assets/images/spritesheet.png"),
@@ -57,5 +57,10 @@ public class LevelSceneInitializer extends SceneInitializer {
     @Override
     public void imgui() {
 
+    }
+
+    @Override
+    public boolean isMenu() {
+        return false;
     }
 }

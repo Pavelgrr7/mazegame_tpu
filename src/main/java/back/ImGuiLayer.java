@@ -34,6 +34,7 @@ public class ImGuiLayer {
     private PropertiesWindow propertiesWindow;
     private MenuBar menuBar;
     private SceneHierarchyWindow sceneHierarchyWindow;
+    boolean isGuiDestroyed;
 
     public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture) {
         this.glfwWindow = glfwWindow;
@@ -160,12 +161,13 @@ public class ImGuiLayer {
 
     public void update(float dt, Scene currentScene) {
         startFrame(dt);
-        setupDockspace();
+        if (!gameViewWindow.isDead()) setupDockspace();
+
         currentScene.imgui();
 //        ImGui.showDemoWindow();
-        gameViewWindow.imgui();
+        if (!gameViewWindow.isDead()) gameViewWindow.imgui();
         propertiesWindow.imgui();
-        sceneHierarchyWindow.imgui();
+        if (!sceneHierarchyWindow.isDead()) sceneHierarchyWindow.imgui();
 
 
         endFrame();
@@ -199,12 +201,6 @@ public class ImGuiLayer {
 
     private void setupDockspace(){
         int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
-//
-//        ImGuiViewport mainViewport = ImGui.getMainViewport();
-//        ImGui.setNextWindowPos(mainViewport.getWorkPosX(), mainViewport.getWorkPosY());
-//        ImGui.setNextWindowSize(mainViewport.getWorkSizeX(), mainViewport.getWorkSizeY());
-//        ImGui.setNextWindowViewport(mainViewport.getID());
-//
         ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
         ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
         ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
@@ -221,6 +217,29 @@ public class ImGuiLayer {
         menuBar.imgui();
         ImGui.end();
     }
+    private void destroyDockspace(){
+        //int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
+//
+//        ImGuiViewport mainViewport = ImGui.getMainViewport();
+//        ImGui.setNextWindowPos(mainViewport.getWorkPosX(), mainViewport.getWorkPosY());
+//        ImGui.setNextWindowSize(mainViewport.getWorkSizeX(), mainViewport.getWorkSizeY());
+//        ImGui.setNextWindowViewport(mainViewport.getID());
+//
+//        ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
+//        ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
+//        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+//        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+        //windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
+                //ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
+                //ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+
+        //ImGui.destroyContext();
+
+        // Dockspace
+        //ImGui.dockSpace(-1);
+        //menuBar.imgui();
+//        ImGui.end();
+    }
 
     public PropertiesWindow getPropertiesWindow() {
         return this.propertiesWindow;
@@ -228,5 +247,15 @@ public class ImGuiLayer {
 
     public GameViewWindow getGameViewWindow() {
         return this.gameViewWindow;
+    }
+    public void destroyGui() {
+//        ImGui.destroyPlatformWindows();
+        //this.gameViewWindow.setDeadWindow(true);
+        //this.sceneHierarchyWindow.setDeadWindow(true);
+//        this.gameViewWindow = null;
+        //boolean isGuiDestroyed = true;
+    }
+    public boolean isGuiDestroyed() {
+        return isGuiDestroyed;
     }
 }

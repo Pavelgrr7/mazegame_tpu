@@ -21,9 +21,12 @@ public class GameViewWindow {
     private static float topY;
     private static float bottomY;
     private boolean isPlaying = false;
+    private boolean deadWindow;
 
 
     public void imgui() {
+
+        if (deadWindow) return;
         ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
                 | ImGuiWindowFlags.MenuBar);
 
@@ -33,15 +36,16 @@ public class GameViewWindow {
             //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
             //if (!mainTheme.isPlaying()) mainTheme.play();
             //else mainTheme.stop();
-            EventSystem.notify(null, new Event(EventType.GameEngineStartPlay));
+            EventSystem.notify(new Event(EventType.GameEngineStartPlay));
         }
         if (ImGui.menuItem("Stop", "", !isPlaying, isPlaying)) {
             isPlaying = false;
             //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
             //if (mainTheme.isPlaying()) mainTheme.stop();
-            EventSystem.notify(null, new Event(EventType.GameEngineStopPlay));
+            EventSystem.notify(new Event(EventType.GameEngineStopPlay));
         }
         ImGui.endMenuBar();
+
 
         ImVec2 windowSize = getLargestSizeForViewport();
         ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
@@ -99,5 +103,15 @@ public class GameViewWindow {
 
         return new ImVec2(viewportX + ImGui.getCursorPosX(),
                 viewportY + ImGui.getCursorPosY());
+    }
+
+    public void destroy() {
+        ImGui.destroyContext();
+    }
+    public void setDeadWindow(boolean b){
+        this.deadWindow = b;
+    }
+    public boolean isDead(){
+        return deadWindow;
     }
 }

@@ -4,6 +4,8 @@ import back.GameObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import back.MenuObject;
 import observers.events.Event;
 
 public class EventSystem {
@@ -12,10 +14,9 @@ public class EventSystem {
     public static void addObserver(Observer observer) {
         observers.add(observer);
     }
-
-    public static void notify(GameObject obj, Event event) {
+    public static void notify(Event event) {
         for (Observer observer : observers) {
-            observer.onNotify(obj, event);
+            observer.onNotify(event);
         }
     }
 }

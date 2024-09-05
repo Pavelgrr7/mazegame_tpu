@@ -3,8 +3,6 @@ package back;
 import observers.EventSystem;
 import observers.Observer;
 import observers.events.Event;
-import observers.events.EventType;
-import org.joml.Vector4f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.openal.AL;
@@ -14,23 +12,20 @@ import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.opengl.GL;
 import graphics.*;
 import physics2d.Physics2D;
-import scenes.EditorSceneInitializer;
-import scenes.LevelSceneInitializer;
-import scenes.Scene;
-import scenes.SceneInitializer;
+import scenes.*;
 import util.AssetPool;
+
+import java.util.Objects;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window implements Observer {
     private int width, height;
-    private String title;
+    private final String title;
     private long glfwWindow;
     private ImGuiLayer imguiLayer;
     private Framebuffer framebuffer;
@@ -44,6 +39,7 @@ public class Window implements Observer {
 
     private static Scene currentScene;
     private boolean runtimePlay = false;
+    private boolean test;
 
     private Window() {
         this.width = 1280;
@@ -52,7 +48,7 @@ public class Window implements Observer {
         EventSystem.addObserver(this);
     }
 
-    public static void changeScene(SceneInitializer sceneInitializer) {
+    public static void changeScene(SceneInitializer sceneInitializer, boolean menu) {
         if (currentScene != null) {
             currentScene.destroy();
         }
@@ -61,7 +57,15 @@ public class Window implements Observer {
         currentScene = new Scene(sceneInitializer);
         currentScene.load();
         currentScene.init();
-        currentScene.start();
+        System.out.printf("%s %s\n",currentScene.isMenu(), currentScene.isEditor());
+        if (currentScene.isEditor()) {
+            System.out.println("Starting editor!");
+            currentScene.startGame();
+
+        } else {
+            System.out.println("Starting menu!");
+            currentScene.startMenu();
+        }
     }
 
     public static Window get() {
@@ -164,8 +168,8 @@ public class Window implements Observer {
 
         this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
         this.imguiLayer.initImGui();
-
-        Window.changeScene(new EditorSceneInitializer());
+        Window.changeScene(new EditorSceneInitializer(), false);
+        //Window.changeScene(new MenuSceneInitializer(), true);
     }
 
     public void loop() {
@@ -206,7 +210,9 @@ public class Window implements Observer {
 
                 Renderer.bindShader(defaultShader);
                 if (runtimePlay) {currentScene.update(dt);}
-                else {currentScene.editorUpdate(dt);}
+                else if (!this.imguiLayer.isGuiDestroyed()) {currentScene.editorUpdate(dt);}
+                else {currentScene.menuUpdate(dt);}
+
                 currentScene.render();
             }
             this.framebuffer.unbind();
@@ -223,7 +229,7 @@ public class Window implements Observer {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
-
+        currentScene.removeGameCamera();
         currentScene.save();
     }
 
@@ -256,25 +262,40 @@ public class Window implements Observer {
     }
 
     @Override
-    public void onNotify(GameObject object, Event event) {
+    public void onNotify(Event event) {
         switch (event.type) {
+            case LoadMenu:
+                currentScene.setMenu(true);
+                test = true;
+                System.out.println("Menu!");
+//                this.imguiLayer.destroyGui();
+//                currentScene.save();
+                Window.changeScene(new MenuSceneInitializer(), true);
+                break;
             case GameEngineStartPlay:
                 System.out.println("Starting play");
                 this.runtimePlay = true;
                 currentScene.save();
-                Window.changeScene(new LevelSceneInitializer());
+                Window.changeScene(new LevelSceneInitializer(), false);
                 break;
             case GameEngineStopPlay:
                 System.out.println("Stop!");
                 this.runtimePlay = false;
-                Window.changeScene(new EditorSceneInitializer());
+                Window.changeScene(new EditorSceneInitializer(), false);
                 break;
             case LoadLevel:
-                Window.changeScene(new EditorSceneInitializer());
+                Window.changeScene(new EditorSceneInitializer(), false);
                 break;
             case SaveLevel:
+                currentScene.removeGameCamera();
                 currentScene.save();
                 break;
+            default:
+                Window.changeScene(new MenuSceneInitializer(), true);
+                break;
         }
+    }
+    public ImGuiLayer getImGui(){
+        return this.imguiLayer;
     }
 }

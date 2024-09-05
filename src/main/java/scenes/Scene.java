@@ -1,14 +1,11 @@
 package scenes;
 
+import back.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import components.Component;
 import components.ComponentDeserializer;
-import back.Camera;
-import back.GameObject;
-import back.GameObjectDeserializer;
-import back.Transform;
-import components.PlayerController;
+import components.GameCamera;
 import graphics.Renderer;
 import org.joml.Vector2f;
 import physics2d.Physics2D;
@@ -27,12 +24,15 @@ public class Scene {
     private Camera camera;
     private boolean isRunning = false;
     private List<GameObject> gameObjects = new ArrayList<>();
+    private List<MenuObject> menuObjects = new ArrayList<>();
     private boolean levelLoaded;
+    private boolean isMenu = false;
     private Physics2D physics2D;
     private SceneInitializer sceneInitializer;
 
     public Scene(SceneInitializer sceneInitializer) {
         this.sceneInitializer = sceneInitializer;
+        this.isMenu = sceneInitializer.isMenu();
         this.physics2D = new Physics2D();
         this.renderer = new Renderer();
         this.gameObjects = new ArrayList<>();
@@ -45,7 +45,7 @@ public class Scene {
         this.sceneInitializer.init(this);
     }
 
-    public void start() {
+    public void startGame() {
         for (int i=0; i < gameObjects.size(); i++) {
             GameObject go = gameObjects.get(i);
             go.start();
@@ -92,7 +92,13 @@ public class Scene {
             }
         }
     }
-
+    public void menuUpdate(float dt){
+        this.camera.adjustProjection();
+        for (int i=0; i < menuObjects.size(); i++) {
+            MenuObject mo = menuObjects.get(i);
+            mo.update(dt);
+        }
+    }
     public void update(float dt){
         this.camera.adjustProjection();
         this.physics2D.update(dt);
@@ -107,7 +113,8 @@ public class Scene {
                 i--;
             }
         }
-    };
+    }
+
     public void render(){
         this.renderer.render();
     };
@@ -118,6 +125,7 @@ public class Scene {
 
     public void imgui() {
         this.sceneInitializer.imgui();
+//        System.out.println("Hio!");
     }
 
     public GameObject createGameObject(String name) {
@@ -212,5 +220,52 @@ public class Scene {
                 .filter(gameObject -> gameObject.name.equals(gameObjectName))
                 .findFirst();
         return result.orElse(null);
+    }
+
+    public MenuObject createMenuObject(String name) {
+        MenuObject mo = new MenuObject(name);
+        mo.addComponent(new Transform());
+        mo.transform = mo.getComponent(Transform.class);
+        return mo;
+    }
+
+    public void addMenuObjectToScene(MenuObject mo) {
+        if (!isRunning) {
+            menuObjects.add(mo);
+        } else {
+            menuObjects.add(mo);
+            mo.start();
+            this.renderer.add(mo);
+        }
+    }
+    public void startMenu() {
+        for (int i=0; i < menuObjects.size(); i++) {
+            MenuObject mo = menuObjects.get(i);
+            mo.start();
+            this.renderer.add(mo);
+        }
+        isRunning = true;
+    }
+
+    public List<MenuObject> getMenuObjects() {
+        return this.menuObjects;
+    }
+
+    public boolean isMenu() {
+        return isMenu;
+    }
+
+    public void setMenu(boolean b) {
+        isMenu = b;
+    }
+
+    public boolean isEditor() {
+        return !this.isMenu;
+    }
+
+    public void removeGameCamera() {
+        for (GameObject go : gameObjects) {
+            go.removeComponent(GameCamera.class);
+        }
     }
 }

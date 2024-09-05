@@ -1,5 +1,6 @@
 package graphics;
 
+import back.MenuObject;
 import components.SpriteRenderer;
 import back.GameObject;
 
@@ -19,6 +20,13 @@ public class Renderer {
 
     public void add(GameObject go) {
         SpriteRenderer spr = go.getComponent(SpriteRenderer.class);
+        if (spr != null) {
+            add(spr);
+        }
+    }
+
+    public void add(MenuObject mo) {
+        SpriteRenderer spr = mo.getComponent(SpriteRenderer.class);
         if (spr != null) {
             add(spr);
         }

@@ -1,131 +1,192 @@
 //package scenes;
 //
-//
-//import back.*;
-//import components.*;
-//import imgui.ImGui;
-//import imgui.ImVec2;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
+//import components.Component;
+//import components.ComponentDeserializer;
+//import back.Camera;
+//import back.GameObject;
+//import back.GameObjectDeserializer;
+//import back.Transform;
+//import graphics.Renderer;
 //import org.joml.Vector2f;
-//import physics2d.PhysicsSystem2D;
-//import physics2d.components.Rigidbody2D;
-//import util.AssetPool;
+//import physics2d.Physics2D;
 //
-//public class MenuScene extends Scene {
+//import java.io.FileWriter;
+//import java.io.IOException;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Optional;
 //
-//    private Spritesheet sprites;
+//public class MenuScene {
 //
-//    GameObject levelEditorStuff = new GameObject("MenuScene", new Transform(new Vector2f()), 0);
-//    PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 60.0f, new Vector2f(0, -10));
-//    Transform obj1, obj2;
-//    Rigidbody2D rb1, rb2;
+//    private Renderer renderer = new Renderer();
+//    private Camera camera;
+//    private boolean isRunning = false;
+//    private List<GameObject> gameObjects = new ArrayList<>();
+//    private boolean levelLoaded;
+//    private SceneInitializer sceneInitializer;
 //
-//    public MenuScene() {
-//
+//    public MenuScene(SceneInitializer sceneInitializer) {
+//        this.sceneInitializer = sceneInitializer;
+//        this.renderer = new Renderer();
+//        this.gameObjects = new ArrayList<>();
+//        this.isRunning = false;
 //    }
 //
-//    @Override
 //    public void init() {
-//        levelEditorStuff.addComponent(new MouseControls());
-//        levelEditorStuff.addComponent(new GridLines());
-//
-////        obj1 = new Transform(new Vector2f(100, 500));
-////        obj2 = new Transform(new Vector2f(200, 500));
-////        rb1 = new Rigidbody2D();
-////        rb2 = new Rigidbody2D();
-////        rb1.setRawTransform(obj1);
-////        rb2.setRawTransform(obj2);
-////        rb1.setMass(100.0f);
-////        rb2.setMass(200.0f);
-////
-////        physics.addRigidbody(rb1);
-////        physics.addRigidbody(rb2);
-//
-//        loadResources();
-//        this.camera = new Camera(new Vector2f(-100, 0));
-//        sprites = AssetPool.getSpriteSheet("assets/images/blocksheet.png");
-//        sprites = AssetPool.getSpriteSheet("assets/images/s2.png");
-//        if (levelLoaded) {
-//            if (gameObjects.size() > 0) {
-//                this.activeGameObject = gameObjects.get(0);
-//            }
-//            return;
-//        }
+//        this.camera = new Camera(new Vector2f(-250, 0));
+////        this.sceneInitializer.loadResources(this);
+////        this.sceneInitializer.init(this);
 //    }
 //
-//    private void loadResources() {
-//        AssetPool.getShader("assets/shaders/default.glsl");
+//    public void start() {
+//        for (int i=0; i < gameObjects.size(); i++) {
+//            GameObject go = gameObjects.get(i);
+//            go.start();
+//            this.renderer.add(go);
+//        }
+//        isRunning = true;
+//    }
 //
-//        AssetPool.addSpriteSheet("assets/images/blocksheet.png",
-//                new Spritesheet(AssetPool.getTexture("assets/images/blocksheet.png"),
-//                        16, 16, 18, 0));
-//        AssetPool.addSpriteSheet("assets/images/s2.png",
-//                new Spritesheet(AssetPool.getTexture("assets/images/s2.png"),
-//                        18, 30, 1, 0));
-//        AssetPool.getTexture("assets/images/blend1.png");
+////    public void addGameObjectToScene(GameObject go) {
+////        if (!isRunning) {
+////            gameObjects.add(go);
+////        } else {
+////            gameObjects.add(go);
+////            go.start();
+////            this.renderer.add(go);
+////        }
+////    }
 //
-//        for (GameObject g : gameObjects) {
-//            if (g.getComponent(SpriteRenderer.class) != null) {
-//                SpriteRenderer spr = g.getComponent(SpriteRenderer.class);
-//                if (spr.getTexture() != null) {
-//                    spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilepath()));
+////    public void destroy(){
+////        for (GameObject go : gameObjects) {
+////            go.destroy();
+////        }
+////    }
+//
+//    public GameObject getObject(int gameObjectId) {
+//        Optional<GameObject> result = this.gameObjects.stream()
+//                .filter(gameObject -> gameObject.getUid() == gameObjectId)
+//                .findFirst();
+//        return result.orElse(null);
+//    }
+//
+////    public void editorUpdate(float dt) {
+////        this.camera.adjustProjection();
+////        for (int i=0; i < gameObjects.size(); i++) {
+////            GameObject go = gameObjects.get(i);
+////            go.editorUpdate(dt);
+////
+////            if (go.isDead()) {
+////                gameObjects.remove(i);
+////                this.renderer.destroyGameObject(go);
+////                this.physics2D.destroyGameObject(go);
+////                i--;
+////            }
+////        }
+////    }
+//
+//    public void update(float dt){
+//        this.camera.adjustProjection();
+//        for (int i=0; i < gameObjects.size(); i++) {
+//            GameObject go = gameObjects.get(i);
+//            go.update(dt);
+//
+//            if (go.isDead()) {
+//                gameObjects.remove(i);
+//                this.renderer.destroyGameObject(go);
+//                i--;
+//            }
+//        }
+//    };
+//    public void render(){
+//        this.renderer.render();
+//    };
+//
+//    public Camera camera() {
+//        return this.camera;
+//    }
+//
+//    public void imgui() {
+//        this.sceneInitializer.imgui();
+//    }
+//
+////    public GameObject createGameObject(String name) {
+////        GameObject go = new GameObject(name);
+////        go.addComponent(new Transform());
+////        go.transform = go.getComponent(Transform.class);
+////        return go;
+////    }
+//
+//    public void save() {
+//        Gson gson = new GsonBuilder()
+//                .setPrettyPrinting()
+//                .registerTypeAdapter(Component.class, new ComponentDeserializer())
+//                .registerTypeAdapter(GameObject.class, new GameObjectDeserializer())
+//                .enableComplexMapKeySerialization()
+//                .create();
+//
+//        try {
+//            FileWriter writer = new FileWriter("properties.txt");
+//            List<GameObject> propToSerialize = new ArrayList<>();
+//            for (GameObject obj : this.gameObjects) {
+//                if (obj.doSerialization()) {
+//                    propToSerialize.add(obj);
 //                }
 //            }
+//            writer.write(gson.toJson(propToSerialize));
+//            writer.close();
+//        } catch(IOException e) {
+//            e.printStackTrace();
 //        }
 //    }
 //
-//    @Override
-//    public void update(float dt) {
-//        levelEditorStuff.update(dt);
+//    public void load() {
+//        Gson gson = new GsonBuilder()
+//                .setPrettyPrinting()
+//                .registerTypeAdapter(Component.class, new ComponentDeserializer())
+//                .registerTypeAdapter(GameObject.class, new GameObjectDeserializer())
+//                .enableComplexMapKeySerialization()
+//                .create();
 //
-//        for (GameObject go : this.gameObjects) {
-//            go.update(dt);
+//        String inFile = "";
+//        try {
+//            inFile = new String(Files.readAllBytes(Paths.get("properties.txt")));
+//        } catch (IOException e) {
+//            e.printStackTrace();
 //        }
 //
-////        DebugDraw.addBox2D(obj1.position, new Vector2f(32, 32), 0.0f, new Vector3f(1, 0, 0));
-////        DebugDraw.addBox2D(obj2.position, new Vector2f(32, 32), 0.0f, new Vector3f(0.2f, 0.8f, 0.1f));
-////        physics.update(dt);
-//    }
+//        if (!inFile.equals("")) {
+//            int maxGoId = -1;
+//            int maxCompId = -1;
+//            GameObject[] objs = gson.fromJson(inFile, GameObject[].class);
+//            for (int i=0; i < objs.length; i++) {
+//                //addGameObjectToScene(objs[i]);
 //
-//    @Override
-//    public void render() {
-//        this.renderer.render();
-//    }
-//
-//    @Override
-//    public void imgui() {
-//        ImGui.begin("Test window");
-//
-//        ImVec2 windowPos = new ImVec2();
-//        ImGui.getWindowPos(windowPos);
-//        ImVec2 windowSize = new ImVec2();
-//        ImGui.getWindowSize(windowSize);
-//        ImVec2 itemSpacing = new ImVec2();
-//        ImGui.getStyle().getItemSpacing(itemSpacing);
-//
-//        float windowX2 = windowPos.x + windowSize.x;
-//        for (int i=0; i < sprites.size(); i++) {
-//            Sprite sprite = sprites.getSprite(i);
-//            float spriteWidth = sprite.getWidth() * 4;
-//            float spriteHeight = sprite.getHeight() * 4;
-//            int id = sprite.getTexId();
-//            Vector2f[] texCoords = sprite.getTexCords();
-//
-//            ImGui.pushID(i);
-//            if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
-//                GameObject object = Prefabs.generateSpriteObject(sprite, 32, 32);
-//                levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
+//                for (Component c : objs[i].getAllComponents()) {
+//                    if (c.getUid() > maxCompId) {
+//                        maxCompId = c.getUid();
+//                    }
+//                }
+//                if (objs[i].getUid() > maxGoId) {
+//                    maxGoId = objs[i].getUid();
+//                }
 //            }
-//            ImGui.popID();
 //
-//            ImVec2 lastButtonPos = new ImVec2();
-//            ImGui.getItemRectMax(lastButtonPos);
-//            float lastButtonX2 = lastButtonPos.x;
-//            float nextButtonX2 = lastButtonX2 + itemSpacing.x + spriteWidth;
-//            if (i + 1 < sprites.size() && nextButtonX2 < windowX2) {
-//                ImGui.sameLine();
-//            }
+//            maxGoId++;
+//            maxCompId++;
+//            GameObject.init(maxGoId);
+//            Component.init(maxCompId);
 //        }
+//    }
 //
-//        ImGui.end();
+//    public GameObject getGameObject(String gameObjectName) {
+//        Optional<GameObject> result = this.gameObjects.stream()
+//                .filter(gameObject -> gameObject.name.equals(gameObjectName))
+//                .findFirst();
+//        return result.orElse(null);
 //    }
 //}

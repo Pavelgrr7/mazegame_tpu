@@ -8,8 +8,9 @@ import imgui.flag.ImGuiTreeNodeFlags;
 import java.util.List;
 
 public class SceneHierarchyWindow {
-
+    private boolean isDead;
     public void imgui() {
+        if (isDead) return;
         ImGui.begin("Scene Hierarchy");
         List<GameObject> gameObjects = Window.getScene().getGameObjects();
         int index = 0;
@@ -38,5 +39,13 @@ public class SceneHierarchyWindow {
         );
         ImGui.popID();
         return treeNodeOpen;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDeadWindow(boolean b) {
+        this.isDead = b;
     }
 }

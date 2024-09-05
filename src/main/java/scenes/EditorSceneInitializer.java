@@ -4,6 +4,9 @@ import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import back.*;
+import observers.EventSystem;
+import observers.events.Event;
+import observers.events.EventType;
 import org.joml.Vector2f;
 
 import physics2d.components.Box2DCollider;
@@ -77,6 +80,7 @@ public class EditorSceneInitializer extends SceneInitializer {
         ImGui.end();
 
         ImGui.begin("Components");
+        //if (Window.getImguiLayer().isGuiDestroyed()) {ImGui.end(); return;}
 
         if (ImGui.beginTabBar("WindowTabBar")) {
             if (ImGui.beginTabItem("Floor Blocks")) {
@@ -208,6 +212,17 @@ public class EditorSceneInitializer extends SceneInitializer {
             ImGui.endTabBar();
         }
 
+        if (ImGui.button("Menu")) {
+            System.out.println("Menu loaded");
+            EventSystem.notify(new Event(EventType.LoadMenu));
+//            Window.changeScene(new MenuSceneInitializer());
+        }
+
         ImGui.end();
+    }
+
+    @Override
+    public boolean isMenu() {
+        return false;
     }
 }
