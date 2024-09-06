@@ -11,8 +11,6 @@ import observers.events.Event;
 import observers.events.EventType;
 import util.AssetPool;
 
-import java.awt.*;
-
 public class MenuSceneInitializer extends SceneInitializer{
 
     private MenuObject menuStuff;
@@ -21,6 +19,7 @@ public class MenuSceneInitializer extends SceneInitializer{
     }
 
     public void init(Scene scene) {
+//        Window.getImguiLayer().destroyGui();
         Window.getScene().setMenu(true);
         menuStuff = scene.createMenuObject("Menu");
         menuStuff.setNoSerialize();

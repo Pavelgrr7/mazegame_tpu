@@ -29,6 +29,7 @@ public class Window implements Observer {
     private final String title;
     private long glfwWindow;
     private ImGuiLayer imguiLayer;
+    private ImGuiMenu imGuiMenu;
     private Framebuffer framebuffer;
     private PickingTexture pickingTexture;
 
@@ -62,7 +63,6 @@ public class Window implements Observer {
         if (currentScene.isEditor()) {
             System.out.println("Starting editor!");
             currentScene.startGame();
-
         } else {
             System.out.println("Starting menu!");
             currentScene.startMenu();
@@ -82,6 +82,8 @@ public class Window implements Observer {
     }
 
     public static Physics2D getPhysics() { return currentScene.getPhysics(); }
+
+
 
 
     public void run() {
@@ -167,8 +169,15 @@ public class Window implements Observer {
         this.pickingTexture = new PickingTexture(1280 , 720);
         glViewport(0, 0, 1280 , 720);
 
-        this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
-        this.imguiLayer.initImGui();
+        if (currentScene == null || !currentScene.isEditor()) {
+            System.out.println("if -> creating menulayer");
+            this.imGuiMenu = new ImGuiMenu(glfwWindow);
+            this.imGuiMenu.initImGui();
+        } else {
+            System.out.println("else -> creating imguilayer");
+            this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
+            this.imguiLayer.initImGui();
+        }
 //        Window.changeScene(new EditorSceneInitializer(), false);
         EventSystem.notify(new Event(EventType.FirstLoadMenu));
         Window.changeScene(new MenuSceneInitializer(), true);
@@ -178,6 +187,7 @@ public class Window implements Observer {
         float beginTime = (float)glfwGetTime();
         float endTime;
         float dt = -1.0f;
+        boolean check = false;
 
         Shader defaultShader = AssetPool.getShader("assets/shaders/default.glsl");
         Shader pickingShader = AssetPool.getShader("assets/shaders/pickingShader.glsl");
@@ -211,16 +221,22 @@ public class Window implements Observer {
                 DebugDraw.draw();
 
                 Renderer.bindShader(defaultShader);
+                if (currentScene.isEditor() && !check) {
+                    check = true;
+                    System.out.println("else -> creating imguilayer");
+                    this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
+                    this.imguiLayer.initImGui();
+                }
                 if (runtimePlay) {currentScene.update(dt);}
-                else if (this.imguiLayer.isGuiDestroyed()) {currentScene.menuUpdate(dt);}
+                else if (this.imguiLayer == null || this.imguiLayer.isGuiDestroyed()) {currentScene.menuUpdate(dt);}
                 else {currentScene.editorUpdate(dt);}
 
                 currentScene.render();
             }
             this.framebuffer.unbind();
 
-            this.imguiLayer.update(dt, currentScene);
-
+            if (!currentScene.isMenu()) this.imguiLayer.update(dt, currentScene);
+            else this.imGuiMenu.update(dt, currentScene);
             MouseListener.endFrame();
             KeyListener.endFrame();
 
@@ -257,6 +273,10 @@ public class Window implements Observer {
 
     public static float getTargetAspectRatio() {
         return 16.0f / 9.0f;
+    }
+
+    public static ImGuiMenu getImguiMenu() {
+        return get().imGuiMenu;
     }
 
     public static ImGuiLayer getImguiLayer() {
@@ -302,8 +322,5 @@ public class Window implements Observer {
                 Window.changeScene(new MenuSceneInitializer(), true);
                 break;
         }
-    }
-    public ImGuiLayer getImGui(){
-        return this.imguiLayer;
     }
 }

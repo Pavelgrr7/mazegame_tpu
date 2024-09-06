@@ -15,14 +15,13 @@ import graphics.PickingTexture;
 import scenes.Scene;
 
 import java.io.File;
-import java.util.PropertyResourceBundle;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 
-public class ImGuiLayer {
+public class ImGuiMenu {
 
     private long glfwWindow;
 
@@ -30,19 +29,10 @@ public class ImGuiLayer {
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
     private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
 
-    private GameViewWindow gameViewWindow;
-    private PropertiesWindow propertiesWindow;
-    private MenuBar menuBar;
-    private SceneHierarchyWindow sceneHierarchyWindow;
-    boolean isGuiDestroyed = true;
+    boolean isGuiDestroyed;
 
-    public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture) {
-        this.isGuiDestroyed = false;
+    public ImGuiMenu(long glfwWindow/*, PickingTexture pickingTexture*/) {
         this.glfwWindow = glfwWindow;
-        this.gameViewWindow = new GameViewWindow();
-        this.propertiesWindow = new PropertiesWindow(pickingTexture);
-        this.menuBar = new MenuBar();
-        this.sceneHierarchyWindow = new SceneHierarchyWindow();
     }
 
     // Initialize Dear ImGui.
@@ -55,7 +45,7 @@ public class ImGuiLayer {
         // Initialize ImGuiIO config
         final ImGuiIO io = ImGui.getIO();
 
-        io.setIniFilename("imgui.ini"); // We don't want to save .ini file
+        io.setIniFilename("menu.ini"); // We don't want to save .ini file
         //io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setConfigFlags(ImGuiConfigFlags.DockingEnable);
 //        io.setConfigFlags(ImGuiConfigFlags.ViewportsEnable);
@@ -102,15 +92,14 @@ public class ImGuiLayer {
                 ImGui.setWindowFocus(null);
             }
 
-            if (!io.getWantCaptureMouse() || gameViewWindow.getWantCaptureMouse()) {
+            if (!io.getWantCaptureMouse() /*|| gameViewWindow.getWantCaptureMouse()*/) {
                 MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
-
         glfwSetScrollCallback(glfwWindow, (w, xOffset, yOffset) -> {
             io.setMouseWheelH(io.getMouseWheelH() + (float) xOffset);
             io.setMouseWheel(io.getMouseWheel() + (float) yOffset);
-            if (!io.getWantCaptureMouse() || gameViewWindow.getWantCaptureMouse()) {
+            if (!io.getWantCaptureMouse() /*|| gameViewWindow.getWantCaptureMouse()*/) {
                 MouseListener.mouseScrollCallback(w, xOffset, yOffset);
             } else {
                 MouseListener.clear();
@@ -162,16 +151,8 @@ public class ImGuiLayer {
 
     public void update(float dt, Scene currentScene) {
         startFrame(dt);
-        if (gameViewWindow != null && !gameViewWindow.isDead()) setupDockspace();
-
+//        System.out.println(currentScene.isMenu());
         currentScene.imgui();
-//        ImGui.showDemoWindow();
-        if (gameViewWindow != null)
-            if (!gameViewWindow.isDead()) gameViewWindow.imgui();
-        propertiesWindow.imgui();
-        if (!sceneHierarchyWindow.isDead()) sceneHierarchyWindow.imgui();
-
-
         endFrame();
     }
 
@@ -182,7 +163,6 @@ public class ImGuiLayer {
 
     private void endFrame() {
         glBindFramebuffer(GL_FRAMEBUFFER,0);
-        glViewport(0, 0, Window.getWidth(), Window.getHeight());
         glClearColor(0, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui.render();
@@ -199,28 +179,29 @@ public class ImGuiLayer {
     public void destroyImGui() {
         imGuiGl3.dispose();
         ImGui.destroyContext();
+        boolean isGuiDestroyed = true;
     }
-
-    private void setupDockspace(){
-        int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
-        ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
-        ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
-        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
-        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
-        windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
-                ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
-                ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
-
-        ImGui.begin("Dockspace Demo", new ImBoolean(true), windowFlags);
-        ImGui.popStyleVar(2);
-
-        // Dockspace
-        ImGui.dockSpace(ImGui.getID("Dockspace"));
-        menuBar.imgui();
-        ImGui.end();
-    }
+//
+//    private void setupDockspace(){
+//        int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
+//        ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
+//        ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
+//        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+//        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+//        windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
+//                ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
+//                ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+//
+//        ImGui.begin("Dockspace Demo", new ImBoolean(true), windowFlags);
+//        ImGui.popStyleVar(2);
+//
+//        // Dockspace
+//        ImGui.dockSpace(ImGui.getID("Dockspace"));
+//        menuBar.imgui();
+//        ImGui.end();
+//    }
 //    private void destroyDockspace(){
-        //int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
+    //int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
 //
 //        ImGuiViewport mainViewport = ImGui.getMainViewport();
 //        ImGui.setNextWindowPos(mainViewport.getWorkPosX(), mainViewport.getWorkPosY());
@@ -231,33 +212,32 @@ public class ImGuiLayer {
 //        ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
 //        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
 //        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
-        //windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
-                //ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
-                //ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+    //windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
+    //ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
+    //ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
 
-        //ImGui.destroyContext();
+    //ImGui.destroyContext();
 
-        // Dockspace
-        // menuBar.imgui();
+    // Dockspace
+    // menuBar.imgui();
 //        ImGui.end();
 //    }
 
-    public PropertiesWindow getPropertiesWindow() {
-        return this.propertiesWindow;
-    }
-
-    public GameViewWindow getGameViewWindow() {
-        return this.gameViewWindow;
-    }
-    public void destroyGui() {
-//        ImGui.destroyPlatformWindows();
-        if (gameViewWindow != null)
-            this.gameViewWindow.setDeadWindow(true);
-        this.sceneHierarchyWindow.setDeadWindow(true);
-        this.gameViewWindow = null;
-        boolean isGuiDestroyed = true;
-    }
-    public boolean isGuiDestroyed() {
-        return isGuiDestroyed;
-    }
+//    public PropertiesWindow getPropertiesWindow() {
+//        return this.propertiesWindow;
+//    }
+//
+//    public GameViewWindow getGameViewWindow() {
+//        return this.gameViewWindow;
+//    }
+//    public void destroyGui() {
+////        ImGui.destroyPlatformWindows();
+//        this.gameViewWindow.setDeadWindow(true);
+//        this.sceneHierarchyWindow.setDeadWindow(true);
+////        this.gameViewWindow = null;
+//        boolean isGuiDestroyed = true;
+//    }
+//    public boolean isGuiDestroyed() {
+//        return isGuiDestroyed;
+//    }
 }
