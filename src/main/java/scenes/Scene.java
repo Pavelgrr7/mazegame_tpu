@@ -29,6 +29,8 @@ public class Scene {
     private boolean isMenu = false;
     private Physics2D physics2D;
     private SceneInitializer sceneInitializer;
+    private boolean isPlaying;
+    private boolean isEditor;
 
     public Scene(SceneInitializer sceneInitializer) {
         this.sceneInitializer = sceneInitializer;
@@ -125,7 +127,6 @@ public class Scene {
 
     public void imgui() {
         this.sceneInitializer.imgui();
-//        System.out.println("Hio!");
     }
 
     public GameObject createGameObject(String name) {
@@ -259,13 +260,38 @@ public class Scene {
         isMenu = b;
     }
 
+    public void setEditor(boolean b){
+        isEditor = b;
+    }
+
+    public void setRunning(boolean b){
+        isRunning = b;
+    }
+
     public boolean isEditor() {
-        return !this.isMenu;
+//        System.out.println("Is editor:" + isMenu + isRunning);
+
+        return isEditor;//!this.isMenu && !this.isRunning && !this.isPlaying;
     }
 
     public void removeGameCamera() {
         for (GameObject go : gameObjects) {
             go.removeComponent(GameCamera.class);
         }
+    }
+    public void setPlaying(boolean b) {
+        isPlaying = b;
+    }
+
+    public boolean isPlayScene() {
+        return this.isPlaying;
+    }
+
+    public boolean isRunning() {
+        return this.isRunning;
+    }
+
+    public void start() {
+            System.out.println("Editor started");
     }
 }

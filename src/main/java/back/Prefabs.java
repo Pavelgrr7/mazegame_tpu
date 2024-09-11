@@ -9,6 +9,17 @@ import components.PlayerController;
 
 public class Prefabs {
 
+    public static MenuObject generateMenuObject(Sprite sprite, float sizeX, float sizeY) {
+        MenuObject button = Window.getScene().createMenuObject("Menu_Object_Gen");
+        button.transform.scale.x = sizeX;
+        button.transform.scale.y = sizeY;
+        SpriteRenderer renderer = new SpriteRenderer();
+        renderer.setSprite(sprite);
+        button.addComponent(renderer);
+
+        return button;
+    }
+
     public static GameObject generateSpriteObject(Sprite sprite, float sizeX, float sizeY) {
         GameObject block = Window.getScene().createGameObject("Sprite_Object_Gen");
         block.transform.scale.x = sizeX;

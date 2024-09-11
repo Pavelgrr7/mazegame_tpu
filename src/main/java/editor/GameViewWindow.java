@@ -1,11 +1,10 @@
 package editor;
 
-import back.Sound;
+import back.*;
+import components.PlayerController;
 import imgui.ImGui;
 import imgui.ImVec2;
 import imgui.flag.ImGuiWindowFlags;
-import back.MouseListener;
-import back.Window;
 import observers.EventSystem;
 import observers.events.Event;
 import observers.events.EventType;
@@ -22,6 +21,7 @@ public class GameViewWindow {
     private static float bottomY;
     private boolean isPlaying = false;
     private boolean deadWindow;
+    private GameObject player;
 
 
     public void imgui() {
@@ -33,15 +33,15 @@ public class GameViewWindow {
         ImGui.beginMenuBar();
         if (ImGui.menuItem("Play", "", isPlaying, !isPlaying)) {
             isPlaying = true;
-            //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
-            //if (!mainTheme.isPlaying()) mainTheme.play();
-            //else mainTheme.stop();
+//            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme.ogg");
+//            if (!mainTheme.isPlaying()) mainTheme.play();
+//            else mainTheme.stop();
             EventSystem.notify(new Event(EventType.GameEngineStartPlay));
         }
         if (ImGui.menuItem("Stop", "", !isPlaying, isPlaying)) {
             isPlaying = false;
-            //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
-            //if (mainTheme.isPlaying()) mainTheme.stop();
+//            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme.ogg");
+//            if (mainTheme.isPlaying()) mainTheme.stop();
             EventSystem.notify(new Event(EventType.GameEngineStopPlay));
         }
         ImGui.endMenuBar();
@@ -69,6 +69,55 @@ public class GameViewWindow {
 
         ImGui.end();
     }
+
+    public void imgui(boolean play) {
+        this.player = Window.getScene().getGameObject("PlayerController");
+        if (deadWindow || player == null) {
+            System.out.printf("Skippin imgui %s %s \n", deadWindow, player == null);
+            return;
+        }
+        ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
+                | ImGuiWindowFlags.MenuBar);
+
+        ImGui.beginMenuBar();
+        isPlaying = true;
+//            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme.ogg");
+//            if (!mainTheme.isPlaying()) mainTheme.play();
+//            else mainTheme.stop();
+        EventSystem.notify(new Event(EventType.GameEngineStartPlay));
+
+//            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme.ogg");
+//            if (mainTheme.isPlaying()) mainTheme.stop();
+        if (player.getComponent(PlayerController.class).isDead()) {
+            EventSystem.notify(new Event(EventType.GameEngineStopPlay));
+        }
+
+        ImGui.endMenuBar();
+
+
+        ImVec2 windowSize = getLargestSizeForViewport();
+        ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
+
+        ImGui.setCursorPos(windowPos.x, windowPos.y);
+
+        ImVec2 topLeft = new ImVec2();
+        ImGui.getCursorScreenPos(topLeft);
+        topLeft.x -= ImGui.getScrollX();
+        topLeft.y -= ImGui.getScrollY();
+        leftX = topLeft.x;
+        bottomY = topLeft.y;
+        rightX = topLeft.x + windowSize.x;
+        topY = topLeft.y + windowSize.y;
+
+        int textureId = Window.getFramebuffer().getTextureId();
+        ImGui.image(textureId, windowSize.x, windowSize.y, 0, 1, 1, 0);
+
+        MouseListener.setGameViewportPos(new Vector2f(topLeft.x, topLeft.y));
+        MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
+
+        ImGui.end();
+    }
+
 
     public static boolean getWantCaptureMouse() {
         return MouseListener.getX() >= leftX && MouseListener.getX() <= rightX &&
@@ -108,10 +157,12 @@ public class GameViewWindow {
     public void destroy() {
         ImGui.destroyContext();
     }
-    public void setDeadWindow(boolean b){
+
+    public void setDeadWindow(boolean b) {
         this.deadWindow = b;
     }
-    public boolean isDead(){
+
+    public boolean isDead() {
         return deadWindow;
     }
 }

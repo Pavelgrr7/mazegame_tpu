@@ -2,21 +2,12 @@ package components;
 
 import back.GameObject;
 import back.KeyListener;
-import back.Prefabs;
 import back.Window;
-import graphics.Texture;
 import org.jbox2d.dynamics.contacts.Contact;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-import physics2d.Physics2D;
-import physics2d.RaycastInfo;
 import physics2d.components.Box2DCollider;
-import physics2d.components.PillboxCollider;
 import physics2d.components.Rigidbody2D;
 import physics2d.enums.BodyType;
-import graphics.DebugDraw;
-import scenes.EditorSceneInitializer;
 import scenes.LevelSceneInitializer;
 import util.AssetPool;
 
@@ -48,6 +39,7 @@ public class PlayerController extends Component {
 
     @Override
     public void update(float dt) {
+        if (this.stateMachine == null) return;
         if (isDead) {
             if (this.gameObject.transform.position.y < deadMaxHeight && deadGoingUp) {
                 this.gameObject.transform.position.y += dt * walkSpeed / 2.0f;
@@ -55,20 +47,20 @@ public class PlayerController extends Component {
                 deadGoingUp = false;
             } else if (!deadGoingUp && gameObject.transform.position.y > deadMinHeight) {
                 this.rb.setBodyType(BodyType.Kinematic);
-                this.acceleration.y = 0.55f * walkSpeed ;
-                this.velocity.y += this.acceleration.y * dt;
+                this.acceleration.y =  /*0.55f **/  walkSpeed ;
+                this.velocity.y += acceleration.y * dt;
                 this.velocity.y = Math.max(Math.min(this.velocity.y, this.terminalVelocity.y), -this.terminalVelocity.y);
                 this.rb.setVelocity(this.velocity);
                 this.rb.setAngularVelocity(0);
             } else if (!deadGoingUp && gameObject.transform.position.y <= deadMinHeight) {
-                Window.changeScene(new LevelSceneInitializer(), false);
+                Window.changeScene(new LevelSceneInitializer());
             }
             return;
         }
         if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || KeyListener.isKeyPressed(GLFW_KEY_D)) {
             this.gameObject.transform.scale.x = playerWidth;
 
-            this.acceleration.x = 0.55f * walkSpeed;
+            this.acceleration.x =  /*0.55f **/  walkSpeed;
 
             if (this.velocity.x < 0) {
                 this.stateMachine.trigger("switchDirection");
@@ -78,7 +70,7 @@ public class PlayerController extends Component {
             }
         } else if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A)) {
             this.gameObject.transform.scale.x = playerWidth;
-            this.acceleration.x = 0.55f * -walkSpeed;
+            this.acceleration.x =  /*0.55f **/  -walkSpeed;
 
             if (this.velocity.x > 0) {
                 this.stateMachine.trigger("switchDirection");
@@ -88,7 +80,7 @@ public class PlayerController extends Component {
             }
         }  else if (KeyListener.isKeyPressed(GLFW_KEY_UP) || KeyListener.isKeyPressed(GLFW_KEY_W)) {
             this.gameObject.transform.scale.y = playerHeight;
-            this.acceleration.y = 0.55f * walkSpeed;
+//            this.acceleration.y =  /*0.55f **/  * walkSpeed;
 
             if (this.velocity.y < 0) {
                 this.stateMachine.trigger("switchDirection");
@@ -98,7 +90,7 @@ public class PlayerController extends Component {
             }
         } else if (KeyListener.isKeyPressed(GLFW_KEY_DOWN) || KeyListener.isKeyPressed(GLFW_KEY_S)) {
             this.gameObject.transform.scale.y = playerHeight;
-            this.acceleration.y = 0.55f * -walkSpeed;
+            this.acceleration.y = /*0.55f **/ -walkSpeed;
 
             if (this.velocity.y > 0) {
                 this.stateMachine.trigger("switchDirection");
@@ -130,8 +122,8 @@ public class PlayerController extends Component {
             }
         }
 
-        this.velocity.x += this.acceleration.x * dt;
-        this.velocity.y += this.acceleration.y * dt;
+        this.velocity.x += acceleration.y * dt;
+        this.velocity.y += acceleration.y * dt;
         this.velocity.x = Math.max(Math.min(this.velocity.x, this.terminalVelocity.x), -this.terminalVelocity.x);
         this.velocity.y = Math.max(Math.min(this.velocity.y, this.terminalVelocity.y), -this.terminalVelocity.y);
         this.rb.setVelocity(this.velocity);

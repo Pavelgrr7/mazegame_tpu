@@ -51,11 +51,11 @@ public class ImGuiLayer {
         // This line is critical for Dear ImGui to work.
         ImGui.createContext();
 
-        // ------------------------------------------------------------
         // Initialize ImGuiIO config
         final ImGuiIO io = ImGui.getIO();
-
+        System.out.println("enter");
         io.setIniFilename("imgui.ini"); // We don't want to save .ini file
+        System.out.println("exit, done");
         //io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setConfigFlags(ImGuiConfigFlags.DockingEnable);
 //        io.setConfigFlags(ImGuiConfigFlags.ViewportsEnable);
@@ -163,9 +163,9 @@ public class ImGuiLayer {
     public void update(float dt, Scene currentScene) {
         startFrame(dt);
         if (gameViewWindow != null && !gameViewWindow.isDead()) setupDockspace();
-
+        System.out.println("Imgui()");
         currentScene.imgui();
-//        ImGui.showDemoWindow();
+        System.out.printf("%s %s %s gui \n", currentScene.isEditor(), currentScene.isMenu(), currentScene.isPlayScene());
         if (gameViewWindow != null)
             if (!gameViewWindow.isDead()) gameViewWindow.imgui();
         propertiesWindow.imgui();

@@ -27,6 +27,7 @@ public class Ghost extends Component{
 
     @Override
     public void update(float dt) {
+        if (this.rb == null) return;
         Camera camera = Window.getScene().camera();
         if (this.gameObject.transform.position.x >
                 camera.position.x + camera.getProjectionSize().x * camera.getZoom()) {

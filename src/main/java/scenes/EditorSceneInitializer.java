@@ -24,7 +24,10 @@ public class EditorSceneInitializer extends SceneInitializer {
     private GameObject levelEditorStuff;
 
     public EditorSceneInitializer() {
+        Window.getScene().setMenu(false);
+//        Window.getScene().setEditor(true);
 
+        Window.getScene().setEditor(true);
     }
 
     @Override
@@ -223,6 +226,16 @@ public class EditorSceneInitializer extends SceneInitializer {
 
     @Override
     public boolean isMenu() {
+        return false;
+    }
+
+    @Override
+    public boolean isEditor() {
+        return true;
+    }
+
+    @Override
+    public boolean isRunning() {
         return false;
     }
 }

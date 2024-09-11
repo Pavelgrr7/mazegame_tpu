@@ -6,5 +6,5 @@ public enum EventType {
     SaveLevel,
     User,
     LoadLevel,
-    FirstLoadMenu, LoadMenu
+    FirstLoadMenu, StartPlay, LoadMenu
 }

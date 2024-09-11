@@ -1,25 +1,40 @@
 package scenes;
 
+import back.GameObject;
+import back.Window;
 import components.*;
-import back.*;
-
+import imgui.ImGui;
+import imgui.flag.ImGuiWindowFlags;
+import observers.EventSystem;
+import observers.events.Event;
+import observers.events.EventType;
 import util.AssetPool;
 
-public class LevelSceneInitializer extends SceneInitializer {
+import static back.Prefabs.generateSpriteObject;
 
-    public LevelSceneInitializer() {
-        Window.getScene().setMenu(false);
-        Window.getScene().setRunning(true);
-        Window.getScene().setEditor(true);
-        Window.getScene().setPlaying(false);
+public class PlayingSceneInitializer extends SceneInitializer {
 
+    private Spritesheet sprites;
+
+    private GameObject playingStuff;
+
+    public PlayingSceneInitializer() {
 
     }
 
     @Override
     public void init(Scene scene) {
+        Window.getScene().setPlaying(true);
+        Window.getScene().setMenu(false);
+        playingStuff = scene.createGameObject("PlayingScene");
+        playingStuff.setNoSerialize();
+        playingStuff.addComponent(new MouseControls());
+        playingStuff.addComponent(new KeyControls());
+//        playingStuff.addComponent(new EditorCamera(scene.camera()));
+        scene.addGameObjectToScene(playingStuff);
+
         Spritesheet sprites = AssetPool.getSpritesheet("assets/images/blocksheet.png");
-        GameObject cameraObject = scene.createGameObject("Game Camera");
+        GameObject cameraObject = scene.createGameObject("Game Camera - Playing");
         cameraObject.addComponent(new GameCamera(scene.camera()));
         cameraObject.start();
         scene.addGameObjectToScene(cameraObject);
@@ -61,16 +76,42 @@ public class LevelSceneInitializer extends SceneInitializer {
 
     @Override
     public void imgui() {
+        if (ImGui.begin("test", ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize |ImGuiWindowFlags.NoMove)) {
+            //generateSpriteObject(sprites.getSprite(0), 2000.25f, 700.25f);
+        }
+
+        if (ImGui.button("Play!")) {
+            System.out.println("play!");
+//            EventSystem.notify(new Event(EventType.GameEngineStartPlay));
+            EventSystem.notify(new Event(EventType.StartPlay));
+
+        }
+
+        if (ImGui.button("Editor")) {
+            EventSystem.notify(new Event(EventType.LoadLevel));
+
+        }
+
+        if (ImGui.button("Settings")) {
+//            EventSystem.notify(new Event(EventType.LoadLevel));
+            EventSystem.notify(new Event(EventType.StartPlay));
+
+        }
+
+        if (ImGui.button("Exit")) {
+            Window.get().exit();
+        }
+        ImGui.end();
     }
 
     @Override
     public boolean isMenu() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEditor() {
-        return true;
+        return false;
     }
 
     @Override
