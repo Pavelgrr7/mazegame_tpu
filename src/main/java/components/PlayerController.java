@@ -61,7 +61,7 @@ public class PlayerController extends Component {
                 this.rb.setVelocity(this.velocity);
                 this.rb.setAngularVelocity(0);
             } else if (!deadGoingUp && gameObject.transform.position.y <= deadMinHeight) {
-                Window.changeScene(new LevelSceneInitializer(), false);
+                Window.changeScene(new LevelSceneInitializer());
             }
             return;
         }

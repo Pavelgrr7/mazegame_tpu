@@ -3,11 +3,19 @@ package scenes;
 import components.*;
 import back.*;
 
+import observers.EventSystem;
+import observers.events.Event;
+import observers.events.EventType;
 import util.AssetPool;
 
 public class LevelSceneInitializer extends SceneInitializer {
 
     public LevelSceneInitializer() {
+    }
+
+
+    @Override
+    public void renderMenu(int width, int height) {
 
     }
 

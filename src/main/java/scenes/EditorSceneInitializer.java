@@ -27,6 +27,12 @@ public class EditorSceneInitializer extends SceneInitializer {
 
     }
 
+
+    @Override
+    public void renderMenu(int width, int height) {
+
+    }
+
     @Override
     public void init(Scene scene) {
         sprites = AssetPool.getSpritesheet("assets/images/blocksheet.png");

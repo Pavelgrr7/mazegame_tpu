@@ -1,5 +1,6 @@
 package back;
 
+import editor.GameViewWindow;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -38,9 +39,9 @@ public class MouseListener {
     }
 
     public static void mousePosCallback(long window, double xpos, double ypos) {
-        if (Window.getImguiLayer() == null && Window.getImguiMenu() != null) {
+        if (Window.getScene() != null) {
             return;
-        } else if (!Window.getImguiLayer().getGameViewWindow().getWantCaptureMouse()) {
+        } else if (!GameViewWindow.getWantCaptureMouse()) {
             clear();
         }
         if (get().mouseButtonDown > 0) {

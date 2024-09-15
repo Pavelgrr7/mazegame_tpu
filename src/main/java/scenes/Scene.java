@@ -238,14 +238,14 @@ public class Scene {
             this.renderer.add(mo);
         }
     }
-    public void startMenu() {
-        for (int i=0; i < menuObjects.size(); i++) {
-            MenuObject mo = menuObjects.get(i);
-            mo.start();
-            this.renderer.add(mo);
-        }
-        isRunning = true;
-    }
+//    public void startMenu() {
+////        for (int i=0; i < menuObjects.size(); i++) {
+////            MenuObject mo = menuObjects.get(i);
+////            mo.start();
+////            this.renderer.add(mo);
+////        }
+////        isRunning = true;
+//    }
 
     public List<MenuObject> getMenuObjects() {
         return this.menuObjects;
