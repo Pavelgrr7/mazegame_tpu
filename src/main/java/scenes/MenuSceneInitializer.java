@@ -17,16 +17,10 @@ public class MenuSceneInitializer extends SceneInitializer {
 
     private int textureID;
     private boolean dead = true;
-    private boolean play = false;
 
     public MenuSceneInitializer() {
-        // Загружаем текстуру
         textureID = loadTexture("assets/images/menu1.png");
         this.dead = false;
-    }
-
-    public boolean getPlay() {
-        return this.play;
     }
 
     public void renderMenu(int width, int height) {
@@ -35,11 +29,11 @@ public class MenuSceneInitializer extends SceneInitializer {
         if ((160 < x) && (x < 280) && MouseListener.mouseButtonDown(0)) {
             if ((y > 214) && (y < 250) ) {
                 EventSystem.notify(new Event(EventType.LoadLevel));
-                play = true;
-                System.out.println(play + "is now true !!!");
+                Window.get().setPlay(true);
+//                System.out.println(play + "is now true !!!");
             } else if ((y > 324) && (y < 360) ) {
-                EventSystem.notify(new Event(EventType.LoadLevel));
                 System.out.println("Editor!");
+                EventSystem.notify(new Event(EventType.LoadLevel));
             } else if ((y > 424) && (y < 470)) {
                 System.out.println("Properties!");
             } else if ((y > 536) && (y < 575)) {

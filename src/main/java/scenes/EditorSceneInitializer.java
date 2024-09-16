@@ -79,14 +79,15 @@ public class EditorSceneInitializer extends SceneInitializer {
     @Override
     public void imgui() {
         if (Window.get().getPlay()) {
+            System.out.println(Window.get().getPlay() + "play!!!!!!");
             try {
-                TimeUnit.MILLISECONDS.sleep(1000);
+                TimeUnit.MILLISECONDS.sleep(80);
                 EventSystem.notify(new Event(EventType.StartPlay));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println(Window.get().getPlay() + "play!!!!!!");
+
         ImGui.begin("Level Editor Stuff");
         levelEditorStuff.imgui();
         ImGui.end();

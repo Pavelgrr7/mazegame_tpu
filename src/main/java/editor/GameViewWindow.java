@@ -119,17 +119,13 @@ public class GameViewWindow {
 
     public void imgui(boolean b) {
         if (deadWindow) return;
-        ImGui.begin(" ", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
+
+        ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
                 | ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.AlwaysAutoResize);
+
         ImGui.beginMenuBar();
-//        if (ImGui.menuItem("Play", "", isPlaying, !isPlaying)) {
-//            isPlaying = true;
-//            //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
-//            //if (!mainTheme.isPlaying()) mainTheme.play();
-//            //else mainTheme.stop();
-//            EventSystem.notify(new Event(EventType.GameEngineStartPlay));
-//        }
-        if (ImGui.menuItem("Menu", "", !isPlaying, isPlaying)) {
+
+        if (ImGui.menuItem("Menu", "", isPlaying, !isPlaying)) {
             isPlaying = false;
             Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
             if (mainTheme.isPlaying()) mainTheme.stop();
@@ -140,10 +136,15 @@ public class GameViewWindow {
                 e.printStackTrace();
             }
             EventSystem.notify(new Event(EventType.LoadMenu));
-
         }
-        ImGui.endMenuBar();
+        ImGui.sameLine();
 
+        // Format and display the remaining time
+        // method Timef returns time in "min:sec" format
+        String formattedTime = Window.get().getTimer().getTimef();
+        ImGui.text("                                         Time remaining: " + formattedTime);
+
+        ImGui.endMenuBar();
 
         ImVec2 windowSize = getLargestSizeForViewport();
         ImVec2 windowPos = getCenteredPositionForViewport(windowSize);

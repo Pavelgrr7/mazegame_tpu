@@ -3,8 +3,18 @@ package scenes;
 import components.*;
 import back.*;
 
+import imgui.ImGui;
+import imgui.flag.ImGuiInputTextFlags;
+import imgui.flag.ImGuiWindowFlags;
+import imgui.type.ImString;
+import observers.EventSystem;
+import observers.events.Event;
+import observers.events.EventType;
 import util.AssetPool;
 
+import java.util.concurrent.TimeUnit;
+import java.io.FileWriter;
+import java.io.IOException;
 public class LevelSceneInitializer extends SceneInitializer {
 
     public LevelSceneInitializer() {
@@ -18,6 +28,15 @@ public class LevelSceneInitializer extends SceneInitializer {
         cameraObject.addComponent(new GameCamera(scene.camera()));
         cameraObject.start();
         scene.addGameObjectToScene(cameraObject);
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+            showNameInputPopup = true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        showNameInputPopup();
+
+
     }
 
     @Override
@@ -54,10 +73,54 @@ public class LevelSceneInitializer extends SceneInitializer {
 
     }
 
+
+    public void addRecordToLeaderboard(String playerName, String completionTime) {
+        try (FileWriter writer = new FileWriter("leaderboard.txt", true)) {
+            writer.write(playerName + " " + completionTime + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean showNameInputPopup = false;
+    private ImString playerName = new ImString(64);
+
+    // Метод для показа модального окна
+    public void showNameInputPopup() {
+        if (showNameInputPopup) {
+            ImGui.openPopup("Enter Player Name");
+            showNameInputPopup = false; // Открываем только один раз
+        }
+
+        if (ImGui.beginPopupModal("Enter Player Name", ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoCollapse)) {
+            ImGui.text("Please enter your name:");
+
+            // Поле для ввода имени
+            if (ImGui.inputText("##playerName", playerName)) {
+                // Теперь playerName содержит введенное пользователем имя
+                System.out.println("Player name: " + playerName.get());
+            }
+
+            // Кнопка "ОК"
+            if (ImGui.button("OK", 100, 30)) {
+                if (!playerName.get().isEmpty()) {
+                    System.out.println("Player name: " + playerName.get());
+                    ImGui.closeCurrentPopup(); // Закрыть окно
+                } else {
+                    ImGui.textColored(1, 0, 0, 1, "Name cannot be empty!"); // Вывод ошибки
+                }
+            }
+
+            ImGui.endPopup();
+        }
+        }
+
     @Override
     public void imgui() {
 
     }
+
+
 
     @Override
     public boolean isMenu() {

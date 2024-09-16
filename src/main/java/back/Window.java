@@ -1,5 +1,6 @@
 package back;
 
+import components.GameTimer;
 import observers.EventSystem;
 import observers.Observer;
 import observers.events.Event;
@@ -18,6 +19,8 @@ import util.AssetPool;
 import fonts.Batch;
 import fonts.CFont;
 import graphics.Shader;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -51,6 +54,9 @@ public class Window implements Observer {
     private Batch batch = new Batch();
     private boolean play;
 
+    private GameTimer timer;
+    private long time = 15000;
+
     private Window() {
         this.width = 1280;
         this.height = 720;
@@ -61,8 +67,8 @@ public class Window implements Observer {
     }
 
     public static void changeScene(SceneInitializer sceneInitializer) {
-        if (sceneInitializer instanceof EditorSceneInitializer) get().play = true;
-        System.out.printf("change scene: \n", sceneInitializer);
+        if (sceneInitializer instanceof LevelSceneInitializer) get().play = true;
+        System.out.printf("change scene: %s\n", sceneInitializer);
         if (currentScene != null) {
             currentScene.destroy();
             if (sceneInitializer instanceof MenuSceneInitializer) {
@@ -233,7 +239,7 @@ public class Window implements Observer {
             batch.font = font;
             batch.initBatch();
         }
-
+        long lastPrintTime = 0;
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Render pass 1. Render to picking texture
             glDisable(GL_BLEND);
@@ -265,6 +271,7 @@ public class Window implements Observer {
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
+
             if (dt >= 0) {
                 DebugDraw.draw();
 
@@ -281,13 +288,9 @@ public class Window implements Observer {
                 if (currentScene != null) {
                     currentScene.setMenu(false);
                     if (runtimePlay && initialized) {
-
-//                        System.out.println("updating scene");
-//                        currentScene.editorUpdate(dt);
                         currentScene.update(dt);
                         currentScene.render();
                     } else if (currentScene.isEditor()) {
-//                        System.out.println("editor update");
                         currentScene.editorUpdate(dt);
                         currentScene.render();
                     }
@@ -328,6 +331,10 @@ public class Window implements Observer {
 
     public static int getHeight() {
         return get().height;
+    }
+
+    public GameTimer getTimer() {
+        return timer;
     }
 
     public static void setWidth(int newWidth) {
@@ -377,6 +384,8 @@ public class Window implements Observer {
                 Window.changeScene(new LevelSceneInitializer());
                 break;
             case StartPlay:
+                timer = new GameTimer(time);
+                timer.start();
                 this.runtimePlay = true;
                 currentScene.setRuntime(true);
                 imguiLayer.getHierarchyWindow().setDeadWindow(true);
@@ -402,5 +411,9 @@ public class Window implements Observer {
                 Window.changeScene(new MenuSceneInitializer());
                 break;
         }
+    }
+
+    public void setPlay(boolean b) {
+        this.play = b;
     }
 }
