@@ -60,16 +60,15 @@ public class EditorSceneInitializer extends SceneInitializer {
 
         for (GameObject g : scene.getGameObjects()) {
             if (g.getComponent(SpriteRenderer.class) != null) {
-                System.out.println("spties 1");
+
                 SpriteRenderer spr = g.getComponent(SpriteRenderer.class);
                 if (spr.getTexture() != null) {
                     spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilepath()));
-                    System.out.println("textures set");
+
                 }
             }
             if (g.getComponent(StateMachine.class) != null) {
                 StateMachine stateMachine = g.getComponent(StateMachine.class);
-                System.out.println("refresh");
                 stateMachine.refreshTextures();
             }
         }

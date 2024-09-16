@@ -32,6 +32,21 @@ public class Camera {
         inverseProjection = new Matrix4f(projectionMatrix).invert();
     }
 
+//    public Matrix4f getViewMatrix() {
+//        Vector3f cameraFront = new Vector3f(0.0f, 0.0f, -1.0f);
+//        Vector3f cameraUp = new Vector3f(0.0f, 1.0f, 0.0f);
+//
+//        // Очищаем и трансформируем видовую матрицу
+//        viewMatrix.identity();
+//        viewMatrix.translate(new Vector3f(-position.x, -position.y, 0.0f)); // Смещаем камеру с помощью матрицы
+//        viewMatrix.lookAt(new Vector3f(position.x, position.y, 20.0f),
+//                cameraFront.add(position.x, position.y, 0.0f),
+//                cameraUp);
+//
+//        inverseView = new Matrix4f(this.viewMatrix).invert();
+//        return this.viewMatrix;
+//    }
+
     public Matrix4f getViewMatrix() {
         Vector3f cameraFront = new Vector3f(0.0f, 0.0f, -1.0f);
         Vector3f cameraUp = new Vector3f(0.0f, 1.0f, 0.0f);
@@ -70,5 +85,10 @@ public class Camera {
 
     public void addZoom(float value) {
         this.zoom += value;
+    }
+
+    public void move(float x, float y) {
+        this.position.add(x, y);
+        getViewMatrix();
     }
 }

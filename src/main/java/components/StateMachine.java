@@ -76,10 +76,10 @@ public class StateMachine extends Component {
             }
         }
 
-        System.out.println("Unable to find trigger '" + trigger + "'");
+        //System.out.println("Unable to find trigger '" + trigger + "'");
         for (AnimationState s : states) {
-            System.out.print(s.title + " , ");
-        } System.out.print("\n");
+            //System.out.print(s.title + " , ");
+        } //System.out.print("\n");
     }
 
     @Override

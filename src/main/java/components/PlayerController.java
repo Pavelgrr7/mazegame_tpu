@@ -5,6 +5,9 @@ import back.KeyListener;
 import back.Prefabs;
 import back.Window;
 import graphics.Texture;
+import observers.EventSystem;
+import observers.events.Event;
+import observers.events.EventType;
 import org.jbox2d.dynamics.contacts.Contact;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -19,6 +22,8 @@ import graphics.DebugDraw;
 import scenes.EditorSceneInitializer;
 import scenes.LevelSceneInitializer;
 import util.AssetPool;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.lwjgl.glfw.GLFW.*;
 public class PlayerController extends Component {
@@ -172,6 +177,15 @@ public class PlayerController extends Component {
         if (gameObject.transform.position.y > 0) {
             deadMinHeight = -0.25f;
         }
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+            EventSystem.notify(new Event(EventType.GameEngineStopPlay));
+            TimeUnit.MILLISECONDS.sleep(100);
+            EventSystem.notify(new Event(EventType.GameEngineStartPlay));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public boolean hasWon() {

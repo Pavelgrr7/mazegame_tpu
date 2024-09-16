@@ -168,6 +168,7 @@ public class MouseListener {
         Matrix4f inverseView = new Matrix4f(camera.getInverseView());
         Matrix4f inverseProjection = new Matrix4f(camera.getInverseProjection());
         tmp.mul(inverseView.mul(inverseProjection));
+        System.out.println(new Vector2f(tmp.x, tmp.y) + "game viewport");
         return new Vector2f(tmp.x, tmp.y);
     }
 
@@ -183,6 +184,7 @@ public class MouseListener {
         Matrix4f inverseView = new Matrix4f(camera.getInverseView());
         Matrix4f inverseProjection = new Matrix4f(camera.getInverseProjection());
         tmp.mul(inverseView.mul(inverseProjection));
+        System.out.println(new Vector2f(tmp.x, tmp.y) + "screen to world");
         return new Vector2f(tmp.x, tmp.y);
     }
 

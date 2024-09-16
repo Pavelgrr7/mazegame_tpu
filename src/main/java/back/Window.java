@@ -294,8 +294,11 @@ public class Window implements Observer {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
-        currentScene.removeGameCamera();
-        currentScene.save();
+        if (initialized) {
+            initialized = false;
+            currentScene.removeGameCamera();
+            currentScene.save();
+        }
     }
 
     public static int getWidth() {
@@ -356,6 +359,7 @@ public class Window implements Observer {
                 System.out.println("Stop!");
                 this.runtimePlay = false;
                 imguiLayer.getMenuBar().setDeadMenuBar(false);
+                imguiLayer.getHierarchyWindow().setDeadWindow(false);
                 Window.changeScene(new EditorSceneInitializer());
                 break;
             case LoadLevel:
