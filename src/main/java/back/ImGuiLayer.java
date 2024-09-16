@@ -168,7 +168,10 @@ public class ImGuiLayer {
 
         currentScene.imgui();
         if (gameViewWindow != null)
-            if (!gameViewWindow.isDead()) gameViewWindow.imgui();
+            if (!gameViewWindow.isDead()) {
+                if (Window.get().runtimePlay()) gameViewWindow.imgui(true);
+                else gameViewWindow.imgui();
+            }
        if (!sceneHierarchyWindow.isDead()) {
            propertiesWindow.imgui();
            sceneHierarchyWindow.imgui();

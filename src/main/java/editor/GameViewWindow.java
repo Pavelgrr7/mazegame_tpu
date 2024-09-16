@@ -12,6 +12,8 @@ import observers.events.EventType;
 import org.joml.Vector2f;
 import util.AssetPool;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class GameViewWindow {
@@ -107,19 +109,19 @@ public class GameViewWindow {
     public void destroy() {
         ImGui.destroyContext();
     }
-//    public void setDeadWindow(boolean b){
+
+    //    public void setDeadWindow(boolean b){
 //        this.deadWindow = b;
 //    }
-    public boolean isDead(){
+    public boolean isDead() {
         return deadWindow;
     }
 
-//    public void imgui(boolean b) {
-//        if (deadWindow) return;
-//        ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
-//                | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.AlwaysAutoResize);
-//
-//        ImGui.beginMenuBar();
+    public void imgui(boolean b) {
+        if (deadWindow) return;
+        ImGui.begin(" ", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
+                | ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.AlwaysAutoResize);
+        ImGui.beginMenuBar();
 //        if (ImGui.menuItem("Play", "", isPlaying, !isPlaying)) {
 //            isPlaying = true;
 //            //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
@@ -127,35 +129,42 @@ public class GameViewWindow {
 //            //else mainTheme.stop();
 //            EventSystem.notify(new Event(EventType.GameEngineStartPlay));
 //        }
-//        if (ImGui.menuItem("Stop", "", !isPlaying, isPlaying)) {
-//            isPlaying = false;
-//            //Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
-//            //if (mainTheme.isPlaying()) mainTheme.stop();
-//            EventSystem.notify(new Event(EventType.GameEngineStopPlay));
-//        }
-//        ImGui.endMenuBar();
+        if (ImGui.menuItem("Menu", "", !isPlaying, isPlaying)) {
+            isPlaying = false;
+            Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
+            if (mainTheme.isPlaying()) mainTheme.stop();
+            EventSystem.notify(new Event(EventType.GameEngineStopPlay));
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            EventSystem.notify(new Event(EventType.LoadMenu));
 
-//
-//        ImVec2 windowSize = getLargestSizeForViewport();
-//        ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
-//
-//        ImGui.setCursorPos(windowPos.x, windowPos.y);
-//
-//        ImVec2 topLeft = new ImVec2();
-//        ImGui.getCursorScreenPos(topLeft);
-//        topLeft.x -= ImGui.getScrollX();
-//        topLeft.y -= ImGui.getScrollY();
-//        leftX = topLeft.x;
-//        bottomY = topLeft.y;
-//        rightX = topLeft.x + windowSize.x;
-//        topY = topLeft.y + windowSize.y;
-//
-//        int textureId = Window.getFramebuffer().getTextureId();
-//        ImGui.image(textureId, windowSize.x, windowSize.y, 0, 1, 1, 0);
-//
-//        MouseListener.setGameViewportPos(new Vector2f(topLeft.x, topLeft.y));
-//        MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
-//
-//        ImGui.end();
-//    }
+        }
+        ImGui.endMenuBar();
+
+
+        ImVec2 windowSize = getLargestSizeForViewport();
+        ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
+
+        ImGui.setCursorPos(windowPos.x, windowPos.y);
+
+        ImVec2 topLeft = new ImVec2();
+        ImGui.getCursorScreenPos(topLeft);
+        topLeft.x -= ImGui.getScrollX();
+        topLeft.y -= ImGui.getScrollY();
+        leftX = topLeft.x;
+        bottomY = topLeft.y;
+        rightX = topLeft.x + windowSize.x;
+        topY = topLeft.y + windowSize.y;
+
+        int textureId = Window.getFramebuffer().getTextureId();
+        ImGui.image(textureId, windowSize.x, windowSize.y, 0, 1, 1, 0);
+
+        MouseListener.setGameViewportPos(new Vector2f(topLeft.x, topLeft.y));
+        MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
+
+        ImGui.end();
+    }
 }

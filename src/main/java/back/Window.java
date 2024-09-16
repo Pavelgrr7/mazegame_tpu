@@ -88,6 +88,10 @@ public class Window implements Observer {
         return currentScene;
     }
 
+    public boolean runtimePlay() {
+        return this.runtimePlay;
+    }
+
     public static Physics2D getPhysics() {
         return currentScene.getPhysics();
     }
@@ -261,6 +265,7 @@ public class Window implements Observer {
                 if (currentScene != null) {
                     currentScene.setMenu(false);
                     if (runtimePlay && initialized) {
+
 //                        System.out.println("updating scene");
 //                        currentScene.editorUpdate(dt);
                         currentScene.update(dt);
@@ -350,6 +355,7 @@ public class Window implements Observer {
             case GameEngineStartPlay:
                 System.out.println("Starting play");
                 this.runtimePlay = true;
+                currentScene.setRuntime(true);
                 imguiLayer.getHierarchyWindow().setDeadWindow(true);
                 imguiLayer.getMenuBar().setDeadMenuBar(true);
                 currentScene.save();
@@ -358,6 +364,7 @@ public class Window implements Observer {
             case GameEngineStopPlay:
                 System.out.println("Stop!");
                 this.runtimePlay = false;
+                currentScene.setRuntime(true);
                 imguiLayer.getMenuBar().setDeadMenuBar(false);
                 imguiLayer.getHierarchyWindow().setDeadWindow(false);
                 Window.changeScene(new EditorSceneInitializer());

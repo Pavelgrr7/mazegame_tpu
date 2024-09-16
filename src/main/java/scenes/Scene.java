@@ -29,6 +29,7 @@ public class Scene {
     private boolean isMenu = false;
     private Physics2D physics2D;
     private SceneInitializer sceneInitializer;
+    private boolean isRuntime;
 
     public Scene(SceneInitializer sceneInitializer) {
         this.sceneInitializer = sceneInitializer;
@@ -232,5 +233,12 @@ public class Scene {
         for (GameObject go : gameObjects) {
             go.removeComponent(GameCamera.class);
         }
+    }
+
+    public boolean isRuntime() {
+        return this.isRuntime;
+    }
+    public void setRuntime(boolean b) {
+        this.isRuntime = b;
     }
 }
