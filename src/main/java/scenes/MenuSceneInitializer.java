@@ -11,24 +11,32 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.concurrent.TimeUnit;
 
 public class MenuSceneInitializer extends SceneInitializer {
+
     private int textureID;
     private boolean dead = true;
+    private boolean play = false;
+
     public MenuSceneInitializer() {
         // Загружаем текстуру
         textureID = loadTexture("assets/images/menu1.png");
         this.dead = false;
     }
 
-    public void renderMenu(int width, int height) {
+    public boolean getPlay() {
+        return this.play;
+    }
 
+    public void renderMenu(int width, int height) {
         int x = (int)MouseListener.getX();
         int y = (int)MouseListener.getY();
         if ((160 < x) && (x < 280) && MouseListener.mouseButtonDown(0)) {
             if ((y > 214) && (y < 250) ) {
                 EventSystem.notify(new Event(EventType.LoadLevel));
-                EventSystem.notify(new Event(EventType.GameEngineStartPlay));
+                play = true;
+                System.out.println(play + "is now true !!!");
             } else if ((y > 324) && (y < 360) ) {
                 EventSystem.notify(new Event(EventType.LoadLevel));
                 System.out.println("Editor!");

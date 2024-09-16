@@ -49,6 +49,7 @@ public class Window implements Observer {
     private boolean runtimePlay = false;
     private CFont font;
     private Batch batch = new Batch();
+    private boolean play;
 
     private Window() {
         this.width = 1280;
@@ -60,8 +61,19 @@ public class Window implements Observer {
     }
 
     public static void changeScene(SceneInitializer sceneInitializer) {
+        if (sceneInitializer instanceof EditorSceneInitializer) get().play = true;
+        System.out.printf("change scene: \n", sceneInitializer);
         if (currentScene != null) {
             currentScene.destroy();
+            if (sceneInitializer instanceof MenuSceneInitializer) {
+                get().imguiLayer.getGameViewWindow().destroy();
+                get().imguiLayer.getHierarchyWindow().setDeadWindow(true);
+
+                get().imguiLayer = null;
+                get().runtimePlay = false;
+
+            }
+
         }
 //        else if (menuScene != null && !menuScene.isDead()) menuScene.destroy();
         if (!(sceneInitializer instanceof MenuSceneInitializer)) {
@@ -82,6 +94,10 @@ public class Window implements Observer {
             Window.window = new Window();
         }
         return Window.window;
+    }
+
+    public boolean getPlay() {
+        return get().play;
     }
 
     public static Scene getScene() {
@@ -355,6 +371,13 @@ public class Window implements Observer {
             case GameEngineStartPlay:
                 System.out.println("Starting play");
                 this.runtimePlay = true;
+                imguiLayer.getHierarchyWindow().setDeadWindow(true);
+                imguiLayer.getMenuBar().setDeadMenuBar(true);
+                currentScene.save();
+                Window.changeScene(new LevelSceneInitializer());
+                break;
+            case StartPlay:
+                this.runtimePlay = true;
                 currentScene.setRuntime(true);
                 imguiLayer.getHierarchyWindow().setDeadWindow(true);
                 imguiLayer.getMenuBar().setDeadMenuBar(true);
@@ -364,7 +387,6 @@ public class Window implements Observer {
             case GameEngineStopPlay:
                 System.out.println("Stop!");
                 this.runtimePlay = false;
-                currentScene.setRuntime(true);
                 imguiLayer.getMenuBar().setDeadMenuBar(false);
                 imguiLayer.getHierarchyWindow().setDeadWindow(false);
                 Window.changeScene(new EditorSceneInitializer());

@@ -16,6 +16,7 @@ import util.AssetPool;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 public class EditorSceneInitializer extends SceneInitializer {
 
@@ -77,6 +78,15 @@ public class EditorSceneInitializer extends SceneInitializer {
 
     @Override
     public void imgui() {
+        if (Window.get().getPlay()) {
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+                EventSystem.notify(new Event(EventType.StartPlay));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(Window.get().getPlay() + "play!!!!!!");
         ImGui.begin("Level Editor Stuff");
         levelEditorStuff.imgui();
         ImGui.end();
