@@ -1,5 +1,6 @@
 package back;
 
+import components.Leaderboard;
 import editor.GameViewWindow;
 import editor.MenuBar;
 import editor.PropertiesWindow;
@@ -34,8 +35,10 @@ public class ImGuiLayer {
     private PropertiesWindow propertiesWindow;
     private MenuBar menuBar;
     private SceneHierarchyWindow sceneHierarchyWindow;
+    private Leaderboard leaderboard;
 
     public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture) {
+        this.leaderboard = new Leaderboard();
         this.glfwWindow = glfwWindow;
         this.gameViewWindow = new GameViewWindow();
         this.propertiesWindow = new PropertiesWindow(pickingTexture);
@@ -165,7 +168,7 @@ public class ImGuiLayer {
     public void update(float dt, Scene currentScene) {
         startFrame(dt);
         if (gameViewWindow != null && !gameViewWindow.isDead()) setupDockspace();
-
+        leaderboard.imgui();
         currentScene.imgui();
         if (gameViewWindow != null)
             if (!gameViewWindow.isDead()) {
@@ -176,8 +179,6 @@ public class ImGuiLayer {
            propertiesWindow.imgui();
            sceneHierarchyWindow.imgui();
        }
-
-
         endFrame();
     }
 

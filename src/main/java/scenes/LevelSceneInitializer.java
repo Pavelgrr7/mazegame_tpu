@@ -30,11 +30,9 @@ public class LevelSceneInitializer extends SceneInitializer {
         scene.addGameObjectToScene(cameraObject);
         try {
             TimeUnit.MILLISECONDS.sleep(100);
-            showNameInputPopup = true;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        showNameInputPopup();
 
 
     }
@@ -82,38 +80,6 @@ public class LevelSceneInitializer extends SceneInitializer {
         }
     }
 
-    private boolean showNameInputPopup = false;
-    private ImString playerName = new ImString(64);
-
-    // Метод для показа модального окна
-    public void showNameInputPopup() {
-        if (showNameInputPopup) {
-            ImGui.openPopup("Enter Player Name");
-            showNameInputPopup = false; // Открываем только один раз
-        }
-
-        if (ImGui.beginPopupModal("Enter Player Name", ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoCollapse)) {
-            ImGui.text("Please enter your name:");
-
-            // Поле для ввода имени
-            if (ImGui.inputText("##playerName", playerName)) {
-                // Теперь playerName содержит введенное пользователем имя
-                System.out.println("Player name: " + playerName.get());
-            }
-
-            // Кнопка "ОК"
-            if (ImGui.button("OK", 100, 30)) {
-                if (!playerName.get().isEmpty()) {
-                    System.out.println("Player name: " + playerName.get());
-                    ImGui.closeCurrentPopup(); // Закрыть окно
-                } else {
-                    ImGui.textColored(1, 0, 0, 1, "Name cannot be empty!"); // Вывод ошибки
-                }
-            }
-
-            ImGui.endPopup();
-        }
-        }
 
     @Override
     public void imgui() {

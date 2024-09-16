@@ -1,11 +1,13 @@
 package editor;
 
 import back.Sound;
+import components.Leaderboard;
 import imgui.ImGui;
 import imgui.ImVec2;
 import imgui.flag.ImGuiWindowFlags;
 import back.MouseListener;
 import back.Window;
+import imgui.type.ImString;
 import observers.EventSystem;
 import observers.events.Event;
 import observers.events.EventType;
@@ -45,6 +47,15 @@ public class GameViewWindow {
             //if (mainTheme.isPlaying()) mainTheme.stop();
             EventSystem.notify(new Event(EventType.GameEngineStopPlay));
         }
+
+        ImGui.sameLine();
+
+        if (ImGui.menuItem("Leaderboard", "")) {
+            Leaderboard leaderboard = new Leaderboard();
+            leaderboard.displayLeaderboard();
+        }
+
+
         ImGui.endMenuBar();
 
 
@@ -121,7 +132,7 @@ public class GameViewWindow {
         if (deadWindow) return;
 
         ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
-                | ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.AlwaysAutoResize);
+                | ImGuiWindowFlags.MenuBar );
 
         ImGui.beginMenuBar();
 
@@ -129,13 +140,14 @@ public class GameViewWindow {
             isPlaying = false;
             Sound mainTheme = AssetPool.getSound("assets/sounds/main_theme_overworld.ogg");
             if (mainTheme.isPlaying()) mainTheme.stop();
-            EventSystem.notify(new Event(EventType.GameEngineStopPlay));
+            //showNameInputPopup();
+//            EventSystem.notify(new Event(EventType.GameEngineStopPlay));
             try {
                 TimeUnit.MILLISECONDS.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            EventSystem.notify(new Event(EventType.LoadMenu));
+//            EventSystem.notify(new Event(EventType.LoadMenu));
         }
         ImGui.sameLine();
 
@@ -143,6 +155,13 @@ public class GameViewWindow {
         // method Timef returns time in "min:sec" format
         String formattedTime = Window.get().getTimer().getTimef();
         ImGui.text("                                         Time remaining: " + formattedTime);
+
+        ImGui.sameLine();
+
+        if (ImGui.menuItem("Leaderboard", "")) {
+            Leaderboard leaderboard = new Leaderboard();
+            leaderboard.displayLeaderboard();
+        }
 
         ImGui.endMenuBar();
 
@@ -168,4 +187,5 @@ public class GameViewWindow {
 
         ImGui.end();
     }
+
 }

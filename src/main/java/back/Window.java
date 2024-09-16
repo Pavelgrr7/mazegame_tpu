@@ -306,10 +306,15 @@ public class Window implements Observer {
             this.framebuffer.unbind();
             glfwSwapBuffers(glfwWindow);
 
+            batch.addText("PASHaMaze",fontWidth + 200 , fontHeight + 100, 0.7f, 0xFF00AB0);
+
             batch.addText("Играть!",fontWidth , fontHeight , 0.4f, 0xFF00AB0);
             batch.addText("Редактор", fontWidth, fontHeight - 90, 0.4f, 0xFF00AB0);
             batch.addText("Настройки", fontWidth, fontHeight - 180, 0.4f, 0xFF00AB0);
             batch.addText("Выход", fontWidth, fontHeight - 270, 0.4f, 0xAA01BB);
+            batch.addText("Лидеры", fontWidth + 500, fontHeight - 90, 0.4f, 0xAA01BB);
+            batch.addText("Никнейм", fontWidth + 500, fontHeight - 180, 0.4f, 0xAA01BB);
+            batch.addText("Обучение", fontWidth + 500, fontHeight - 270, 0.4f, 0xAA01BB);
 
             batch.flushBatch();
             glfwPollEvents();

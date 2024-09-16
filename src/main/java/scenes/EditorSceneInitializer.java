@@ -228,6 +228,14 @@ public class EditorSceneInitializer extends SceneInitializer {
             EventSystem.notify(new Event(EventType.LoadMenu));
         }
 
+        ImGui.sameLine();
+
+        if (ImGui.menuItem("Leaderboard", "")) {
+            Leaderboard leaderboard = new Leaderboard();
+            leaderboard.displayLeaderboard();
+        }
+
+
         ImGui.end();
     }
 

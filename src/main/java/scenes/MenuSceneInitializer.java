@@ -1,7 +1,12 @@
 package scenes;
 
+import back.ImGuiMenu;
 import back.MouseListener;
 import back.Window;
+import imgui.ImGui;
+import imgui.flag.ImGuiWindowFlags;
+import imgui.internal.ImGuiWindow;
+import imgui.type.ImString;
 import observers.EventSystem;
 import observers.events.Event;
 import observers.events.EventType;
@@ -15,17 +20,18 @@ import java.util.concurrent.TimeUnit;
 
 public class MenuSceneInitializer extends SceneInitializer {
 
-    private int textureID;
     private boolean dead = true;
+    private ImGuiMenu imGuiMenu;
 
     public MenuSceneInitializer() {
-        textureID = loadTexture("assets/images/menu1.png");
+//        imGuiMenu = Window.getImguiMenu();
         this.dead = false;
     }
 
     public void renderMenu(int width, int height) {
         int x = (int)MouseListener.getX();
         int y = (int)MouseListener.getY();
+//        System.out.printf("%s %s \n",x, y);
         if ((160 < x) && (x < 280) && MouseListener.mouseButtonDown(0)) {
             if ((y > 214) && (y < 250) ) {
                 EventSystem.notify(new Event(EventType.LoadLevel));
@@ -40,38 +46,14 @@ public class MenuSceneInitializer extends SceneInitializer {
                 System.out.println("Exit!");
                 Window.get().closeWindow();
             }
-        }
+        } else if ((x > 960) && (x < 1130)) {
+            if ((y > 420)  && (y < 464)) {
+                System.out.println("Nick!");
+            } else if ((y > 533) && (y < 576)) {
+                System.out.println("Education!");
 
-    }
-
-    private int loadTexture(String filePath) {
-        int textureID;
-
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer width = stack.mallocInt(1);
-            IntBuffer height = stack.mallocInt(1);
-            IntBuffer channels = stack.mallocInt(1);
-
-            ByteBuffer image = STBImage.stbi_load(filePath, width, height, channels, 4);
-            if (image == null) {
-                throw new RuntimeException("Failed to load image: " + filePath);
             }
-
-            textureID = GL11.glGenTextures();
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
-
-            // Задаем параметры текстуры
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-
-            // Загружаем текстуру в OpenGL
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width.get(), height.get(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, image);
-
-            // Освобождаем память изображения
-            STBImage.stbi_image_free(image);
         }
-
-        return textureID;
     }
 
     @Override

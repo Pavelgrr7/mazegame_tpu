@@ -1,6 +1,7 @@
 package components;
 import imgui.ImGui;
 import imgui.flag.ImGuiTableFlags;
+import imgui.flag.ImGuiWindowFlags;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -39,6 +40,10 @@ public class Leaderboard {
         }
 
         ImGui.end();
+    }
+
+    public void imgui() {
+        displayLeaderboard();
     }
 
     // Метод для чтения файла leaderboard.txt
