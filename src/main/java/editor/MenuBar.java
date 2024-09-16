@@ -7,7 +7,10 @@ import observers.events.EventType;
 
 public class MenuBar {
 
+    private boolean deadMenuBar = false;
+
     public void imgui() {
+        if (deadMenuBar) return;
         ImGui.beginMenuBar();
 
         if (ImGui.beginMenu("File")) {
@@ -23,5 +26,12 @@ public class MenuBar {
         }
 
         ImGui.endMenuBar();
+    }
+
+    public boolean isDeadMenuBar() {
+        return deadMenuBar;
+    }
+    public void setDeadMenuBar(boolean b) {
+        deadMenuBar = b;
     }
 }

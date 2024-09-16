@@ -1,9 +1,7 @@
 package graphics;
 
-import editor.GameViewWindow;
 import org.joml.Vector2i;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL14.GL_DEPTH_COMPONENT32;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 
@@ -19,6 +17,7 @@ public class PickingTexture {
     }
 
     public boolean init(int width, int height) {
+        System.out.println("picking texture init");
         // Generate framebuffer
         fbo = glGenFramebuffers();
         glBindFramebuffer(GL_FRAMEBUFFER, fbo);

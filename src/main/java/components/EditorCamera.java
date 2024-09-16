@@ -31,9 +31,11 @@ public class EditorCamera extends Component {
 
     @Override
     public void editorUpdate(float dt) {
-
+//        System.out.println("Camera updating");
+//        System.out.printf("%s %s\n", MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE), (dragDebounce > 0));
         if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE) && dragDebounce > 0) {
             this.clickOrigin = new Vector2f(MouseListener.getWorldX(), MouseListener.getWorldY());
+//            System.out.println("Click origin: " + this.clickOrigin);
             dragDebounce -= dt;
             return;
         } else if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE)) {

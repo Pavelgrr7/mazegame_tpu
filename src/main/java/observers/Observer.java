@@ -1,7 +1,6 @@
 package observers;
 
 import back.GameObject;
-import back.MenuObject;
 import observers.events.Event;
 import observers.events.EventType;
 

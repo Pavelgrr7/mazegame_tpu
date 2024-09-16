@@ -1,7 +1,7 @@
 
 package components;
 
-import back.MenuObject;
+//import back.MenuObject;
 import editor.JImGui;
 import imgui.ImGui;
 import back.GameObject;
@@ -16,7 +16,7 @@ import java.lang.reflect.Modifier;
 
 public abstract class Component {
     private static int ID_COUNTER = 0;
-    public MenuObject menuObject = null;
+//    public MenuObject menuObject = null;
     private int uid = -1;
 
     public transient GameObject gameObject = null;

@@ -22,12 +22,13 @@ public class SpriteRenderer extends Component {
             this.sprite.setTexture(AssetPool.getTexture(this.sprite.getTexture().getFilepath()));
         }
         this.lastTransform = gameObject.transform.copy();
-        //todo fix
-        if (this.lastTransform == null) menuObject.transform.copy();
+//        //todo fix
+//        if (this.lastTransform == null) menuObject.transform.copy();
     }
 
     @Override
     public void update(float dt) {
+        if (this.lastTransform == null) lastTransform = gameObject.transform.copy();
         if (!this.lastTransform.equals(this.gameObject.transform)) {
             this.gameObject.transform.copy(this.lastTransform);
             isDirty = true;
@@ -89,11 +90,11 @@ public class SpriteRenderer extends Component {
             isDirty = true;
         }
     }
-    @Override
-    public void menuUpdate(float dt) {
-        if (!this.lastTransform.equals(this.menuObject.transform)) {
-            this.menuObject.transform.copy(this.lastTransform);
-            isDirty = true;
-        }
-    }
+//    @Override
+//    public void menuUpdate(float dt) {
+//        if (!this.lastTransform.equals(this.menuObject.transform)) {
+//            this.menuObject.transform.copy(this.lastTransform);
+//            isDirty = true;
+//        }
+//    }
 }

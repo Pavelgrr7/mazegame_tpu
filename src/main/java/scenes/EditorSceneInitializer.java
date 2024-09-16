@@ -60,13 +60,16 @@ public class EditorSceneInitializer extends SceneInitializer {
 
         for (GameObject g : scene.getGameObjects()) {
             if (g.getComponent(SpriteRenderer.class) != null) {
+                System.out.println("spties 1");
                 SpriteRenderer spr = g.getComponent(SpriteRenderer.class);
                 if (spr.getTexture() != null) {
                     spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilepath()));
+                    System.out.println("textures set");
                 }
             }
             if (g.getComponent(StateMachine.class) != null) {
                 StateMachine stateMachine = g.getComponent(StateMachine.class);
+                System.out.println("refresh");
                 stateMachine.refreshTextures();
             }
         }
@@ -107,8 +110,6 @@ public class EditorSceneInitializer extends SceneInitializer {
                     ImGui.pushID(i);
                     if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
                         GameObject object = Prefabs.generateSpriteObject(sprite, 0.25f, 0.25f);
-
-//                        object.addComponent(new Wall());
 
                         levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
                     }
@@ -215,7 +216,6 @@ public class EditorSceneInitializer extends SceneInitializer {
         if (ImGui.button("Menu")) {
             System.out.println("Menu loaded");
             EventSystem.notify(new Event(EventType.LoadMenu));
-//            Window.changeScene(new MenuSceneInitializer());
         }
 
         ImGui.end();

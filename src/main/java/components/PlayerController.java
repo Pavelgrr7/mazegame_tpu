@@ -61,7 +61,7 @@ public class PlayerController extends Component {
                 this.rb.setVelocity(this.velocity);
                 this.rb.setAngularVelocity(0);
             } else if (!deadGoingUp && gameObject.transform.position.y <= deadMinHeight) {
-                Window.changeScene(new LevelSceneInitializer(), false);
+                Window.changeScene(new LevelSceneInitializer());
             }
             return;
         }
@@ -116,7 +116,8 @@ public class PlayerController extends Component {
             }
 
             if (this.velocity.x == 0) {
-                this.stateMachine.trigger("stopRunning");
+                if (this.stateMachine != null) this.stateMachine.trigger("stopRunning");
+                else this.stateMachine = new StateMachine();
             }
             this.acceleration.y = 0;
             if (this.velocity.y > 0) {

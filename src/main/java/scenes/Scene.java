@@ -24,7 +24,7 @@ public class Scene {
     private Camera camera;
     private boolean isRunning = false;
     private List<GameObject> gameObjects = new ArrayList<>();
-    private List<MenuObject> menuObjects = new ArrayList<>();
+
     private boolean levelLoaded;
     private boolean isMenu = false;
     private Physics2D physics2D;
@@ -92,13 +92,7 @@ public class Scene {
             }
         }
     }
-    public void menuUpdate(float dt){
-        this.camera.adjustProjection();
-        for (int i=0; i < menuObjects.size(); i++) {
-            MenuObject mo = menuObjects.get(i);
-            mo.update(dt);
-        }
-    }
+
     public void update(float dt){
         this.camera.adjustProjection();
         this.physics2D.update(dt);
@@ -211,7 +205,6 @@ public class Scene {
                 return go;
             }
         }
-
         return null;
     }
 
@@ -222,34 +215,6 @@ public class Scene {
         return result.orElse(null);
     }
 
-    public MenuObject createMenuObject(String name) {
-        MenuObject mo = new MenuObject(name);
-        mo.addComponent(new Transform());
-        mo.transform = mo.getComponent(Transform.class);
-        return mo;
-    }
-
-    public void addMenuObjectToScene(MenuObject mo) {
-        if (!isRunning) {
-            menuObjects.add(mo);
-        } else {
-            menuObjects.add(mo);
-            mo.start();
-            this.renderer.add(mo);
-        }
-    }
-    public void startMenu() {
-        for (int i=0; i < menuObjects.size(); i++) {
-            MenuObject mo = menuObjects.get(i);
-            mo.start();
-            this.renderer.add(mo);
-        }
-        isRunning = true;
-    }
-
-    public List<MenuObject> getMenuObjects() {
-        return this.menuObjects;
-    }
 
     public boolean isMenu() {
         return isMenu;

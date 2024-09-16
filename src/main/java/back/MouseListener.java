@@ -1,5 +1,6 @@
 package back;
 
+import editor.GameViewWindow;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -38,9 +39,9 @@ public class MouseListener {
     }
 
     public static void mousePosCallback(long window, double xpos, double ypos) {
-        if (Window.getImguiLayer() == null && Window.getImguiMenu() != null) {
+        if (Window.getScene() != null) {
             return;
-        } else if (!Window.getImguiLayer().getGameViewWindow().getWantCaptureMouse()) {
+        } else if (!GameViewWindow.getWantCaptureMouse()) {
             clear();
         }
         if (get().mouseButtonDown > 0) {
@@ -202,5 +203,36 @@ public class MouseListener {
 
     public static void setScrollY(float v) {
         get().scrollY = v;
+    }
+
+    public static void mouseMenuPosCallback(long window, double v1, double v2) {
+        if (get().mouseButtonDown > 0) {
+            get().isDragging = true;
+        }
+
+        get().lastX = get().xPos;
+        get().lastY = get().yPos;
+        get().lastWorldX = get().worldX;
+        get().lastWorldY = get().worldY;
+        get().xPos = v1;
+        get().yPos = v2;
+    }
+
+    public static void mouseMenuButtonCallback(long window, int b, int a, int m) {
+        if (a == GLFW_PRESS) {
+            if (b < get().mouseButtonPressed.length) {
+                get().mouseButtonPressed[b] = true;
+            }
+        } else if (a == GLFW_RELEASE) {
+            if (b < get().mouseButtonPressed.length) {
+                get().mouseButtonPressed[b] = false;
+                get().isDragging = false;
+            }
+        }
+    }
+
+    public static void mouseMenuScrollCallback(long window, double v1, double v2) {
+        get().scrollX = v1;
+        get().scrollY = v2;
     }
 }

@@ -15,23 +15,28 @@ import graphics.*;
 import physics2d.Physics2D;
 import scenes.*;
 import util.AssetPool;
-
-import java.util.Objects;
+import fonts.Batch;
+import fonts.CFont;
+import graphics.Shader;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
+
 
 public class Window implements Observer {
     private int width, height;
     private final String title;
     private long glfwWindow;
     private ImGuiLayer imguiLayer;
-    private ImGuiMenu imGuiMenu;
+//    private ImGuiMenu imGuiMenu;
     private Framebuffer framebuffer;
     private PickingTexture pickingTexture;
+
+    boolean initialized = false;
 
     private static Window window = null;
 
@@ -39,33 +44,36 @@ public class Window implements Observer {
     private long audioContext;
     private long audioDevice;
 
+    private static MenuSceneInitializer menuScene;
     private static Scene currentScene;
     private boolean runtimePlay = false;
-    private boolean test;
+    private CFont font;
+    private Batch batch = new Batch();
 
     private Window() {
         this.width = 1280;
         this.height = 720;
         this.title = "Maze";
         EventSystem.addObserver(this);
+        init();
+        font = new CFont("assets/fonts/HomeVideo.ttf", 64);
     }
 
-    public static void changeScene(SceneInitializer sceneInitializer, boolean menu) {
+    public static void changeScene(SceneInitializer sceneInitializer) {
         if (currentScene != null) {
             currentScene.destroy();
         }
-        //getImguiLayer().getPropertiesWindow().setActiveGameObject(null);
-
-        currentScene = new Scene(sceneInitializer);
-        currentScene.load();
-        currentScene.init();
-        System.out.printf("%s %s\n",currentScene.isMenu(), currentScene.isEditor());
-        if (currentScene.isEditor()) {
+//        else if (menuScene != null && !menuScene.isDead()) menuScene.destroy();
+        if (!(sceneInitializer instanceof MenuSceneInitializer)) {
+            currentScene = new Scene(sceneInitializer);
+            currentScene.load();
+            currentScene.init();
+//            currentScene.isEditor();
             System.out.println("Starting editor!");
             currentScene.startGame();
         } else {
-            System.out.println("Starting menu!");
-            currentScene.startMenu();
+            menuScene = new MenuSceneInitializer();
+
         }
     }
 
@@ -73,23 +81,22 @@ public class Window implements Observer {
         if (Window.window == null) {
             Window.window = new Window();
         }
-
         return Window.window;
     }
 
     public static Scene getScene() {
-        return get().currentScene;
+        return currentScene;
     }
 
-    public static Physics2D getPhysics() { return currentScene.getPhysics(); }
-
-
-
+    public static Physics2D getPhysics() {
+        return currentScene.getPhysics();
+    }
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
-        init();
+//        init();
+
         loop();
 
         //Destroy the audio context
@@ -106,6 +113,8 @@ public class Window implements Observer {
     }
 
     public void init() {
+        glfwInit();
+
         // Setup an error callback
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -116,6 +125,9 @@ public class Window implements Observer {
 
         // Configure GLFW
         glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
@@ -126,10 +138,16 @@ public class Window implements Observer {
             throw new IllegalStateException("Failed to create the GLFW window.");
         }
 
-        glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
-        glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
-        glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
-        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+        if (currentScene != null) {
+            glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
+            glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+            glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+            glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+        } else {
+            glfwSetCursorPosCallback(glfwWindow, MouseListener::mouseMenuPosCallback);
+            glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseMenuButtonCallback);
+            glfwSetScrollCallback(glfwWindow, MouseListener::mouseMenuScrollCallback);
+        }
         glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) -> {
             Window.setWidth(newWidth);
             Window.setHeight(newHeight);
@@ -169,21 +187,17 @@ public class Window implements Observer {
         this.pickingTexture = new PickingTexture(1280 , 720);
         glViewport(0, 0, 1280 , 720);
 
-        if (currentScene == null || !currentScene.isEditor()) {
-            System.out.println("if -> creating menulayer");
-            this.imGuiMenu = new ImGuiMenu(glfwWindow);
-            this.imGuiMenu.initImGui();
-        } else {
-            System.out.println("else -> creating imguilayer");
+        if (currentScene != null) {
             this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
             this.imguiLayer.initImGui();
+            System.out.println("Imgui initialized");
         }
-//        Window.changeScene(new EditorSceneInitializer(), false);
         EventSystem.notify(new Event(EventType.FirstLoadMenu));
-        Window.changeScene(new MenuSceneInitializer(), true);
     }
 
     public void loop() {
+        int fontWidth = 100;
+        int fontHeight = 390;
         float beginTime = (float)glfwGetTime();
         float endTime;
         float dt = -1.0f;
@@ -192,20 +206,34 @@ public class Window implements Observer {
         Shader defaultShader = AssetPool.getShader("assets/shaders/default.glsl");
         Shader pickingShader = AssetPool.getShader("assets/shaders/pickingShader.glsl");
 
-        while (!glfwWindowShouldClose(glfwWindow)) {
-            // Poll events
-            glfwPollEvents();
+        if (currentScene == null) {
+            fonts.Shader fontShader = new fonts.Shader("assets/shaders/fontShader.glsl");
 
+            batch.shader = fontShader;
+            batch.font = font;
+            batch.initBatch();
+        }
+
+        while (!glfwWindowShouldClose(glfwWindow)) {
             // Render pass 1. Render to picking texture
             glDisable(GL_BLEND);
             pickingTexture.enableWriting();
 
             glViewport(0, 0, 1280 , 720);
-            glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            glClearColor(0.0f, 0.0f, 0.6f, 0.4f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             Renderer.bindShader(pickingShader);
-            currentScene.render();
+            if (currentScene != null) {
+//                System.out.println("currentscene is being rendered");
+                currentScene.render();
+            } else {
+                menuScene.renderMenu(fontWidth, fontHeight);
+            }
+//            if (currentScene == null) {
+//                menuScene.renderMenu(fontWidth, fontHeight);
+//            }
+
 
             pickingTexture.disableWriting();
             glEnable(GL_BLEND);
@@ -221,27 +249,46 @@ public class Window implements Observer {
                 DebugDraw.draw();
 
                 Renderer.bindShader(defaultShader);
-                if (currentScene.isEditor() && !check) {
+                if (currentScene != null && !check) {
+                    pickingTexture.init(0,0);
+                    pickingTexture = new PickingTexture(1280 , 720);
                     check = true;
-                    System.out.println("else -> creating imguilayer");
+                    System.out.println("Layer initialized");
                     this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
                     this.imguiLayer.initImGui();
+                    initialized = true;
                 }
-                if (runtimePlay) {currentScene.update(dt);}
-                else if (this.imguiLayer == null || this.imguiLayer.isGuiDestroyed()) {currentScene.menuUpdate(dt);}
-                else {currentScene.editorUpdate(dt);}
-
-                currentScene.render();
+                if (currentScene != null) {
+                    currentScene.setMenu(false);
+                    if (runtimePlay && initialized) {
+//                        System.out.println("updating scene");
+//                        currentScene.editorUpdate(dt);
+                        currentScene.update(dt);
+                        currentScene.render();
+                    } else if (currentScene.isEditor()) {
+//                        System.out.println("editor update");
+                        currentScene.editorUpdate(dt);
+                        currentScene.render();
+                    }
+                }
             }
-            this.framebuffer.unbind();
 
-            if (!currentScene.isMenu()) this.imguiLayer.update(dt, currentScene);
-            else this.imGuiMenu.update(dt, currentScene);
+            if (currentScene != null) {
+//                System.out.println("updating layer");
+                this.imguiLayer.update(dt, currentScene);
+            }
             MouseListener.endFrame();
             KeyListener.endFrame();
-
+            this.framebuffer.unbind();
             glfwSwapBuffers(glfwWindow);
-            //
+
+            batch.addText("Играть!",fontWidth , fontHeight , 0.4f, 0xFF00AB0);
+            batch.addText("Редактор", fontWidth, fontHeight - 90, 0.4f, 0xFF00AB0);
+            batch.addText("Настройки", fontWidth, fontHeight - 180, 0.4f, 0xFF00AB0);
+            batch.addText("Выход", fontWidth, fontHeight - 270, 0.4f, 0xAA01BB);
+
+            batch.flushBatch();
+            glfwPollEvents();
 
             endTime = (float)glfwGetTime();
             dt = endTime - beginTime;
@@ -267,6 +314,10 @@ public class Window implements Observer {
         get().height = newHeight;
     }
 
+    public void closeWindow() {
+       glfwSetWindowShouldClose(glfwWindow, true);
+    }
+
     public static Framebuffer getFramebuffer() {
         return get().framebuffer;
     }
@@ -275,9 +326,6 @@ public class Window implements Observer {
         return 16.0f / 9.0f;
     }
 
-    public static ImGuiMenu getImguiMenu() {
-        return get().imGuiMenu;
-    }
 
     public static ImGuiLayer getImguiLayer() {
         return get().imguiLayer;
@@ -287,39 +335,38 @@ public class Window implements Observer {
     public void onNotify(Event event) {
         switch (event.type) {
             case FirstLoadMenu:
-                //currentScene.setMenu(true);
-                //test = true;
                 System.out.println("First Menu!");
-//                this.imguiLayer.destroyGui();
-                Window.changeScene(new MenuSceneInitializer(), true);
+                Window.changeScene(new MenuSceneInitializer());
                 break;
             case LoadMenu:
                 currentScene.save();
                 currentScene.setMenu(true);
                 System.out.println("Menu!");
-                this.imguiLayer.destroyGui();
-                Window.changeScene(new MenuSceneInitializer(), true);
+                Window.changeScene(new MenuSceneInitializer());
                 break;
             case GameEngineStartPlay:
                 System.out.println("Starting play");
                 this.runtimePlay = true;
+                imguiLayer.getHierarchyWindow().setDeadWindow(true);
+                imguiLayer.getMenuBar().setDeadMenuBar(true);
                 currentScene.save();
-                Window.changeScene(new LevelSceneInitializer(), false);
+                Window.changeScene(new LevelSceneInitializer());
                 break;
             case GameEngineStopPlay:
                 System.out.println("Stop!");
                 this.runtimePlay = false;
-                Window.changeScene(new EditorSceneInitializer(), false);
+                imguiLayer.getMenuBar().setDeadMenuBar(false);
+                Window.changeScene(new EditorSceneInitializer());
                 break;
             case LoadLevel:
-                Window.changeScene(new EditorSceneInitializer(), false);
+                Window.changeScene(new EditorSceneInitializer());
                 break;
             case SaveLevel:
                 currentScene.removeGameCamera();
                 currentScene.save();
                 break;
             default:
-                Window.changeScene(new MenuSceneInitializer(), true);
+                Window.changeScene(new MenuSceneInitializer());
                 break;
         }
     }

@@ -14,8 +14,8 @@ import imgui.type.ImBoolean;
 import graphics.PickingTexture;
 import scenes.Scene;
 
+import java.awt.*;
 import java.io.File;
-import java.util.PropertyResourceBundle;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -34,15 +34,17 @@ public class ImGuiLayer {
     private PropertiesWindow propertiesWindow;
     private MenuBar menuBar;
     private SceneHierarchyWindow sceneHierarchyWindow;
-    boolean isGuiDestroyed = true;
 
     public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture) {
-        this.isGuiDestroyed = false;
         this.glfwWindow = glfwWindow;
         this.gameViewWindow = new GameViewWindow();
         this.propertiesWindow = new PropertiesWindow(pickingTexture);
         this.menuBar = new MenuBar();
         this.sceneHierarchyWindow = new SceneHierarchyWindow();
+    }
+
+    public GameViewWindow getGameViewWindow() {
+        return this.gameViewWindow;
     }
 
     // Initialize Dear ImGui.
@@ -165,11 +167,12 @@ public class ImGuiLayer {
         if (gameViewWindow != null && !gameViewWindow.isDead()) setupDockspace();
 
         currentScene.imgui();
-//        ImGui.showDemoWindow();
         if (gameViewWindow != null)
             if (!gameViewWindow.isDead()) gameViewWindow.imgui();
-        propertiesWindow.imgui();
-        if (!sceneHierarchyWindow.isDead()) sceneHierarchyWindow.imgui();
+       if (!sceneHierarchyWindow.isDead()) {
+           propertiesWindow.imgui();
+           sceneHierarchyWindow.imgui();
+       }
 
 
         endFrame();
@@ -181,26 +184,27 @@ public class ImGuiLayer {
     }
 
     private void endFrame() {
-        glBindFramebuffer(GL_FRAMEBUFFER,0);
-        glViewport(0, 0, Window.getWidth(), Window.getHeight());
-        glClearColor(0, 0, 0, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, 1080, 720);
+        glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT);
-        ImGui.render();
+
         // After Dear ImGui prepared a draw data, we use it in the LWJGL3 renderer.
         // At that moment ImGui will be rendered to the current OpenGL context.
+        ImGui.render();
         imGuiGl3.renderDrawData(ImGui.getDrawData());
-//        long backupWindowPtr = glfwGetCurrentContext();
-//        ImGui.updatePlatformWindows();
-//        ImGui.renderPlatformWindowsDefault();
-//        glfwMakeContextCurrent(backupWindowPtr);
+
+        long backupWindowPtr = glfwGetCurrentContext();
+        ImGui.updatePlatformWindows();
+        ImGui.renderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backupWindowPtr);
     }
 
     // If you want to clean a room after yourself - do it by yourself
-    public void destroyImGui() {
+    private void destroyImGui() {
         imGuiGl3.dispose();
         ImGui.destroyContext();
     }
-
     private void setupDockspace(){
         int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
         ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
@@ -219,45 +223,16 @@ public class ImGuiLayer {
         menuBar.imgui();
         ImGui.end();
     }
-//    private void destroyDockspace(){
-        //int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
-//
-//        ImGuiViewport mainViewport = ImGui.getMainViewport();
-//        ImGui.setNextWindowPos(mainViewport.getWorkPosX(), mainViewport.getWorkPosY());
-//        ImGui.setNextWindowSize(mainViewport.getWorkSizeX(), mainViewport.getWorkSizeY());
-//        ImGui.setNextWindowViewport(mainViewport.getID());
-//
-//        ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
-//        ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
-//        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
-//        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
-        //windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
-                //ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
-                //ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
 
-        //ImGui.destroyContext();
-
-        // Dockspace
-        // menuBar.imgui();
-//        ImGui.end();
-//    }
+    public SceneHierarchyWindow getHierarchyWindow() {
+        return this.sceneHierarchyWindow;
+    }
 
     public PropertiesWindow getPropertiesWindow() {
         return this.propertiesWindow;
     }
 
-    public GameViewWindow getGameViewWindow() {
-        return this.gameViewWindow;
-    }
-    public void destroyGui() {
-//        ImGui.destroyPlatformWindows();
-        if (gameViewWindow != null)
-            this.gameViewWindow.setDeadWindow(true);
-        this.sceneHierarchyWindow.setDeadWindow(true);
-        this.gameViewWindow = null;
-        boolean isGuiDestroyed = true;
-    }
-    public boolean isGuiDestroyed() {
-        return isGuiDestroyed;
+    public MenuBar getMenuBar() {
+        return this.menuBar;
     }
 }

@@ -5,7 +5,6 @@ import back.GameObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import back.MenuObject;
 import observers.events.Event;
 
 public class EventSystem {
